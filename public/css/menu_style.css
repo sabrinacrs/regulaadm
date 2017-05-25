@@ -1,0 +1,36 @@
+.background-gambi {
+  margin-top: 0 auto;
+  background-color: black;
+  position: fixed;
+  height: 1000px;
+}
+
+.heading-style {
+  background-color: #5BAB5E;
+}
+.menu-vertical .panel-group {
+   background-color: ##76D279;
+}
+.panel-modify {
+  background-color: #6C99A3;
+}
+.menu-vertical label {
+    font-weight: normal;
+    text-decoration: none;
+    color: white;
+    font-family: 'Lato';
+}
+.menu-vertical tr {
+    background-color: #5BAB5E;
+}
+.menu-vertical a {
+  color: white;
+  font-family: 'Lato';
+  text-align: left;
+}
+.menu-vertical a:hover{
+  text-decoration: none;
+}
+.panel-body.body-background {
+  background-color: #76D279;
+}
