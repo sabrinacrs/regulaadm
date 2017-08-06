@@ -91,12 +91,26 @@
                 <div class="form-inline">
                   <div class="form-group">
                     {!! Form::label('rendimento_fibra', 'Rendimento da Fibra (%)') !!}<br />
-                    {!! Form::input('text', 'rendimento_fibra', null, ['placeholder'=>'0,00', 'style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('rendimento_fibra_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'rendimento_fibra_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('rendimento_fibra_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'rendimento_fibra_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                  </div>
+
+                  <div class="form-group">
+                    {!! Form::label('peso_capulho', 'Peso Médio do Capulho (g)') !!}<br />
+                    {!! Form::label('peso_capulho_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'peso_capulho_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('peso_capulho_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'peso_capulho_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
                   </div>
 
                   <div class="form-group">
                     {!! Form::label('comprimento_fibra', 'Comprimento da Fibra (mm)') !!}<br />
-                    {!! Form::input('text', 'comprimento_fibra', null, ['placeholder'=>'0,00', 'style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('comprimento_fibra_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'comprimento_fibra_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('comprimento_fibra_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'comprimento_fibra_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
                   </div>
                 </div>
                 <br />
@@ -104,26 +118,48 @@
                 <!-- Quarta linha do Formulário -->
                 <div class="form-inline">
                   <div class="form-group">
-                    {!! Form::label('peso_capulho', 'Peso Médio do Capulho (g)') !!}<br />
-                    {!! Form::input('text', 'peso_capulho', null, ['placeholder'=>'0,00', 'style' => 'width: 260px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
-                  </div>
-
-                  <div class="form-group">
                     {!! Form::label('micronaire', 'Micronaire') !!}<br />
-                    {!! Form::input('text', 'micronaire', null, ['placeholder'=>'0,00', 'style' => 'width: 260px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('micronaire_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'micronaire_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('micronaire_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'micronaire_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
                   </div>
 
                   <div class="form-group">
                     {!! Form::label('resistencia', 'Resistência') !!}<br />
-                    {!! Form::input('text', 'resistencia', null, ['placeholder'=>'0,00', 'style' => 'width: 260px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('resistencia_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'resistencia_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('resistencia_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'resistencia_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                  </div>
+
+                  <div class="form-group">
+                    {!! Form::label('peso_sementes_minimo', 'Peso de 100 sementes') !!}<br />
+                    {!! Form::label('peso_sementes_minimo', 'Min.') !!}
+                    {!! Form::input('text', 'peso_sementes_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    {!! Form::label('peso_sementes_maximo', 'Max.') !!}
+                    {!! Form::input('text', 'peso_sementes_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
                   </div>
                 </div>
                 <br />
 
+                <!-- Quinta linha do Formulário -->
+                <div class="form-inline">
+                  <div class="form-group">
+                    {!! Form::label('cultivar_epoca_semeadura', 'Número de Plantas/ha de acordo com a época de semeadura') !!}<br />
+                    @foreach($epocasSemeadura as $epocaSemeadura)
+                      {!! Form::label('epocaSemeadura', $epocaSemeadura) !!}
+                      {!! Form::input('text', str_replace(' ', '', $epocaSemeadura), null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    @endforeach
+                  </div>
+                </div>
+                <br />
+
+
                 <div lass="form-inline">
-                  <a class="btn btn-success" href="#doencasTolerancias">Vincular Doenças</a>
                   <!-- submits -->
                   @if(Request::is('*/editar'))
+                    <a class="btn btn-success" href="#doencasTolerancias">Vincular Doenças</a>
                     {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
                   @else
                     {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
@@ -140,6 +176,13 @@
           </div>
         </div>
 </div>
-<div id="doencasTolerancias">
+@if(Request::is('*/editar'))
+{
+  <div id="doencasTolerancias">
+    @include('cultivares.listaDoencas')
+  </div>
+}
+@endif
+{{-- <div id="doencasTolerancias">
   @include('cultivares.listaDoencas')
-</div>
+</div> --}}

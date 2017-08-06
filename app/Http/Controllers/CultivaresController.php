@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Cultivar;
+use App\CultivarHasDoencas;
+use App\CultivarHasEpocaSemeadura;
+use App\EpocasSemeadura;
 use App\Doenca;
 use App\Tolerancia;
 use App\Ciclo;
@@ -15,44 +18,79 @@ use DB;
 
 class CultivaresController extends Controller
 {
+
   public function index()
   {
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
-      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos]); // substituir formulário por principal
+      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'epocasSemeadura'=>$epocasSemeadura]); // substituir formulário por principal
   }
 
   public function salvar(Request $request)
   {
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
+      $doencas = $this->arrayDoencas();
+
       $cultivar = new Cultivar();
       $cultivarNova = new Cultivar();
 
-      $rendimentoFibra = $this->getValor($request->input('rendimento_fibra'));
-      $pesoCapulho = $this->getValor($request->input('peso_capulho'));
-      $comprimentoFibra = $this->getValor($request->input('comprimento_fibra'));
-      $micronaire = $this->getValor($request->input('micronaire'));
-      $resistencia = $this->getValor($request->input('resistencia'));
+      $rendimentoFibraMinimo = $this->getValor($request->input('rendimento_fibra_minimo'));
+      $rendimentoFibraMaximo = $this->getValor($request->input('rendimento_fibra_maximo'));
+      $pesoCapulhoMinimo = $this->getValor($request->input('peso_capulho_minimo'));
+      $pesoCapulhoMaximo = $this->getValor($request->input('peso_capulho_maximo'));
+      $comprimentoFibraMinimo = $this->getValor($request->input('comprimento_fibra_minimo'));
+      $comprimentoFibraMaximo = $this->getValor($request->input('comprimento_fibra_maximo'));
+      $micronaireMinimo = $this->getValor($request->input('micronaire_minimo'));
+      $micronaireMaximo = $this->getValor($request->input('micronaire_maximo'));
+      $resistenciaMinimo = $this->getValor($request->input('resistencia_minimo'));
+      $resistenciaMaximo = $this->getValor($request->input('resistencia_maximo'));
+      $pesoSementesMinimo = $this->getValor($request->input('peso_sementes_minimo'));
+      $pesoSementesMaximo = $this->getValor($request->input('peso_sementes_maximo'));
 
       $query = [
         'nome' => $request->input('nome'),
         'altura_planta' => $request->get('selectAltura'),
         'fertilidade' => $request->get('selectFertilidade'),
         'regulador' => $request->get('selectRegulador'),
-        'rendimento_fibra' => $rendimentoFibra,
-        'peso_capulho' => $pesoCapulho,
-        'comprimento_fibra' => $comprimentoFibra,
-        'micronaire' => $micronaire,
-        'resistencia' => $resistencia,
+        'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
+        'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
+        'peso_capulho_minimo' => $pesoCapulhoMinimo,
+        'peso_capulho_maximo' => $pesoCapulhoMaximo,
+        'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
+        'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
+        'micronaire_minimo' => $micronaireMinimo,
+        'micronaire_maximo' => $micronaireMaximo,
+        'resistencia_minimo' => $resistenciaMinimo,
+        'resistencia_maximo' => $resistenciaMaximo,
+        'peso_sementes_minimo' => $pesoSementesMinimo,
+        'peso_sementes_maximo' => $pesoSementesMaximo,
         'cic_id' => intval($request->input('selectCiclo'))
     ];
 
-      $cultivar= $cultivar->create($query);
-      \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+      $cultivar = $cultivar->create($query);
 
-      if($request->is('cultivares/salvar'))
-        return Redirect::to('cultivares');
+      // salva cultivar has epoca semeadura
+      foreach($epocasSemeadura as $epocaSemeadura => $value)
+      {
+          $cultivarHasEpocaSemeadura = new CultivarHasEpocaSemeadura();
+          // constroi string query
+          $queryCultivarHasEpocaSemeadura = [
+            'cult_id' => $cultivar->id,
+            'ep_id' => intval($epocaSemeadura),
+            'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
+          ];
+
+          $cultivarHasEpocaSemeadura->create($queryCultivarHasEpocaSemeadura);
+      }
+
+       \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+      //
+       if($request->is('cultivares/salvar')) //  //return view('cultivares.listaDoencas', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'cultivar'=>$cultivar]); // substituir formulário por principal
+         return Redirect::to('cultivares/doencas');
       else
         return Redirect::to('cultivares/lista');
   }
@@ -61,9 +99,10 @@ class CultivaresController extends Controller
   {
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
-      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos]); // substituir formulário por principal
+      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'epocasSemeadura'=>$epocasSemeadura]); // substituir formulário por principal
   }
 
   public function lista()
@@ -79,9 +118,18 @@ class CultivaresController extends Controller
 
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
-      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'cultivares'=>$cultivares, 'cultivar' => $cultivar]);
+      $cultivaresHasDoencas_table = DB::table('cultivares_has_doencas')->where('cult_id', $cultivar->id)->get();
+
+      $cultivarHasDoencas = array();
+      foreach ($cultivaresHasDoencas_table as $cultivarDoencaTolerancia => $value)
+      {
+          array_push($cultivarHasDoencas, $value);
+      }
+
+      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'cultivares'=>$cultivares, 'cultivar' => $cultivar, 'cultivarHasDoencas' => $cultivarHasDoencas, 'epocasSemeadura'=>$epocasSemeadura]);
   }
 
   public function atualizar($id, Request $request)
@@ -89,22 +137,36 @@ class CultivaresController extends Controller
       $cultivares = $this->arrayCultivares();
       $cultivar = Cultivar::findOrFail($id);
 
-      $rendimentoFibra = $this->getValor($request->input('rendimento_fibra'));
-      $pesoCapulho = $this->getValor($request->input('peso_capulho'));
-      $comprimentoFibra = $this->getValor($request->input('comprimento_fibra'));
-      $micronaire = $this->getValor($request->input('micronaire'));
-      $resistencia = $this->getValor($request->input('resistencia'));
+      $rendimentoFibraMinimo = $this->getValor($request->input('rendimento_fibra_minimo'));
+      $rendimentoFibraMaximo = $this->getValor($request->input('rendimento_fibra_maximo'));
+      $pesoCapulhoMinimo = $this->getValor($request->input('peso_capulho_minimo'));
+      $pesoCapulhoMaximo = $this->getValor($request->input('peso_capulho_maximo'));
+      $comprimentoFibraMinimo = $this->getValor($request->input('comprimento_fibra_minimo'));
+      $comprimentoFibraMaximo = $this->getValor($request->input('comprimento_fibra_maximo'));
+      $micronaireMinimo = $this->getValor($request->input('micronaire_minimo'));
+      $micronaireMaximo = $this->getValor($request->input('micronaire_maximo'));
+      $resistenciaMinimo = $this->getValor($request->input('resistencia_minimo'));
+      $resistenciaMaximo = $this->getValor($request->input('resistencia_maximo'));
+      $pesoSementesMinimo = $this->getValor($request->input('peso_sementes_minimo'));
+      $pesoSementesMaximo = $this->getValor($request->input('peso_sementes_maximo'));
 
       $query = [
         'nome' => $request->input('nome'),
         'altura_planta' => $request->get('selectAltura'),
         'fertilidade' => $request->get('selectFertilidade'),
         'regulador' => $request->get('selectRegulador'),
-        'rendimento_fibra' => $rendimentoFibra,
-        'peso_capulho' => $pesoCapulho,
-        'comprimento_fibra' => $comprimentoFibra,
-        'micronaire' => $micronaire,
-        'resistencia' => $resistencia,
+        'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
+        'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
+        'peso_capulho_minimo' => $pesoCapulhoMinimo,
+        'peso_capulho_maximo' => $pesoCapulhoMaximo,
+        'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
+        'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
+        'micronaire_minimo' => $micronaireMinimo,
+        'micronaire_maximo' => $micronaireMaximo,
+        'resistencia_minimo' => $resistenciaMinimo,
+        'resistencia_maximo' => $resistenciaMaximo,
+        'peso_sementes_minimo' => $pesoSementesMinimo,
+        'peso_sementes_maximo' => $pesoSementesMaximo,
         'cic_id' => intval($request->input('selectCiclo'))
     ];
 
@@ -113,6 +175,56 @@ class CultivaresController extends Controller
       \Session::flash('mensagem_sucesso', 'Cultivar atualizada com sucesso.');
 
       return Redirect::to('cultivares');
+  }
+
+  public function vincularCultivarDoencaTolerancia(Request $request)
+  {
+      $cultivar = Cultivar::all()->last();
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $doencas = $this->arrayDoencas();
+
+      return view('cultivares.cultivaresDoencas', ['cultivar' => $cultivar, 'doencas' => $doencas, 'tolerancias' => $tolerancias]);
+  }
+
+  public function salvarVinculoCultivarDoencaTolerancia(Request $request)
+  {
+      $cultivar = json_decode($request->get('cultivar'));
+      $doenca = json_decode($request->get('doenca'));
+      $toleranciaId = json_decode($request->get('selectTolerancia'));
+      $tolerancia = $request->get('selectTolerancia');
+
+      $cultivarHasDoencas = new CultivarHasDoencas();
+
+      $query = [
+        'cult_id' => $cultivar->id,
+        'doe_id' => $doenca->id,
+        'tol_id' => $toleranciaId
+      ];
+
+      $cultivaresHasDoencas_table = CultivarHasDoencas::where('cult_id', $cultivar->id)->where('doe_id', $doenca->id)->lists('cult_id', 'doe_id', 'tol_id');
+
+      //var_dump($cultivaresHasDoencas_table);
+      if(sizeof($cultivaresHasDoencas_table) <= 0)
+      {
+        $cultivarHasDoencas = $cultivarHasDoencas->create($query);
+      }
+      else{
+        $cultivarHasDoencas->update($query);
+      }
+
+      \Session::flash('mensagem_sucesso', 'Doenças vinculadas com sucesso.');
+
+      return Redirect::to('cultivares/lista');
+
+      //var_dump($query);
+      // var_dump($request->get('cultivar'));
+      // var_dump($request->get('doenca'));
+      // var_dump($request->get('selectTolerancia'));
+  }
+
+  public function salvarTodoVinculoCultivarDoencaTolerancia(Request $request)
+  {
+      var_dump($request->all());
   }
 
   public function excluir($id)
@@ -141,11 +253,17 @@ class CultivaresController extends Controller
   public function buscar(Request $request)
   {
       $filtro = $request->get('buscar');
-      $cultivares = DB::table('cultivares')
-                    ->where([
-                      ['nome', 'like', '%'.$filtro.'%'],
-                      ['status', '<>', 'I']
-                    ])->get();
+
+      if(empty($filtro))
+        $cultivares = DB::table('cultivares')->get();
+      else {
+        $cultivares = DB::table('cultivares')
+                      ->where([
+                        ['nome', 'like', '%'.$filtro.'%'],
+                        ['status', '<>', 'I']
+                      ])->get();
+      }
+
 
       return view('cultivares.lista', ['cultivares' => $cultivares]);
   }
@@ -177,5 +295,7 @@ class CultivaresController extends Controller
 
       return $doencas;
   }
+
+
 
 }

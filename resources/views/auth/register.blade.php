@@ -63,6 +63,9 @@
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </span>
                                 @endif
+
+                                <!-- Status do administrador Ativo quando é criado  -->
+                                <input id="status" type="hidden" class="form-control" name="status" value='A'>
                             </div>
                         </div>
 
