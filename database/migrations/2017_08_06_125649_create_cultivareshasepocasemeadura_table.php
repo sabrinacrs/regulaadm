@@ -12,11 +12,10 @@ class CreateCultivareshasepocasemeaduraTable extends Migration
      */
     public function up()
     {
-        Schema::create('cultivar_has_epocasemeadura', function (Blueprint $table) {
+        Schema::table('cultivares_has_epocasemeadura', function (Blueprint $table) {
           $table->integer('cult_id');
           $table->integer('ep_id');
           $table->decimal('plantas_ha', 8, 2);
-          $table->timestamps();
         });
     }
 
@@ -27,7 +26,7 @@ class CreateCultivareshasepocasemeaduraTable extends Migration
      */
     public function down()
     {
-        Schema::table('cultivar_has_epocasemeadura', function (Blueprint $table) {
+        Schema::table('cultivares_has_epocasemeadura', function (Blueprint $table) {
             //
         });
     }

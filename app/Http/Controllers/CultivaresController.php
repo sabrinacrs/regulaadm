@@ -121,15 +121,32 @@ class CultivaresController extends Controller
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
-      $cultivaresHasDoencas_table = DB::table('cultivares_has_doencas')->where('cult_id', $cultivar->id)->get();
+      // recupera quantidade de plantas/ha da cultivar
+      $cultivaresHasEpocaSemeadura_table = CultivarHasEpocaSemeadura::get();
+      $cultivaresHasEpocaSemeadura = array();
+      foreach ($cultivaresHasEpocaSemeadura_table as $cultivarEpocaSemeadura => $value)
+      {
+          if($value->cult_id == $cultivar->id)
+            array_push($cultivaresHasEpocaSemeadura, $value);
+      }
 
+      // recupera tolerância às doenças da cultivar
+      $cultivaresHasDoencas_table = CultivarHasDoencas::get();
       $cultivarHasDoencas = array();
       foreach ($cultivaresHasDoencas_table as $cultivarDoencaTolerancia => $value)
       {
-          array_push($cultivarHasDoencas, $value);
+          if($value->cult_id == $cultivar->id)
+            array_push($cultivarHasDoencas, $value);
       }
 
-      return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'cultivares'=>$cultivares, 'cultivar' => $cultivar, 'cultivarHasDoencas' => $cultivarHasDoencas, 'epocasSemeadura'=>$epocasSemeadura]);
+      return view('cultivares.nova', ['doencas'=> $doencas,
+      'tolerancias'=>$tolerancias,
+      'ciclos'=>$ciclos,
+      'cultivares'=>$cultivares,
+      'cultivar' => $cultivar,
+      'cultivarHasDoencas'=>$cultivarHasDoencas,
+      'epocasSemeadura'=>$epocasSemeadura,
+      'cultivaresHasEpocaSemeadura'=>$cultivaresHasEpocaSemeadura]);
   }
 
   public function atualizar($id, Request $request)
@@ -171,6 +188,26 @@ class CultivaresController extends Controller
     ];
 
       $cultivar->update($query);
+
+      // atualiza cultivar has epoca semeadura
+      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
+      foreach($epocasSemeadura as $epocaSemeadura => $value)
+      {
+          $cultivarHasEpocaSemeadura = CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)->where('ep_id', intval($epocaSemeadura))->get();
+          $cultivarUpdate = $cultivarHasEpocaSemeadura[0];
+
+          // constroi string query
+          $queryCultivarHasEpocaSemeadura = [
+            'cult_id' => $cultivar->id,
+            'ep_id' => $epocaSemeadura,
+            'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
+          ];
+          //$cultivarUpdate->update($queryCultivarHasEpocaSemeadura);
+
+          CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)
+                                    ->where('ep_id', intval($epocaSemeadura))
+                                    ->update(['plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))]);
+      }
 
       \Session::flash('mensagem_sucesso', 'Cultivar atualizada com sucesso.');
 

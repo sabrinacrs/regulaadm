@@ -43,8 +43,7 @@
                           {
                               $teste = $cultivarHasDoencas[$pos];
                               if($teste->doe_id == $doenca->id)
-                                $toleranciaSelected = $teste->tol_id;
-
+                                  $toleranciaSelected = $teste->tol_id;
                               $pos++;
                           }
                         @endphp

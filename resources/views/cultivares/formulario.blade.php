@@ -147,9 +147,31 @@
                 <div class="form-inline">
                   <div class="form-group">
                     {!! Form::label('cultivar_epoca_semeadura', 'Número de Plantas/ha de acordo com a época de semeadura') !!}<br />
-                    @foreach($epocasSemeadura as $epocaSemeadura)
-                      {!! Form::label('epocaSemeadura', $epocaSemeadura) !!}
-                      {!! Form::input('text', str_replace(' ', '', $epocaSemeadura), null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                    @foreach($epocasSemeadura as $epocaSemeadura => $value)
+                      {!! Form::label('epocaSemeadura', $value) !!}
+                      @if(Request::is('*/editar'))
+                        @php
+                          $plantas_ha = 0;
+                          $i = 0;
+                          $achou = false;
+
+                          while($i < sizeof($cultivaresHasEpocaSemeadura) && !$achou)
+                          {
+                              $cult = $cultivaresHasEpocaSemeadura[$i];
+                              //echo intval($epocaSemeadura);
+                              if($cult->ep_id == $epocaSemeadura)
+                              {
+                                  $plantas_ha = $cult->plantas_ha;
+                                  $achou = true;
+                              }
+
+                              $i++;
+                          }
+                        @endphp
+                        {!! Form::text(str_replace(' ', '', $value), $plantas_ha, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                      @else
+                        {!! Form::input('text', str_replace(' ', '', $value), null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                      @endif
                     @endforeach
                   </div>
                 </div>
