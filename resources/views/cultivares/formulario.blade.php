@@ -43,7 +43,6 @@
                       $fertilidadeSelected = $cultivar->fertilidade;
                       $reguladorSelected = $cultivar->regulador;
                   }
-
                 @endphp
 
                 <!-- abrir formulário -->

@@ -28,7 +28,7 @@ class CreateEmpresaTable extends Migration
           $table->integer('numero');
           $table->char('uf', 2);
           $table->char('status', 1);
-          $table->binary('logo');
+          $table->string('logo', 1000);
           $table->date('data_desativacao');
           $table->timestamps();
         });

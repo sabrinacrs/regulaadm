@@ -85,3 +85,9 @@ Route::any('cultivares/{cultivar}/editar', 'CultivaresController@editar');
 Route::any('cultivares/lista/{cultivar}/editar', 'CultivaresController@editar');
 Route::post('cultivares/{cultivar}/excluir', 'CultivaresController@excluir');
 Route::any('cultivares/lista/buscar/', 'CultivaresController@buscar');
+
+Route::any('parametrizacao/', 'EmpresaController@index');
+Route::any('parametrizacao/salvar', 'EmpresaController@salvar');
+Route::any('parametrizacao/{empresa}', 'EmpresaController@index');
+Route::any('parametrizacao/{empresa}/salvar', 'EmpresaController@salvar');
+Route::any('parametrizacao/{empresa}/atualizar', 'EmpresaController@atualizar');

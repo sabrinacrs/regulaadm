@@ -122,6 +122,7 @@
                     @else
                         {{-- <li><a href="{{ url('/administradores') }}">Administradores</a></li> --}}
                         <li><a href="{{ url('/administradores/registrar') }}">Novo Administrador</a></li>
+                        <li><a href="{{ url('/parametrizacao') }}">Parametrização</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
