@@ -21,23 +21,28 @@ class CultivaresController extends Controller
 
   public function index()
   {
+      // carregar arrays para selects
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
+      // retorna para o formulário de nova cultivar
       return view('cultivares.nova', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'ciclos'=>$ciclos, 'epocasSemeadura'=>$epocasSemeadura]); // substituir formulário por principal
   }
 
   public function salvar(Request $request)
   {
+      // carregar arrays para selects
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
+      // novo cultivar
       $cultivar = new Cultivar();
       $cultivarNova = new Cultivar();
 
+      // valores decimais com máscara do request
       $rendimentoFibraMinimo = $this->getValor($request->input('rendimento_fibra_minimo'));
       $rendimentoFibraMaximo = $this->getValor($request->input('rendimento_fibra_maximo'));
       $pesoCapulhoMinimo = $this->getValor($request->input('peso_capulho_minimo'));
@@ -51,6 +56,7 @@ class CultivaresController extends Controller
       $pesoSementesMinimo = $this->getValor($request->input('peso_sementes_minimo'));
       $pesoSementesMaximo = $this->getValor($request->input('peso_sementes_maximo'));
 
+      // query para salvar cultivar
       $query = [
         'nome' => $request->input('nome'),
         'altura_planta' => $request->get('selectAltura'),
@@ -71,6 +77,7 @@ class CultivaresController extends Controller
         'cic_id' => intval($request->input('selectCiclo'))
     ];
 
+      // executa query para salvar cultivar
       $cultivar = $cultivar->create($query);
 
       // salva cultivar has epoca semeadura
@@ -87,9 +94,11 @@ class CultivaresController extends Controller
           $cultivarHasEpocaSemeadura->create($queryCultivarHasEpocaSemeadura);
       }
 
-       \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
-      //
-       if($request->is('cultivares/salvar')) //  //return view('cultivares.listaDoencas', ['doencas'=> $doencas, 'tolerancias'=>$tolerancias, 'cultivar'=>$cultivar]); // substituir formulário por principal
+      // mensagem de sucesso
+      \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+
+       // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
+       if($request->is('cultivares/salvar'))
          return Redirect::to('cultivares/doencas');
       else
         return Redirect::to('cultivares/lista');
@@ -97,6 +106,7 @@ class CultivaresController extends Controller
 
   public function nova()
   {
+      // carregar arrays para selects
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
@@ -116,6 +126,7 @@ class CultivaresController extends Controller
       $cultivares = $this->arrayCultivares();
       $cultivar = Cultivar::findOrFail($id);
 
+      //
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
@@ -216,6 +227,7 @@ class CultivaresController extends Controller
 
   public function vincularCultivarDoencaTolerancia(Request $request)
   {
+      // carregar arrays para selects
       $cultivar = Cultivar::all()->last();
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
@@ -252,11 +264,6 @@ class CultivaresController extends Controller
       \Session::flash('mensagem_sucesso', 'Doenças vinculadas com sucesso.');
 
       return Redirect::to('cultivares/lista');
-
-      //var_dump($query);
-      // var_dump($request->get('cultivar'));
-      // var_dump($request->get('doenca'));
-      // var_dump($request->get('selectTolerancia'));
   }
 
   public function salvarTodoVinculoCultivarDoencaTolerancia(Request $request)
@@ -275,7 +282,7 @@ class CultivaresController extends Controller
       return Redirect::to('cultivares/lista');
   }
 
-  public function getValor($entrada)
+  private function getValor($entrada)
   {
       // se a entrada veio sem vírgula
       if(strlen($entrada) < 4)
@@ -287,7 +294,7 @@ class CultivaresController extends Controller
       return $valor;
   }
 
-  public function buscar(Request $request)
+  private function buscar(Request $request)
   {
       $filtro = $request->get('buscar');
 
@@ -305,7 +312,7 @@ class CultivaresController extends Controller
       return view('cultivares.lista', ['cultivares' => $cultivares]);
   }
 
-  public function arrayCultivares()
+  private function arrayCultivares()
   {
       $cultivares_table = Cultivar::get();
       $cultivares = array();
@@ -319,7 +326,7 @@ class CultivaresController extends Controller
       return $cultivares;
   }
 
-  public function arrayDoencas()
+  private function arrayDoencas()
   {
       $doencas_table = Doenca::get();
       $doencas = array();

@@ -64,7 +64,7 @@
                         {!! Form::open(['url' => 'cultivares/salvarVinculoCultivarDoencaTolerancia']) !!}
                         {!! Form::hidden('doenca', $doenca) !!}
                         {!! Form::hidden('cultivar', $cultivar) !!}
-                        {{ Form::select('selectTolerancia', $tolerancias, null, array('style' => 'width: 260px; margin-right: 20px;', 'class' => 'form-control')) }}
+                        {{-- {{ Form::select('selectTolerancia', $tolerancias, null, array('style' => 'width: 260px; margin-right: 20px;', 'class' => 'form-control')) }} --}}
                         {{-- @php
                           array_push($cultivaresDoencasTolerancias,
                                       'cultivar' => $cultivar->id,
