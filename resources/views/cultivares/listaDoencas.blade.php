@@ -59,11 +59,71 @@
               @else
                   @foreach ($doencas as $doenca)
                     <tr>
-                      <td class="text-left">{{ $doenca->descricao }}</td>
+                      <td class="text-left" id="{{ $doenca->id }}">{{ $doenca->descricao }}</td>
                       <td style="padding-left: 20%">
                         {!! Form::open(['url' => 'cultivares/salvarVinculoCultivarDoencaTolerancia']) !!}
                         {!! Form::hidden('doenca', $doenca) !!}
                         {!! Form::hidden('cultivar', $cultivar) !!}
+                        @php
+                          $doencaDescricao = strtolower(htmlentities($doenca->descricao));
+                        @endphp
+
+                        <!-- Coluna de tolerâncias -->
+                        @foreach ($tolerancias as $tolerancia)
+                          @php
+                            $toleranciaDescricao = strtolower(htmlentities($tolerancia->descricao));
+                          @endphp
+
+                          <!-- Atribuir tolerancia a doenca com base na probabilidade -->
+                          <!-- Nematoide das Galhas -->
+                          @if (strcmp($doencaDescricao, 'nematoide das galhas') == 0 && strcmp($toleranciaDescricao, 'intolerante') == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Nematoide Reniforme -->
+                          @elseif(strcmp($doencaDescricao, 'nematoide reniforme') == 0 && strcmp($toleranciaDescricao, 'moderadamente intolerante') == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Nematoide das lesões -->
+                          @elseif(strcmp($doencaDescricao, htmlentities('nematoide das lesões')) == 0 && strcmp($toleranciaDescricao, htmlentities('sem informação')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Ramulária -->
+                          @elseif(strcmp($doencaDescricao, htmlentities('ramulária')) == 0 && strcmp($toleranciaDescricao, htmlentities('susceptível')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Ramulose -->
+                          @elseif(strcmp($doencaDescricao, 'ramulose') == 0 && strcmp($toleranciaDescricao, htmlentities('susceptível')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Doença Azul -->
+                          @elseif(strcmp($doencaDescricao, htmlentities('doença azul')) == 0 && strcmp($toleranciaDescricao, 'resistente') == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Virose Atípica -->
+                          @elseif(strcmp($doencaDescricao, htmlentities('virose atípica')) == 0 && strcmp($toleranciaDescricao, htmlentities('moderadamente susceptível')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Fusarium -->
+                          @elseif(strcmp($doencaDescricao, 'fusarium') == 0 && strcmp($toleranciaDescricao, htmlentities('susceptível')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Mancha Angular -->
+                          @elseif(strcmp($doencaDescricao, 'mancha angular') == 0 && strcmp($toleranciaDescricao, 'resistente') == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Complexo Apodrecimento -->
+                          @elseif(strcmp($doencaDescricao, 'complexo apodrecimento') == 0 && strcmp($toleranciaDescricao, htmlentities('susceptível')) == 0)
+                            {!! Form::radio('tolerancia', $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+
+                          <!-- Default -->
+                          @else
+                            {!! Form::radio('tolerancia', $tolerancia->id, false, ['id'=>$tolerancia->id]) !!}
+                          @endif
+
+                          <!-- Label com descricao da tolerancia -->
+                          {!! Form::label($tolerancia->id, $tolerancia->descricao) !!}<br />
+                        @endforeach
+
                         {{-- {{ Form::select('selectTolerancia', $tolerancias, null, array('style' => 'width: 260px; margin-right: 20px;', 'class' => 'form-control')) }} --}}
                         {{-- @php
                           array_push($cultivaresDoencasTolerancias,
@@ -74,7 +134,7 @@
                         @endphp --}}
                       </td>
                       <td>
-                        {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                        {{-- {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!} --}}
                         <!-- Fechar Formulário -->
                         {!! Form::close() !!}
                       </td>

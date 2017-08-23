@@ -23,7 +23,7 @@ class CultivaresController extends Controller
   {
       // carregar arrays para selects
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
-      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
@@ -34,7 +34,7 @@ class CultivaresController extends Controller
   public function salvar(Request $request)
   {
       // carregar arrays para selects
-      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get(); //->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
@@ -108,7 +108,7 @@ class CultivaresController extends Controller
   {
       // carregar arrays para selects
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
-      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get(); //->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
@@ -128,7 +128,7 @@ class CultivaresController extends Controller
 
       //
       $ciclos = Ciclo::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
-      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
       $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
@@ -229,7 +229,7 @@ class CultivaresController extends Controller
   {
       // carregar arrays para selects
       $cultivar = Cultivar::all()->last();
-      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->lists('descricao', 'id');
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
       return view('cultivares.cultivaresDoencas', ['cultivar' => $cultivar, 'doencas' => $doencas, 'tolerancias' => $tolerancias]);
