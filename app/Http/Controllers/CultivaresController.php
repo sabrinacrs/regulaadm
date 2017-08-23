@@ -253,11 +253,10 @@ class CultivaresController extends Controller
       $cultivaresHasDoencas_table = CultivarHasDoencas::where('cult_id', $cultivar->id)->where('doe_id', $doenca->id)->lists('cult_id', 'doe_id', 'tol_id');
 
       //var_dump($cultivaresHasDoencas_table);
-      if(sizeof($cultivaresHasDoencas_table) <= 0)
-      {
+      if(sizeof($cultivaresHasDoencas_table) <= 0) {
         $cultivarHasDoencas = $cultivarHasDoencas->create($query);
       }
-      else{
+      else {
         $cultivarHasDoencas->update($query);
       }
 
@@ -268,7 +267,42 @@ class CultivaresController extends Controller
 
   public function salvarTodoVinculoCultivarDoencaTolerancia(Request $request)
   {
-      var_dump($request->all());
+      // pega cultivar
+      $cultivar = json_decode($request->get('cultivar'));
+
+      // pegar tolerancia id e doenca
+      // listar todas as doencas
+      $doencas = $this->arrayDoencas();
+
+      foreach ($doencas as $doenca) {
+          $nameRadio = 'radio'.$doenca->id;
+
+          // pega id da tolerancia
+          $toleranciaId = intval($request->get($nameRadio));
+
+          $query = [
+            'cult_id' => $cultivar->id,
+            'doe_id' => $doenca->id,
+            'tol_id' => $toleranciaId
+          ];
+
+          // lista dados da tabela CultivaresHasDoencas
+          $cultivarHasDoencas = new CultivarHasDoencas();
+          $cultivaresHasDoencas_table = CultivarHasDoencas::where('cult_id', $cultivar->id)->where('doe_id', $doenca->id)->lists('cult_id', 'doe_id', 'tol_id');
+
+          // Se não houver nenhum registro da cultivar e doenca, cria novo
+          if(sizeof($cultivaresHasDoencas_table) <= 0) {
+              $cultivarHasDoencas = $cultivarHasDoencas->create($query);
+          }
+          else {
+              // atualiza registro de cultivar, doença e tolerância
+              $cultivarHasDoencas->update($query);
+          }
+      }
+
+      \Session::flash('mensagem_sucesso', 'Doenças vinculadas com sucesso.');
+
+      return Redirect::to('cultivares/lista');
   }
 
   public function excluir($id)
