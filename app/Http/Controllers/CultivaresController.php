@@ -243,8 +243,12 @@ class CultivaresController extends Controller
       $cultivar = Cultivar::findOrFail($cultivarId);
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
+      $cultivarHasDoencas = CultivarHasDoencas::where('cult_id', $cultivar->id)->get();
 
-      return view('cultivares.cultivaresDoencas', ['cultivar' => $cultivar, 'doencas' => $doencas, 'tolerancias' => $tolerancias]);
+      return view('cultivares.cultivaresDoencas', ['cultivar' => $cultivar,
+                                                  'doencas' => $doencas,
+                                                  'tolerancias' => $tolerancias,
+                                                  'cultivarHasDoencas'=>$cultivarHasDoencas]);
   }
 
   public function salvarVinculoCultivarDoencaTolerancia(Request $request)
@@ -301,9 +305,11 @@ class CultivaresController extends Controller
 
           // lista dados da tabela CultivaresHasDoencas
           $cultivarHasDoencas = new CultivarHasDoencas();
-          $cultivaresHasDoencas_table = CultivarHasDoencas::where('cult_id', $cultivar->id)->where('doe_id', $doenca->id)->lists('cult_id', 'doe_id', 'tol_id');
+          $cultivaresHasDoencas_table = CultivarHasDoencas::where('cult_id', $cultivar->id)
+                                                          ->where('doe_id', $doenca->id)
+                                                          ->lists('cult_id', 'doe_id', 'tol_id');
 
-          // Se não houver nenhum registro da cultivar e doenca, cria novo
+          //Se não houver nenhum registro da cultivar e doenca, cria novo
           if(sizeof($cultivaresHasDoencas_table) <= 0) {
               $cultivarHasDoencas = $cultivarHasDoencas->create($query);
           }

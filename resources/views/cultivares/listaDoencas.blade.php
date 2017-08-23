@@ -19,7 +19,7 @@
               </tr>
             </thead>
             <tbody>
-              @if(Request::is('*/editar'))
+              @if(Request::is('*/'.$cultivar->id))
                   @foreach ($doencas as $doenca)
                     <tr id='{{ 'rowDoenca'.$doenca->id }}'>
                       <td class="text-left" id="{{ 'colDoenca'.$doenca->id }}">{{ $doenca->descricao }}</td>
@@ -28,37 +28,59 @@
                         {!! Form::hidden('doenca', $doenca) !!}
                         {!! Form::hidden('cultivar', $cultivar) !!}
 
-                        @foreach ($tolerancias as $tolerancia)
-                          {{ $cultivar->descricao }}
+
+                        {{-- Tabela de Tolerancias --}}
+                        <table>
+                          <tr>
                           @php
-                            $i = 0;
-                            $achou = false;
-
-                            // procurar posição da doenca no array cultivarhasdoencas
-                            while(!$achou && $i < sizeof($cultivarHasDoencas))
-                            {
-                                $chd = $cultivarHasDoencas[$i];
-                                if($chd->doe_id == $doenca->id && $chd->tol_id == $tolerancia->id)
-                                  $achou = true;
-
-                                $i++;
-                            }
+                            $quebraLinha = 0;
                           @endphp
 
-                          @if($achou){{-- && $i <= sizeof($cultivarHasDoencas) $tolerancia->id == $chd->tol_id && $doenca->id == $chd->doe_id --}}
-                            {!! Form::radio('radio'.$doenca->id, $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
-                          @else
-                            {!! Form::radio('radio'.$doenca->id, $tolerancia->id, false, ['id'=>$tolerancia->id]) !!}
-                          @endif
+                          {{-- Lista Tolerancias --}}
+                          @foreach ($tolerancias as $tolerancia)
+                            @php
+                              $i = 0;
+                              $achou = false;
 
-                          {!! Form::label($tolerancia->id, $tolerancia->descricao) !!}<br />
-                        @endforeach
+                              // procurar posição da doenca no array cultivarhasdoencas
+                              while(!$achou && $i < sizeof($cultivarHasDoencas))
+                              {
+                                  $chd = $cultivarHasDoencas[$i];
+                                  if($chd->doe_id == $doenca->id && $chd->tol_id == $tolerancia->id)
+                                    $achou = true;
+
+                                  $i++;
+                              }
+                            @endphp
+
+                            {{-- Nova linha --}}
+                            @php
+                              if($quebraLinha == 2)
+                              {
+                                echo "</tr>";
+                                echo "<tr>";
+                                $quebraLinha = 0;
+                              }
+                              $quebraLinha++;
+                            @endphp
+
+                            {{-- Colunas Radio Buttons --}}
+                            <td>
+                              @if($achou){{-- && $i <= sizeof($cultivarHasDoencas) $tolerancia->id == $chd->tol_id && $doenca->id == $chd->doe_id --}}
+                                {!! Form::radio('radio'.$doenca->id, $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+                              @else
+                                {!! Form::radio('radio'.$doenca->id, $tolerancia->id, false, ['id'=>$tolerancia->id]) !!}
+                              @endif
+                              {!! Form::label($tolerancia->id, $tolerancia->descricao) !!}
+                            </td>
+                          @endforeach
+                        </table>
                       </td>
                     </tr>
                   @endforeach
-                  {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                  {{-- {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
                   <!-- Fechar Formulário -->
-                  {!! Form::close() !!}
+                  {!! Form::close() !!} --}}
 
               {{-- Nova Cultivar     --}}
               @else
