@@ -76,6 +76,7 @@ Route::any('epocas_semeadura/lista/buscar/', 'EpocasSemeaduraController@buscar')
 Route::any('cultivares/', 'CultivaresController@index');
 Route::any('cultivares/nova', 'CultivaresController@nova');
 Route::any('cultivares/salvar', 'CultivaresController@salvar');
+Route::any('cultivares/doencas/{cultivarId}', 'CultivaresController@alterarVinculoCultivarDoencaTolerancia');
 Route::any('cultivares/doencas', 'CultivaresController@vincularCultivarDoencaTolerancia');
 Route::any('cultivares/salvarVinculoCultivarDoencaTolerancia', 'CultivaresController@salvarVinculoCultivarDoencaTolerancia');
 Route::any('cultivares/salvarTodoVinculoCultivarDoencaTolerancia', 'CultivaresController@salvarTodoVinculoCultivarDoencaTolerancia');

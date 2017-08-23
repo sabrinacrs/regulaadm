@@ -180,7 +180,7 @@
                 <div lass="form-inline">
                   <!-- submits -->
                   @if(Request::is('*/editar'))
-                    <a class="btn btn-success" href="#doencasTolerancias">Vincular Doenças</a>
+                    <a class="btn btn-success" href="{{ url('cultivares/doencas', ['cultivarId'=>$cultivar->id]) }}">Vincular Doenças</a>
                     {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
                   @else
                     {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
@@ -197,13 +197,3 @@
           </div>
         </div>
 </div>
-@if(Request::is('*/editar'))
-{
-  <div id="doencasTolerancias">
-    @include('cultivares.listaDoencas')
-  </div>
-}
-@endif
-{{-- <div id="doencasTolerancias">
-  @include('cultivares.listaDoencas')
-</div> --}}

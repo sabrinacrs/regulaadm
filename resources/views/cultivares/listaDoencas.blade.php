@@ -14,48 +14,53 @@
                 <th style="padding-left: 20%">
                   <div>
                     <label>TOLERÂNCIA</label>
-                    <div style="margin-left: 30%">
-                      {!! Form::open(['url' => 'cultivares/salvarTodoVinculoCultivarDoencaTolerancia']) !!}
-                      {!! Form::submit('Confirmar Vínculos', ['class'=>'btn btn-success']) !!}
-                      {!! Form::close() !!}
-                    </div>{{-- <div class="btn btn-success" style="margin-left: 30%">Confirmar Vínculos</div> --}}
                   </div>
                 </th>
-
               </tr>
             </thead>
             <tbody>
               @if(Request::is('*/editar'))
-                  @php
-                    $cultivarEdit = $cultivar->id;
-                  @endphp
                   @foreach ($doencas as $doenca)
-                    <tr>
-                      <td class="text-left">{{ $doenca->descricao }}</td>
+                    <tr id='{{ 'rowDoenca'.$doenca->id }}'>
+                      <td class="text-left" id="{{ 'colDoenca'.$doenca->id }}">{{ $doenca->descricao }}</td>
                       <td style="padding-left: 20%">
-                        {!! Form::open(['url' => 'cultivares/salvarVinculoCultivarDoencaTolerancia']) !!}
+                        {!! Form::open(['url' => 'cultivares/salvarTodoVinculoCultivarDoencaTolerancia']) !!}
                         {!! Form::hidden('doenca', $doenca) !!}
                         {!! Form::hidden('cultivar', $cultivar) !!}
-                        @php
-                          $toleranciaSelected = 0;
-                          $pos = 0;
-                          while($pos < sizeof($cultivarHasDoencas))
-                          {
-                              $teste = $cultivarHasDoencas[$pos];
-                              if($teste->doe_id == $doenca->id)
-                                  $toleranciaSelected = $teste->tol_id;
-                              $pos++;
-                          }
-                        @endphp
-                        {{ Form::select('selectTolerancia', $tolerancias, $toleranciaSelected, array('style' => 'width: 260px; margin-right: 20px;', 'class' => 'form-control')) }}
-                      </td>
-                      <td>
-                        {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
-                        <!-- Fechar Formulário -->
-                        {!! Form::close() !!}
+
+                        @foreach ($tolerancias as $tolerancia)
+                          {{ $cultivar->descricao }}
+                          @php
+                            $i = 0;
+                            $achou = false;
+
+                            // procurar posição da doenca no array cultivarhasdoencas
+                            while(!$achou && $i < sizeof($cultivarHasDoencas))
+                            {
+                                $chd = $cultivarHasDoencas[$i];
+                                if($chd->doe_id == $doenca->id && $chd->tol_id == $tolerancia->id)
+                                  $achou = true;
+
+                                $i++;
+                            }
+                          @endphp
+
+                          @if($achou){{-- && $i <= sizeof($cultivarHasDoencas) $tolerancia->id == $chd->tol_id && $doenca->id == $chd->doe_id --}}
+                            {!! Form::radio('radio'.$doenca->id, $tolerancia->id, true, ['id'=>$tolerancia->id]) !!}
+                          @else
+                            {!! Form::radio('radio'.$doenca->id, $tolerancia->id, false, ['id'=>$tolerancia->id]) !!}
+                          @endif
+
+                          {!! Form::label($tolerancia->id, $tolerancia->descricao) !!}<br />
+                        @endforeach
                       </td>
                     </tr>
                   @endforeach
+                  {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                  <!-- Fechar Formulário -->
+                  {!! Form::close() !!}
+
+              {{-- Nova Cultivar     --}}
               @else
                 {!! Form::open(['url' => 'cultivares/salvarTodoVinculoCultivarDoencaTolerancia']) !!}
                   @foreach ($doencas as $doenca)
@@ -123,29 +128,42 @@
                           <!-- Label com descricao da tolerancia -->
                           {!! Form::label($tolerancia->id, $tolerancia->descricao) !!}<br />
                         @endforeach
-
-                        {{-- {{ Form::select('selectTolerancia', $tolerancias, null, array('style' => 'width: 260px; margin-right: 20px;', 'class' => 'form-control')) }} --}}
-                        {{-- @php
-                          array_push($cultivaresDoencasTolerancias,
-                                      'cultivar' => $cultivar->id,
-                                      'doenca' => $doenca->id,
-                                      'tolerancia' =>
-                                    );
-                        @endphp --}}
-                      </td>
-                      <td>
-                        {{-- {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!} --}}
-                        <!-- Fechar Formulário -->
-
                       </td>
                     </tr>
                   @endforeach
-                  {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
-                  {!! Form::close() !!}
+                  {{-- {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                  {!! Form::close() !!} --}}
               @endif
             </tbody>
+
           </table>
+          {!! Form::submit('Vincular', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+          {!! Form::close() !!}
         </div>
     </div>
   </div>
 </div>
+
+{{-- procurar posição da doenca no array cultivarhasdoencas --}}
+{{-- @while ( !$achou && $i < sizeof($cultivarHasDoencas) )
+  @php
+    $chd = $cultivarHasDoencas[$i];
+  @endphp
+  @if($chd->doe_id == $doenca->id && $chd->tol_id == $tolerancia->id)
+    @php
+      $achou = true;
+      echo $chd->tol_id;
+    @endphp
+  @endif
+  @php
+    $i = $i + 1;
+  @endphp
+{{ $i }}
+@endwhile --}}
+
+{{-- recupera registro de cultivarHasDoenca na posição i --}}
+{{-- {{ $chd = $cultivarHasDoencas[$i] }} --}}
+{{-- se o registro for equivalente à doença e à tolerancia, atribui valor --}}
+{{-- @if($chd->doe_id == $doenca->id && $chd->tol_id == $tolerancia->id)
+  {{ $achou = true }} --}}
+{{-- {{ $i++ }} && $i < sizeof($cultivarHasDoencas) --}}

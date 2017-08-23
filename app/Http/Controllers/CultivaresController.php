@@ -118,7 +118,7 @@ class CultivaresController extends Controller
   public function lista()
   {
       $cultivares = $this->arrayCultivares();
-      return view('cultivares.lista', ['cultivares' => $cultivares]);
+      return view('cultivares.lista', ['cultivares'=>$cultivares]);
   }
 
   public function editar($id)
@@ -228,7 +228,19 @@ class CultivaresController extends Controller
   public function vincularCultivarDoencaTolerancia(Request $request)
   {
       // carregar arrays para selects
+      //var_dump($request->All());
       $cultivar = Cultivar::all()->last();
+      $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
+      $doencas = $this->arrayDoencas();
+
+      return view('cultivares.cultivaresDoencas', ['cultivar' => $cultivar, 'doencas' => $doencas, 'tolerancias' => $tolerancias]);
+  }
+
+  public function alterarVinculoCultivarDoencaTolerancia($cultivarId)
+  {
+      // carregar arrays para selects
+      //var_dump($request->All());
+      $cultivar = Cultivar::findOrFail($cultivarId);
       $tolerancias = Tolerancia::where('status', '')->orderBy('descricao')->get();//->lists('descricao', 'id');
       $doencas = $this->arrayDoencas();
 
@@ -274,6 +286,7 @@ class CultivaresController extends Controller
       // listar todas as doencas
       $doencas = $this->arrayDoencas();
 
+      //var_dump($request->All());
       foreach ($doencas as $doenca) {
           $nameRadio = 'radio'.$doenca->id;
 
@@ -296,7 +309,7 @@ class CultivaresController extends Controller
           }
           else {
               // atualiza registro de cultivar, doença e tolerância
-              $cultivarHasDoencas->update($query);
+              cultivarHasDoencas::where('cult_id', $cultivar->id)->where('doe_id', $doenca->id)->update(['tol_id' => $toleranciaId]);
           }
       }
 
