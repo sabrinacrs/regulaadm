@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
+use App\Empresa;
+use Redirect;
+
 class HomeController extends Controller
 {
     /**
@@ -14,7 +17,19 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $empresaTable = Empresa::get();
+
+        //var_dump($empresaTable);
+        if(sizeof($empresaTable) <= 0) {
+          //$this->index();
+          $empresa = new Empresa();
+          $empresa->id = -1;
+
+          return Redirect::to('parametrizacao/nova');
+        }
+        else {
+          $this->middleware('auth');
+        }
     }
 
     /**
@@ -24,6 +39,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $empresaTable = Empresa::get();
+
+        //var_dump($empresaTable);
+        if(sizeof($empresaTable) <= 0) {
+          $empresa = new Empresa();
+          $empresa->id = -1;
+
+          return Redirect::to('parametrizacao/nova');
+        }
+        else {
+          return view('home');
+        }
+    }
+
+    public function parametrizacao()
+    {
+        $empresa = new Empresa();
+        $empresa->id = -1;
+
+        return view('parametrizacao.principal', ['empresa'=>$empresa]);
     }
 }

@@ -118,7 +118,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
+                      @if(!Request::is('*/nova'))
                         <li><a href="{{ url('/login') }}">Login</a></li>
+                      @endif
                     @else
                         {{-- <li><a href="{{ url('/administradores') }}">Administradores</a></li> --}}
                         <li><a href="{{ url('/administradores/registrar') }}">Novo Administrador</a></li>
