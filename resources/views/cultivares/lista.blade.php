@@ -52,6 +52,7 @@
               <table class="table table-hover table-striped" data-toggle="dataTable">
                 <thead>
                   <tr>
+                    <th class="text-left">ID</th>
                     <th class="text-left">NOME</th>
                     <th style="padding-left: 63%">AÇÕES</th>
                   </tr>
@@ -59,6 +60,7 @@
                 <tbody class="">
                   @foreach ($cultivares as $cultivar)
                     <tr>
+                      <td class="text-left">{{ $cultivar->id }}</td>
                       <td class="text-left">{{ $cultivar->nome }}</td>
                       <td class="text-right">
                         <a href="" class="btn btn-warning">Visualizar</a>

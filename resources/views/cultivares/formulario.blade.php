@@ -180,12 +180,13 @@
                 <div lass="form-inline">
                   <!-- submits -->
                   @if(Request::is('*/editar'))
-                    <a class="btn btn-success" href="{{ url('cultivares/doencas', ['cultivarId'=>$cultivar->id]) }}">Vincular Doenças</a>
                     {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
+                    <a class="btn btn-default" href="{{ url('cultivares/lista') }}">Cancelar</a>
+                    <a class="btn btn-success pull-right" href="{{ url('cultivares/doencas', ['cultivarId'=>$cultivar->id]) }}">Vincular Doenças</a>
                   @else
                     {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                    {{ Form::reset('Cancelar', ['class' => 'btn btn-default']) }}
                   @endif
-                  {{ Form::reset('Cancelar', ['class' => 'btn btn-default']) }}
                   <!-- Fechar Formulário -->
                   {!! Form::close() !!}
                 </div>
