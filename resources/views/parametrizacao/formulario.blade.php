@@ -58,12 +58,16 @@
                   <!-- Primeira linha do Formulário -->
                   <div class="form-inline">
                     <div class="form-group">
-                      {!! Form::label('nome', 'Nome da Empresa') !!}<br />
+                      {!! Form::label('nome', 'Nome da Empresa') !!}
+                      {!! Form::label('nome', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'nome', null, ['style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
 
                     <div class="form-group">
-                      {!! Form::label('razao_social', 'Razão Social') !!}<br />
+                      {!! Form::label('razao_social', 'Razão Social') !!}
+                      {!! Form::label('razao_social', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'razao_social', null, ['style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
                   </div>
@@ -72,12 +76,16 @@
                   <!-- Segunda linha do Formulário -->
                   <div class="form-inline">
                     <div class="form-group">
-                      {!! Form::label('ramo_atividade', 'Ramo Atividade') !!}<br />
+                      {!! Form::label('ramo_atividade', 'Ramo Atividade') !!}
+                      {!! Form::label('ramo_atividade', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'ramo_atividade', null, ['style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
 
                     <div class="form-group">
-                      {!! Form::label('cnpj', 'CNPJ') !!}<br />
+                      {!! Form::label('cnpj', 'CNPJ') !!}
+                      {!! Form::label('cnpj', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'cnpj', null, ['style' => 'width: 200px; margin-right: 20px;', 'class'=>'form-control cnpj', 'required']) !!}
                     </div>
                   </div>
@@ -86,7 +94,9 @@
                   <!-- Terceira linha do Formulário -->
                   <div class="form-inline">
                     <div class="form-group">
-                      {!! Form::label('email', 'E-mail') !!}<br />
+                      {!! Form::label('email', 'E-mail') !!}
+                      {!! Form::label('email', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::email('email', null, ['style' => 'width: 250px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
 
@@ -96,7 +106,9 @@
                     </div>
 
                     <div class="form-group">
-                      {!! Form::label('telefone', 'Telefone') !!}<br />
+                      {!! Form::label('telefone', 'Telefone') !!}
+                      {!! Form::label('telefone', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'telefone', null, ['style' => 'width: 130px; margin-right: 20px;', 'class'=>'form-control phone_with_ddd', 'required']) !!}
                     </div>
                   </div>
@@ -105,15 +117,21 @@
                   <!-- Quarta linha do Formulário -->
                   <div class="form-inline">
                     <div class="form-group">
-                      {!! Form::label('rua', 'Rua') !!}<br />
+                      {!! Form::label('rua', 'Rua') !!}
+                      {!! Form::label('rua', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'rua', null, ['style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::label('bairro', 'Bairro') !!}<br />
+                      {!! Form::label('bairro', 'Bairro') !!}
+                      {!! Form::label('bairro', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'bairro', null, ['style' => 'width: 200px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::label('numero', 'Número') !!}<br />
+                      {!! Form::label('numero', 'Número') !!}
+                      {!! Form::label('numero', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'numero', null, ['style' => 'width: 80px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
                   </div>
@@ -122,16 +140,22 @@
                   <!-- Quarta linha do Formulário -->
                   <div class="form-inline">
                     <div class="form-group">
-                      {!! Form::label('cidade', 'Cidade') !!}<br />
+                      {!! Form::label('cidade', 'Cidade') !!}
+                      {!! Form::label('cidade', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'cidade', null, ['style' => 'width: 300px; margin-right: 20px;', 'class'=>'form-control', 'required']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::label('cep', 'CEP') !!}<br />
+                      {!! Form::label('cep', 'CEP') !!}
+                      {!! Form::label('cep', '*', ['style'=>'color:red']) !!}
+                      <br />
                       {!! Form::input('text', 'cep', null, ['style' => 'width: 200px; margin-right: 20px;', 'class'=>'form-control cep', 'required']) !!}
                     </div>
                     <div class="form-group">
-                      {!! Form::label('uf', 'UF') !!}<br />
-                      {{ Form::select('selectUF', $ufs, $ufSelected, array('style' => 'width: 80px;', 'class' => 'form-control')) }}
+                      {!! Form::label('uf', 'UF') !!}
+                      {!! Form::label('uf', '*', ['style'=>'color:red']) !!}
+                      <br />
+                      {{ Form::select('selectUF', $ufs, $ufSelected, array('style' => 'width: 80px;', 'class' => 'form-control', 'required')) }}
                     </div>
                   </div>
                   <br />
@@ -152,6 +176,9 @@
                     </div>
                   </div>
                   <br />
+
+                  {!! Form::label('campo_obrigatorio', '*', ['style'=>'color:red']) !!}
+                  {!! Form::label('campo_obrigatorio', ' Campos obrigatórios') !!}<br />
 
                 @if($empresa->id != -1)
                   {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
