@@ -23,6 +23,15 @@
                     {{ Session::get('mensagem_sucesso') }}
                   </div>
                 @endif
+                {{-- @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif --}}
 
                 <!-- FORMULÁRIO -->
                 <!-- Conteúdo Lista Selects -->
@@ -51,6 +60,7 @@
                 @else
                   {!! Form::open(['url' => 'cultivares/salvar']) !!}
                 @endif
+                {{ csrf_field() }}
 
                 <!-- inputs -->
                 <!-- Primeira linha do Formulário -->
@@ -91,7 +101,17 @@
                   <div class="form-group">
                     {!! Form::label('rendimento_fibra', 'Rendimento da Fibra (%)') !!}<br />
                     {!! Form::label('rendimento_fibra_minimo', 'Min.') !!}
-                    {!! Form::input('text', 'rendimento_fibra_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+
+                    <div class="form-group{{ $errors->has('rendimento_fibra_minimo') ? ' has-error' : '' }}">
+                      {!! Form::input('text', 'rendimento_fibra_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
+                      @if ($errors->has('rendimento_fibra_minimo'))
+                          <span class="help-block">
+                              <strong>{{ $errors->first('rendimento_fibra_minimo') }}</strong>
+                          </span>
+                      @endif
+                    </div>
+
+                    {{-- {!! Form::input('text', 'rendimento_fibra_minimo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!} --}}
                     {!! Form::label('rendimento_fibra_maximo', 'Max.') !!}
                     {!! Form::input('text', 'rendimento_fibra_maximo', null, ['placeholder'=>'0,00', 'style' => 'width: 86px; margin-right: 20px;', 'class'=>'form-control myNumber', 'required']) !!}
                   </div>
