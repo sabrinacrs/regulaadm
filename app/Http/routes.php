@@ -20,6 +20,7 @@ Route::get('/', 'HomeController@index');
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/help', 'HelpController@index');
 Route::get('parametrizacao/nova', 'HomeController@parametrizacao');
 
 Route::get('administradores/', 'AdministradoresController@index');
