@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-      <div class="container container-content">
+      <div class="container container-content" style="margin-top: 10%">
 
       <div class="col-md-offset-1">
         <div style="text-align: justify; text-justify: inter-word;">

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cultivares" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="652498a6-2429-42fb-9a68-9777071325f6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[select nome, 
+altura_planta, 
+fertilidade,
+ regulador, 
+ rendimento_fibra_maximo,
+ peso_capulho_maximo,
+ comprimento_fibra_maximo,
+ micronaire_maximo, 
+ resistencia_maximo,
+ peso_sementes_maximo from cultivares]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="altura_planta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="altura_planta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="fertilidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fertilidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="regulador" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="regulador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="rendimento_fibra_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="rendimento_fibra_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="peso_capulho_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="peso_capulho_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="comprimento_fibra_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="comprimento_fibra_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="micronaire_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="micronaire_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="resistencia_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="resistencia_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="peso_sementes_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="peso_sementes_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#009963" uuid="51d83639-8ff9-4c5e-9995-b50575c291d6"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="749dbb96-fa5f-4eb4-8f0d-a37cc91b5b35"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cultivares]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="270" y="43" width="305" height="20" forecolor="#FFFFFF" uuid="0aa54a29-d12f-4bee-a5f2-5a1f2e7a571b"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Relatório das variedades de cultivares]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="41">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="8f02298c-8434-42f6-8473-bd9e25cacd45"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="e097fdeb-37ca-40cc-84f1-ec010202ad5a"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="120" height="20" uuid="9a8158c4-6915-4fc0-9b14-52c2580ad57c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Altura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="100" height="20" uuid="3cb01cad-4487-47ee-9285-02f72fefd590"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Fertilidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="0" width="100" height="20" uuid="650f9d26-917d-4a22-a5ae-ef8f522a65f3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Rendimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="20" uuid="cd402665-1e14-4bc4-b576-f0a54cd1cc7e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Resistência]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="34">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="659b1084-86d9-4207-bc75-ea6f5d8bd989"/>
+			</line>
+			<textField>
+				<reportElement x="20" y="0" width="100" height="19" uuid="8f70f524-3c14-40ac-b34c-af4bbe35b5d5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="176a3bb2-dbcf-4704-9c1b-35b3840cbabf"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="1" width="90" height="19" uuid="2fcc8487-934f-49be-b65b-d856d92bd045">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="80662a99-71ad-4342-b0af-1afd111765c7"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{altura_planta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="80" height="19" uuid="3b651f76-31d0-4ca5-952b-d5b9c705b51c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c55c43ac-7d3f-4944-b8e4-78c2cb16a46a"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fertilidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="1" width="70" height="17" uuid="697c747a-821c-4ac6-a0d6-2e085ddbcf77">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de4fe414-a5e4-45e7-9bec-cd9bd06dcf68"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{rendimento_fibra_maximo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="4" width="75" height="15" uuid="f1a76d16-840b-48ae-b83b-b03605252c19">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c512497a-a310-4403-931e-b4eb34775fc3"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{resistencia_maximo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="a2a5a49b-c5a4-451a-aa6d-9b97ea07df42"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="bcdecdd4-3aeb-4d70-9c2a-9593447f5341"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="20642156-8331-47cd-be3c-eaf279ecf9ea"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

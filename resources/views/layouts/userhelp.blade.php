@@ -125,6 +125,7 @@
 
     @yield('content')
 
+
     <style>
       div.floating-menu {position:fixed;left:auto;top:50px;}
     </style>
