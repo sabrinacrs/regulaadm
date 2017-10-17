@@ -22,6 +22,8 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 Route::get('/help', 'HelpController@index');
 Route::get('parametrizacao/nova', 'HomeController@parametrizacao');
+
+Route::get('/report', 'ReportController@index');
 Route::get('/report/cultivares', 'ReportController@reportCultivares');
 Route::get('/report/cultivaresCiclos', 'ReportController@reportCultivaresCiclos');
 Route::get('/report/cultivaresDoencasTolerancias', 'ReportController@reportCultivaresDoencasTolerancias');

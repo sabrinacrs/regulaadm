@@ -26,34 +26,7 @@ class ReportController extends Controller
 
       public function index()
       {
-          $input = public_path() . '/reports/Cultivares.jrxml';
-          $output = public_path() . '/reports/'. time() . '_Cultivares';
-
-          $jasper = new JasperPHP;
-
-          $jasper->process(
-              $input,
-              $output,
-              array("pdf", "rtf"),
-              [],
-              $this->getDatabaseConfig()
-          )->execute();
-
-          // if (!file_exists($jasper)) {
-          //     abort(404);
-          // }
-          $file = $output .'.pdf';
-          $path = $file;
-          //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-          // unlink($path);
-
-          var_dump($path);
-          $file = file_get_contents($file);
-
-          // retornamos o conteudo para o navegador que íra abrir o PDF
-          return response($file, 200)
-              ->header('Content-Type', 'application/pdf')
-              ->header('Content-Disposition', 'inline; filename="Cultivares.pdf"');
+          return view('report.reports');
       }
 
       public function reportCultivares()
