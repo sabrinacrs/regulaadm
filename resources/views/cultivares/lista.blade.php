@@ -50,6 +50,7 @@
 
             <br />
               <table class="table table-hover table-striped" data-toggle="dataTable">
+                {{-- header table --}}
                 <thead>
                   <tr>
                     <th class="text-left">ID</th>
@@ -57,6 +58,8 @@
                     <th style="padding-left: 63%">AÇÕES</th>
                   </tr>
                 </thead>
+
+                {{-- body table --}}
                 <tbody class="">
                   @foreach ($cultivares as $cultivar)
                     <tr>
@@ -91,6 +94,13 @@
                     </tr>
                   @endforeach
                 </tbody>
+
+                {{-- footer table --}}
+                <tfoot>
+                  <tr>
+                    <th colspan='10' class="text-center">{{ $links }}</th> 
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>

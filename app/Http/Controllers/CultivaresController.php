@@ -120,8 +120,10 @@ class CultivaresController extends Controller
   public function lista()
   {
       // $cultivares = Cultivar::where('status', '')->get();
-      $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get(); //$this->arrayCultivares(); // ->get()->paginate(10);//
-      return view('cultivares.lista', ['cultivares'=>$cultivares]);
+      $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(10);//get(); //$this->arrayCultivares(); // ->get()->paginate(10);//
+      $links = $cultivares->links();
+
+      return view('cultivares.lista', ['cultivares'=>$cultivares, 'links'=>$links]);
   }
 
   public function editar($id)
@@ -344,17 +346,22 @@ class CultivaresController extends Controller
 
       if(empty($filtro)) {
           //$cultivares = Cultivar::get();
-          $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get(); // >where('status', '<>', 'I')->
+          $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(2);//get(); // >where('status', '<>', 'I')->
       }
       else {
         $cultivares = DB::table('cultivares')
                       ->where([
                         ['nome', 'like', '%'.$filtro.'%'],
                         ['status', '<>', 'I']
-                      ])->get();
+                      ])->paginate(2); //->get();
       }
 
-      return view('cultivares.lista', ['cultivares' => $cultivares]);
+      $links = $cultivares->links();
+
+      var_dump($links);
+
+      // return view('cultivares.lista', ['cultivares' => $cultivares,
+      //                                  'links' => $links]);
   }
 
   private function getValor($entrada)
