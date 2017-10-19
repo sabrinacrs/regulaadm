@@ -21,18 +21,30 @@
                   {!! Form::open(['url' => 'tolerancias/salvar']) !!}
                 @endif
 
-                {!! Form::label('descricao', 'Descrição') !!}
-                {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required']) !!}
+                <div class="form-inline">
+                  <div class="form-group col-md-6">
+                    {!! Form::label('descricao', 'Descrição') !!} <br />
+                    {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'style'=>'width: 100%']) !!}
+                  </div>
+
+                  <div class="form-group">
+                    {!! Form::label('sigla', 'Sigla') !!} <br />
+                    {!! Form::input('text', 'sigla', null, ['class'=>'form-control', 'required', 'style'=>'width: 100%']) !!}
+                  </div>
+                </div>
 
                 <br />
-                @if(Request::is('*/editar'))
-                  {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
-                @else
-                  {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
-                @endif
-                {{ Form::reset('Cancelar', ['class' => 'btn btn-default']) }}
+                <div class="col-sm-6">
+                  @if(Request::is('*/editar'))
+                    {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
+                  @else
+                    {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+                  @endif
+                  {{ Form::reset('Cancelar', ['class' => 'btn btn-default']) }}
+                </div>
 
                 {!! Form::close() !!}
+
               </div>
               <div class="panel-footer">
               </div>

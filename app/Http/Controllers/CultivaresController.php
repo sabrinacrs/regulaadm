@@ -75,6 +75,7 @@ class CultivaresController extends Controller
         'resistencia_maximo' => $resistenciaMaximo,
         'peso_sementes_minimo' => $pesoSementesMinimo,
         'peso_sementes_maximo' => $pesoSementesMaximo,
+        'status' => $request->input('status'),
         'cic_id' => intval($request->input('selectCiclo'))
     ];
 
@@ -98,9 +99,9 @@ class CultivaresController extends Controller
       // mensagem de sucesso
       \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
 
-       // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
-       if($request->is('cultivares/salvar'))
-         return Redirect::to('cultivares/doencas');
+      // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
+      if($request->is('cultivares/salvar'))
+        return Redirect::to('cultivares/doencas');
       else
         return Redirect::to('cultivares/lista');
   }
@@ -118,7 +119,8 @@ class CultivaresController extends Controller
 
   public function lista()
   {
-      $cultivares = Cultivar::where('status', '')->get()->paginate(10);//$this->arrayCultivares();
+      // $cultivares = Cultivar::where('status', '')->get();
+      $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get(); //$this->arrayCultivares(); // ->get()->paginate(10);//
       return view('cultivares.lista', ['cultivares'=>$cultivares]);
   }
 
@@ -336,6 +338,25 @@ class CultivaresController extends Controller
       return Redirect::to('cultivares/lista');
   }
 
+  public function buscar(Request $request)
+  {
+      $filtro = $request->get('buscar');
+
+      if(empty($filtro)) {
+          //$cultivares = Cultivar::get();
+          $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get(); // >where('status', '<>', 'I')->
+      }
+      else {
+        $cultivares = DB::table('cultivares')
+                      ->where([
+                        ['nome', 'like', '%'.$filtro.'%'],
+                        ['status', '<>', 'I']
+                      ])->get();
+      }
+
+      return view('cultivares.lista', ['cultivares' => $cultivares]);
+  }
+
   private function getValor($entrada)
   {
       // se a entrada veio sem vírgula
@@ -346,24 +367,6 @@ class CultivaresController extends Controller
       $valor = (double)$entrada;
 
       return $valor;
-  }
-
-  private function buscar(Request $request)
-  {
-      $filtro = $request->get('buscar');
-
-      if(empty($filtro))
-        $cultivares = DB::table('cultivares')->get();
-      else {
-        $cultivares = DB::table('cultivares')
-                      ->where([
-                        ['nome', 'like', '%'.$filtro.'%'],
-                        ['status', '<>', 'I']
-                      ])->get();
-      }
-
-
-      return view('cultivares.lista', ['cultivares' => $cultivares]);
   }
 
   private function arrayCultivares()

@@ -59,6 +59,7 @@
                   {!! Form::model($cultivar, ['method'=>'PATCH', 'url'=>'cultivares/'.$cultivar->id]) !!}
                 @else
                   {!! Form::open(['url' => 'cultivares/salvar']) !!}
+                  {!! Form::hidden('status', 'A') !!}
                 @endif
                 {{ csrf_field() }}
 
@@ -195,7 +196,6 @@
                   </div>
                 </div>
                 <br />
-
 
                 <div lass="form-inline">
                   <!-- submits -->

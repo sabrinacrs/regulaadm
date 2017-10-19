@@ -20,7 +20,8 @@ class ToleranciasController extends Controller
 
   public function lista()
   {
-      $tolerancias = $this->arrayTolerancias();
+      // $tolerancias = $this->arrayTolerancias();
+      $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
       return view('tolerancias.lista', ['tolerancias' => $tolerancias]);
   }
 
@@ -92,8 +93,8 @@ class ToleranciasController extends Controller
 
       foreach($tolerancias_table as $tolerancia)
       {
-        if($tolerancia->status != 'I')
-            array_push($tolerancias, $tolerancia);
+          if($tolerancia->status != 'I')
+              array_push($tolerancias, $tolerancia);
       }
 
       return $tolerancias;
