@@ -21,8 +21,10 @@ class ToleranciasController extends Controller
   public function lista()
   {
       // $tolerancias = $this->arrayTolerancias();
-      $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
-      return view('tolerancias.lista', ['tolerancias' => $tolerancias]);
+      $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+      $links = $tolerancias->links();
+
+      return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
   }
 
   public function salvar(Request $request)
@@ -40,16 +42,19 @@ class ToleranciasController extends Controller
 
   public function nova(Request $request)
   {
-      $tolerancias = $this->arrayTolerancias();
-      return view('tolerancias.lista', ['tolerancias'=>$tolerancias]);
+      $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+      $links = $tolerancias->links();
+
+      return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'links'=>$links]);
   }
 
   public function editar($id)
   {
-      $tolerancias = $this->arrayTolerancias();
+      $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
       $tolerancia = Tolerancia::findOrFail($id);
+      $links = $tolerancias->links();
 
-      return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia]);
+      return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia, 'links'=>$links]);
   }
 
   public function atualizar($id, Request $request)
@@ -81,9 +86,10 @@ class ToleranciasController extends Controller
                     ->where([
                       ['descricao', 'like', '%'.$filtro.'%'],
                       ['status', '<>', 'I']
-                    ])->get();
+                    ])->paginate(5);
+      $links = $tolerancias->links();
 
-      return view('tolerancias.lista', ['tolerancias' => $tolerancias]);
+      return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
   }
 
   public function arrayTolerancias()

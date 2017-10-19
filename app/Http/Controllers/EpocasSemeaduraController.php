@@ -20,8 +20,10 @@ class EpocasSemeaduraController extends Controller
 
   public function lista()
   {
-      $epocas_semeadura = $this->arrayEpocaSemeaduras();
-      return view('epocas_semeadura.lista', ['epocas_semeadura' => $epocas_semeadura]);
+      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);//$this->arrayEpocaSemeaduras();
+      $links = $epocas_semeadura->links();
+
+      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
   }
 
   public function salvar(Request $request)
@@ -39,16 +41,19 @@ class EpocasSemeaduraController extends Controller
 
   public function nova(Request $request)
   {
-      $epocas_semeadura = $this->arrayEpocaSemeaduras();
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura]);
+      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
+      $links = $epocas_semeadura->links();
+
+      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
   }
 
   public function editar($id)
   {
-      $epocas_semeadura = $this->arrayEpocaSemeaduras();
+      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
+      $links = $epocas_semeadura->links();
       $epoca_semeadura = EpocasSemeadura::findOrFail($id);
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'epoca_semeadura' => $epoca_semeadura]);
+      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'epoca_semeadura'=>$epoca_semeadura, 'links'=>$links]);
   }
 
   public function atualizar($id, Request $request)
@@ -80,9 +85,10 @@ class EpocasSemeaduraController extends Controller
                     ->where([
                       ['descricao', 'like', '%'.$filtro.'%'],
                       ['status', '<>', 'I']
-                    ])->get();
+                    ])->paginate(5);
+      $links = $epocas_semeadura->links();
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura' => $epocas_semeadura]);
+      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links' => $links]);
   }
 
   public function arrayEpocaSemeaduras()

@@ -96,7 +96,7 @@
               </div>
             @endif
           @endif
-          
+
             <table class="table table-hover table-striped" data-toggle="dataTable">
               <thead>
                 <tr>
@@ -137,6 +137,13 @@
                   </tr>
                 @endforeach
               </tbody>
+
+              {{-- footer table --}}
+              <tfoot>
+                <tr>
+                  <th colspan='10' class="text-center">{{ $links }}</th>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>

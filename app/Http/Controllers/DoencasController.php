@@ -13,15 +13,18 @@ class DoencasController extends Controller
 {
   public function index()
   {
-      $doencas = $this->arrayDoencas();
+      $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5); //get();//$this->arrayDoencas();
+      $links = $doencas->links();
 
-      return view('doencas.busca', ['doencas' => $doencas]);
+      return view('doencas.busca', ['doencas'=>$doencas, 'links'=>$links]);
   }
 
   public function lista()
   {
-      $doencas = $this->arrayDoencas();
-      return view('doencas.lista', ['doencas' => $doencas]);
+      $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
+      $links = $doencas->links();
+
+      return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
   }
 
   public function salvar(Request $request)
@@ -39,17 +42,20 @@ class DoencasController extends Controller
 
   public function nova(Request $request)
   {
-      $doencas = $this->arrayDoencas();
-      return view('doencas.lista', ['doencas'=>$doencas]);
+      $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
+      $links = $doencas->links();
+
+      return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
   }
 
   public function editar($id)
   {
-      $doencas = $this->arrayDoencas();
+      $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
       $doenca = Doenca::findOrFail($id);
+      $links = $doencas->links();
 
       //redirect()->back()->withInput();
-      return view('doencas.lista', ['doencas'=>$doencas, 'doenca' => $doenca]);
+      return view('doencas.lista', ['doencas'=>$doencas, 'doenca'=>$doenca, 'links'=>$links]);
   }
 
   public function atualizar($id, Request $request)
@@ -81,9 +87,10 @@ class DoencasController extends Controller
                     ->where([
                       ['descricao', 'like', '%'.$filtro.'%'],
                       ['status', '<>', 'I']
-                    ])->get();
+                    ])->paginate(5);
+      $links = $doencas->links();
 
-      return view('doencas.lista', ['doencas' => $doencas]);
+      return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
   }
 
   public function arrayDoencas()

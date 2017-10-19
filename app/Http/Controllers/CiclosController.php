@@ -21,8 +21,10 @@ class CiclosController extends Controller
 
   public function lista()
   {
-      $ciclos = $this->arrayCiclos();
-      return view('ciclos.lista', ['ciclos' => $ciclos]);
+      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+      $links = $ciclos->links();
+
+      return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
   }
 
   public function salvar(Request $request)
@@ -40,17 +42,20 @@ class CiclosController extends Controller
 
   public function novo(Request $request)
   {
-      $ciclos = $this->arrayCiclos();
-      return view('ciclos.lista', ['ciclos'=>$ciclos]);
+      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+      $links = $ciclos->links();
+
+      return view('ciclos.lista', ['ciclos'=>$ciclos, 'links'=>$links]);
   }
 
   public function editar($id)
   {
-      $ciclos = $this->arrayCiclos();
+      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+      $links = $ciclos->links();
       $ciclo = Ciclo::findOrFail($id);
 
       //redirect()->back()->withInput();
-      return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo]);
+      return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo, 'links'=>$links]);
   }
 
   public function atualizar($id, Request $request)
@@ -82,9 +87,10 @@ class CiclosController extends Controller
                     ->where([
                       ['descricao', 'like', '%'.$filtro.'%'],
                       ['status', '<>', 'I']
-                    ])->get();
+                    ])->paginate(5);
+      $links = $ciclos->links();
 
-      return view('ciclos.lista', ['ciclos' => $ciclos]);
+      return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
   }
 
   public function arrayCiclos()

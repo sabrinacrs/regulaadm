@@ -346,22 +346,20 @@ class CultivaresController extends Controller
 
       if(empty($filtro)) {
           //$cultivares = Cultivar::get();
-          $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(2);//get(); // >where('status', '<>', 'I')->
+          $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(10);//get(); // >where('status', '<>', 'I')->
       }
       else {
         $cultivares = DB::table('cultivares')
                       ->where([
                         ['nome', 'like', '%'.$filtro.'%'],
                         ['status', '<>', 'I']
-                      ])->paginate(2); //->get();
+                      ])->paginate(10); //->get();
       }
 
       $links = $cultivares->links();
 
-      var_dump($links);
-
-      // return view('cultivares.lista', ['cultivares' => $cultivares,
-      //                                  'links' => $links]);
+      return view('cultivares.lista', ['cultivares' => $cultivares,
+                                       'links' => $links]);
   }
 
   private function getValor($entrada)
