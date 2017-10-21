@@ -29,8 +29,21 @@
             @else
               {!! Form::model($tolerancia, ['method'=>'PATCH', 'url'=>'tolerancias/lista/'.$tolerancia->id]) !!}
             @endif
-              {!! Form::label('descricao', 'Descrição') !!}
-              {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}
+
+            <div class="form-inline">
+              <div class="form-group col-md-6">
+                {!! Form::label('descricao', 'Descrição') !!} <br />
+                {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'style'=>'width: 100%']) !!}
+              </div>
+
+              <div class="form-group">
+                {!! Form::label('sigla', 'Sigla') !!} <br />
+                {!! Form::input('text', 'sigla', null, ['class'=>'form-control', 'required', 'style'=>'width: 100%']) !!}
+              </div>
+            </div>
+
+              {{-- {!! Form::label('descricao', 'Descrição') !!}
+              {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!} --}}
             <br />
             @if(Request::is('*/nova'))
               {!! Form::submit('Salvar', ['class'=>'btn btn-success']) !!}
