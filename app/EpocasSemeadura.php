@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class EpocasSemeadura extends Model
 {
-  protected $table = 'epocasSemeaduras';
+  protected $table = 'epocassemeaduras';
   protected $fillable = ['descricao', 'status'];
 }

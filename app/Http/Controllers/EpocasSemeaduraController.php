@@ -81,7 +81,7 @@ class EpocasSemeaduraController extends Controller
   public function buscar(Request $request)
   {
       $filtro = $request->get('buscar');
-      $epocas_semeadura = DB::table('epocasSemeaduras')
+      $epocas_semeadura = DB::table('epocassemeaduras')
                     ->where([
                       ['descricao', 'like', '%'.$filtro.'%'],
                       ['status', '<>', 'I']
