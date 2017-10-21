@@ -57,53 +57,78 @@ class CultivaresController extends Controller
       $pesoSementesMinimo = $this->getValor($request->input('peso_sementes_minimo'));
       $pesoSementesMaximo = $this->getValor($request->input('peso_sementes_maximo'));
 
-      // query para salvar cultivar
-      $query = [
-        'nome' => $request->input('nome'),
-        'altura_planta' => $request->get('selectAltura'),
-        'fertilidade' => $request->get('selectFertilidade'),
-        'regulador' => $request->get('selectRegulador'),
-        'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
-        'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
-        'peso_capulho_minimo' => $pesoCapulhoMinimo,
-        'peso_capulho_maximo' => $pesoCapulhoMaximo,
-        'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
-        'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
-        'micronaire_minimo' => $micronaireMinimo,
-        'micronaire_maximo' => $micronaireMaximo,
-        'resistencia_minimo' => $resistenciaMinimo,
-        'resistencia_maximo' => $resistenciaMaximo,
-        'peso_sementes_minimo' => $pesoSementesMinimo,
-        'peso_sementes_maximo' => $pesoSementesMaximo,
-        'status' => $request->input('status'),
-        'cic_id' => intval($request->input('selectCiclo'))
-    ];
+      $mensagemFalha = "";
 
-      // executa query para salvar cultivar
-      $cultivar = $cultivar->create($query);
+      // validações de Min e Max
+      if(!$this->validateMinMax($rendimentoFibraMinimo, $rendimentoFibraMaximo))
+        $mensagemFalha .= "Rendimento mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($pesoCapulhoMinimo, $pesoCapulhoMaximo))
+        $mensagemFalha .= "O peso mínimo do capulho não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($comprimentoFibraMinimo, $comprimentoFibraMaximo))
+        $mensagemFalha .= "O comprimento da fibra mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($micronaireMinimo, $micronaireMaximo))
+        $mensagemFalha .= "Micronaire mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($resistenciaMinimo, $resistenciaMaximo))
+        $mensagemFalha .= "Resistência mínima não pode ser maior que a resistência máxima <br />";
+      if(!$this->validateMinMax($pesoSementesMinimo, $pesoSementesMaximo))
+        $mensagemFalha .= "Peso sementes mínimo não pode ser maior que o peso máximo <br />";
 
-      // salva cultivar has epoca semeadura
-      foreach($epocasSemeadura as $epocaSemeadura => $value)
+      if(strcmp($mensagemFalha, "") != 0)
       {
-          $cultivarHasEpocaSemeadura = new CultivarHasEpocaSemeadura();
-          // constroi string query
-          $queryCultivarHasEpocaSemeadura = [
-            'cult_id' => $cultivar->id,
-            'ep_id' => intval($epocaSemeadura),
-            'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
-          ];
+          // mensagem de falha
+          \Session::flash('mensagem_falha', $mensagemFalha);
 
-          $cultivarHasEpocaSemeadura->create($queryCultivarHasEpocaSemeadura);
+          return back()->withInput();
       }
+      else {
+        // query para salvar cultivar
+        $query = [
+          'nome' => $request->input('nome'),
+          'altura_planta' => $request->get('selectAltura'),
+          'fertilidade' => $request->get('selectFertilidade'),
+          'regulador' => $request->get('selectRegulador'),
+          'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
+          'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
+          'peso_capulho_minimo' => $pesoCapulhoMinimo,
+          'peso_capulho_maximo' => $pesoCapulhoMaximo,
+          'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
+          'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
+          'micronaire_minimo' => $micronaireMinimo,
+          'micronaire_maximo' => $micronaireMaximo,
+          'resistencia_minimo' => $resistenciaMinimo,
+          'resistencia_maximo' => $resistenciaMaximo,
+          'peso_sementes_minimo' => $pesoSementesMinimo,
+          'peso_sementes_maximo' => $pesoSementesMaximo,
+          'status' => $request->input('status'),
+          'cic_id' => intval($request->input('selectCiclo'))
+      ];
 
-      // mensagem de sucesso
-      \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+        // executa query para salvar cultivar
+        $cultivar = $cultivar->create($query);
 
-      // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
-      if($request->is('cultivares/salvar'))
-        return Redirect::to('cultivares/doencas');
-      else
-        return Redirect::to('cultivares/lista');
+        // salva cultivar has epoca semeadura
+        foreach($epocasSemeadura as $epocaSemeadura => $value)
+        {
+            $cultivarHasEpocaSemeadura = new CultivarHasEpocaSemeadura();
+            // constroi string query
+            $queryCultivarHasEpocaSemeadura = [
+              'cult_id' => $cultivar->id,
+              'ep_id' => intval($epocaSemeadura),
+              'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
+            ];
+
+            $cultivarHasEpocaSemeadura->create($queryCultivarHasEpocaSemeadura);
+        }
+
+        // mensagem de sucesso
+        \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+
+        // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
+        if($request->is('cultivares/salvar'))
+          return Redirect::to('cultivares/doencas');
+        else
+          return Redirect::to('cultivares/lista');
+      }
   }
 
   public function nova()
@@ -373,6 +398,35 @@ class CultivaresController extends Controller
 
       return $valor;
   }
+
+  private function validateMinMax($min, $max)
+  {
+      if($min > $max)
+        return false;
+
+      return true;
+  }
+
+  // private function validateFields()
+  // {
+  //     $mensagem = "";
+  //
+  //     // validações de Min e Max
+  //     if(!$this->validateMinMax($rendimentoFibraMinimo, $rendimentoFibraMaximo))
+  //       $mensagemFalha += "Rendimento mínimo não pode ser maior que o máximo \n";
+  //     if(!$this->validateMinMax($pesoCapulhoMinimo, $pesoCapulhoMaximo))
+  //       $mensagemFalha += "O peso mínimo do capulho não pode ser maior que o máximo \n";
+  //     if(!$this->validateMinMax($comprimentoFibraMinimo, $comprimentoFibraMaximo))
+  //       $mensagemFalha += "O comprimento da fibra mínimo não pode ser maior que o máximo \n";
+  //     if(!$this->validateMinMax($micronaireMinimo, $micronaireMaximo))
+  //       $mensagemFalha += "Micronaire mínimo não pode ser maior que o máximo \n";
+  //     if(!$this->validateMinMax($resistenciaMinimo, $resistenciaMaximo))
+  //       $mensagemFalha += "Resistência mínima não pode ser maior que a resistência máxima \n";
+  //     if(!$this->validateMinMax($pesoSementesMinimo, $pesoSementesMaximo))
+  //       $mensagemFalha += "Peso sementes mínimo não pode ser maior que o peso máximo \n";
+  //
+  //     return $mensagem;
+  // }
 
   private function arrayCultivares()
   {

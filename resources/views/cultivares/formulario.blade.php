@@ -23,6 +23,11 @@
                     {{ Session::get('mensagem_sucesso') }}
                   </div>
                 @endif
+                @if(Session::has('mensagem_falha'))
+                  <div class="alert alert-danger">
+                    {{ Session::get('mensagem_falha') }}
+                  </div>
+                @endif
                 {{-- @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
