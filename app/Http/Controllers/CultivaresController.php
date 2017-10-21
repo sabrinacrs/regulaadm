@@ -208,51 +208,77 @@ class CultivaresController extends Controller
       $pesoSementesMinimo = $this->getValor($request->input('peso_sementes_minimo'));
       $pesoSementesMaximo = $this->getValor($request->input('peso_sementes_maximo'));
 
-      $query = [
-        'nome' => $request->input('nome'),
-        'altura_planta' => $request->get('selectAltura'),
-        'fertilidade' => $request->get('selectFertilidade'),
-        'regulador' => $request->get('selectRegulador'),
-        'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
-        'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
-        'peso_capulho_minimo' => $pesoCapulhoMinimo,
-        'peso_capulho_maximo' => $pesoCapulhoMaximo,
-        'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
-        'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
-        'micronaire_minimo' => $micronaireMinimo,
-        'micronaire_maximo' => $micronaireMaximo,
-        'resistencia_minimo' => $resistenciaMinimo,
-        'resistencia_maximo' => $resistenciaMaximo,
-        'peso_sementes_minimo' => $pesoSementesMinimo,
-        'peso_sementes_maximo' => $pesoSementesMaximo,
-        'cic_id' => intval($request->input('selectCiclo'))
-    ];
+      $mensagemFalha = "";
 
-      $cultivar->update($query);
+      // validações de Min e Max
+      if(!$this->validateMinMax($rendimentoFibraMinimo, $rendimentoFibraMaximo))
+        $mensagemFalha .= "Rendimento mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($pesoCapulhoMinimo, $pesoCapulhoMaximo))
+        $mensagemFalha .= "O peso mínimo do capulho não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($comprimentoFibraMinimo, $comprimentoFibraMaximo))
+        $mensagemFalha .= "O comprimento da fibra mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($micronaireMinimo, $micronaireMaximo))
+        $mensagemFalha .= "Micronaire mínimo não pode ser maior que o máximo <br />";
+      if(!$this->validateMinMax($resistenciaMinimo, $resistenciaMaximo))
+        $mensagemFalha .= "Resistência mínima não pode ser maior que a resistência máxima <br />";
+      if(!$this->validateMinMax($pesoSementesMinimo, $pesoSementesMaximo))
+        $mensagemFalha .= "Peso sementes mínimo não pode ser maior que o peso máximo <br />";
 
-      // atualiza cultivar has epoca semeadura
-      $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
-      foreach($epocasSemeadura as $epocaSemeadura => $value)
+      if(strcmp($mensagemFalha, "") != 0)
       {
-          $cultivarHasEpocaSemeadura = CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)->where('ep_id', intval($epocaSemeadura))->get();
-          $cultivarUpdate = $cultivarHasEpocaSemeadura[0];
+          // mensagem de falha
+          \Session::flash('mensagem_falha', $mensagemFalha);
 
-          // constroi string query
-          $queryCultivarHasEpocaSemeadura = [
-            'cult_id' => $cultivar->id,
-            'ep_id' => $epocaSemeadura,
-            'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
-          ];
-          //$cultivarUpdate->update($queryCultivarHasEpocaSemeadura);
+          return back()->withInput();
+      }
+      else {
+          $query = [
+            'nome' => $request->input('nome'),
+            'altura_planta' => $request->get('selectAltura'),
+            'fertilidade' => $request->get('selectFertilidade'),
+            'regulador' => $request->get('selectRegulador'),
+            'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
+            'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
+            'peso_capulho_minimo' => $pesoCapulhoMinimo,
+            'peso_capulho_maximo' => $pesoCapulhoMaximo,
+            'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
+            'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
+            'micronaire_minimo' => $micronaireMinimo,
+            'micronaire_maximo' => $micronaireMaximo,
+            'resistencia_minimo' => $resistenciaMinimo,
+            'resistencia_maximo' => $resistenciaMaximo,
+            'peso_sementes_minimo' => $pesoSementesMinimo,
+            'peso_sementes_maximo' => $pesoSementesMaximo,
+            'cic_id' => intval($request->input('selectCiclo'))
+        ];
 
-          CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)
-                                    ->where('ep_id', intval($epocaSemeadura))
-                                    ->update(['plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))]);
+          $cultivar->update($query);
+
+          // atualiza cultivar has epoca semeadura
+          $epocasSemeadura = EpocasSemeadura::where('status', '')->lists('descricao', 'id');
+          foreach($epocasSemeadura as $epocaSemeadura => $value)
+          {
+              $cultivarHasEpocaSemeadura = CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)->where('ep_id', intval($epocaSemeadura))->get();
+              $cultivarUpdate = $cultivarHasEpocaSemeadura[0];
+
+              // constroi string query
+              $queryCultivarHasEpocaSemeadura = [
+                'cult_id' => $cultivar->id,
+                'ep_id' => $epocaSemeadura,
+                'plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))
+              ];
+              //$cultivarUpdate->update($queryCultivarHasEpocaSemeadura);
+
+              CultivarHasEpocaSemeadura::where('cult_id', $cultivar->id)
+                                        ->where('ep_id', intval($epocaSemeadura))
+                                        ->update(['plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))]);
+          }
+
+          \Session::flash('mensagem_sucesso', 'Cultivar atualizada com sucesso.');
+
+          return Redirect::to('cultivares');
       }
 
-      \Session::flash('mensagem_sucesso', 'Cultivar atualizada com sucesso.');
-
-      return Redirect::to('cultivares');
   }
 
   public function vincularCultivarDoencaTolerancia(Request $request)
