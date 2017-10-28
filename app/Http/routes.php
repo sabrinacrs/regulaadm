@@ -11,13 +11,34 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
-
 // function () {
 //     return view('welcome');
 // }
 
+Route::get('/', 'HomeController@index');
+
 Route::auth();
+
+// API
+Route::group(array('prefix' => 'api'), function()
+{
+
+  // Route::get('/', function () {
+  //     return response()->json(['message' => 'Cultivares API', 'status' => 'Connected']);;
+  // });
+
+  Route::resource('cultivares', 'CultivaresController@getJson');
+  Route::resource('cultivaresepocasemeadura', 'CultivaresController@getJsonCultivarEpocaSemeadura');
+  Route::resource('cultivaresdoencas', 'CultivaresController@getJsonCultivarDoenca');
+  Route::resource('epocassemeaduras', 'EpocasSemeaduraController@getJson');
+  Route::resource('ciclos', 'CiclosController@getJson');
+  Route::resource('tolerancias', 'ToleranciasController@getJson');
+  Route::resource('doencas', 'DoencasController@getJson');
+});
+
+// Route::get('/', function () {
+//     return redirect('api');
+// });
 
 Route::get('/home', 'HomeController@index');
 Route::get('/help', 'HelpController@index');

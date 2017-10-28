@@ -106,4 +106,11 @@ class CiclosController extends Controller
 
       return $ciclos;
   }
+
+  public function getJson()
+  {
+      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->get();
+
+      return response()->json($ciclos);
+  }
 }

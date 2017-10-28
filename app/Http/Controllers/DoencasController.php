@@ -107,4 +107,11 @@ class DoencasController extends Controller
       return $doencas;
   }
 
+  public function getJson()
+  {
+      $doencas = DB::table('doencas')->where('status', '<>', 'I')->get();
+
+      return response()->json($doencas);
+  }
+
 }

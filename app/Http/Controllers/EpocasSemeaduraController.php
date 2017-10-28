@@ -104,4 +104,11 @@ class EpocasSemeaduraController extends Controller
 
       return $epocas_semeadura;
   }
+
+  public function getJson()
+  {
+      $epocassemeaduras = DB::table('epocassemeaduras')->where('status', '<>', 'I')->get();
+
+      return response()->json($epocassemeaduras);
+  }
 }

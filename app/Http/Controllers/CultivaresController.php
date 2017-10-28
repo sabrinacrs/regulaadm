@@ -482,74 +482,25 @@ class CultivaresController extends Controller
       return $doencas;
   }
 
-  protected function validator(array $data)
+  public function getJson()
   {
-    // 'rendimento_fibra_minimo' => $rendimentoFibraMinimo,
-    // 'rendimento_fibra_maximo' => $rendimentoFibraMaximo,
-    // 'peso_capulho_minimo' => $pesoCapulhoMinimo,
-    // 'peso_capulho_maximo' => $pesoCapulhoMaximo,
-    // 'comprimento_fibra_minimo' => $comprimentoFibraMinimo,
-    // 'comprimento_fibra_maximo' => $comprimentoFibraMaximo,
-    // 'micronaire_minimo' => $micronaireMinimo,
-    // 'micronaire_maximo' => $micronaireMaximo,
-    // 'resistencia_minimo' => $resistenciaMinimo,
-    // 'resistencia_maximo' => $resistenciaMaximo,
-    // 'peso_sementes_minimo' => $pesoSementesMinimo,
-    // 'peso_sementes_maximo' => $pesoSementesMaximo,
+      $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get();
 
+      return response()->json($cultivares);
+  }
 
-      // return Validator::make($data, [
-      //
-      //     'name' => 'required|max:255',
-      //     'email' => 'required|email|max:255|unique:users',
-      //     'password' => 'required|min:6|confirmed',
-      // ]);
+  public function getJsonCultivarEpocaSemeadura()
+  {
+      $cultivaresEpocaSemeadura = DB::table('cultivares_has_epocasemeadura')->get();
 
+      return response()->json($cultivaresEpocaSemeadura);
+  }
 
+  public function getJsonCultivarDoenca()
+  {
+      $cultivaresDoencas = DB::table('cultivares_has_doencas')->get();
 
-      // $validator = Validator::make($request->all(), ['rendimento_fibra_minimo' => 'required']);
-      // if ($rendimentoFibraMinimo > 0)
-      // {
-      //     $validator->errors()->add('rendimento_fibra_minimo', 'Something is wrong with this field!');
-      // }
-      // //$validator->errors()->add('rendimento_fibra_minimo', 'Something is wrong with this field!');
-      //
-      // // $validator->after(function($validator, $rendimentoFibraMinimo)
-      // // {
-      // //     if ($rendimentoFibraMinimo > 0)
-      // //     {
-      // //         $validator->errors()->add('rendimento_fibra_minimo', 'Something is wrong with this field!');
-      // //     }
-      // // });
-      //
-      // if ($validator->fails())
-      // {
-      //     return redirect()->back()->withErrors($validator->errors());
-      // }
-      // else {
-      //   echo "bosta";
-      // }
-      // $this->validate($request, ['rendimento_fibra_minimo' => 'required']);
-      //
-      // var_dump($this->validate());
-
-      //$this->validate()->errors()->add('rendimento_fibra_minimo', 'Por favor deus');
-      // $this->validate($request, [
-      //     'rendimento_fibra_minimo' => "required|between:$varMin,$varMax",
-      //     'rendimento_fibra_maximo' => 'required|between:'.$rendimentoFibraMinimo.','.$rendimentoFibraMaximo,
-      //     'peso_capulho_minimo'=> 'required|between:'.$pesoCapulhoMinimo.','.$pesoCapulhoMaximo,
-      //     'peso_capulho_maximo'=> 'required|between:'.$pesoCapulhoMinimo.','.$pesoCapulhoMaximo,
-      //     'comprimento_fibra_minimo'=> 'required|between:'.$comprimentoFibraMinimo.','.$comprimentoFibraMaximo,
-      //     'comprimento_fibra_maximo'=> 'required|between:'.$comprimentoFibraMinimo.','.$comprimentoFibraMaximo,
-      //     'micronaire_minimo'=> 'required|between:'.$micronaireMinimo.','.$micronaireMaximo,
-      //     'micronaire_maximo'=> 'required|between:'.$micronaireMinimo.','.$micronaireMaximo,
-      //     'resistencia_minimo' => 'required|between:'.$resistenciaMinimo.','.$resistenciaMaximo,
-      //     'resistencia_maximo' => 'required|between:'.$resistenciaMinimo.','.$resistenciaMaximo,
-      //     'peso_sementes_minimo' => 'required|between:'.$pesoSementesMinimo.','.$pesoSementesMinimo,
-      //     'peso_sementes_maximo' => 'required|between:'.$pesoSementesMinimo.','.$pesoSementesMinimo,
-      //     // 'title' => 'required|unique:posts|max:255',
-      //     // 'body' => 'required',
-      // ]);
+      return response()->json($cultivaresDoencas);
   }
 
 

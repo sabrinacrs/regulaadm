@@ -105,4 +105,11 @@ class ToleranciasController extends Controller
 
           return $tolerancias;
       }
+
+      public function getJson()
+      {
+          $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
+
+          return response()->json($tolerancias);
+      }
 }
