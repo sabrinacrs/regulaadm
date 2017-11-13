@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Cliente;
 use Redirect;
 use Response;
+use DB;
 
 class ClientesController extends Controller
 {
@@ -16,6 +17,11 @@ class ClientesController extends Controller
     public function __construct(Cliente $cliente)
     {
         $this->cliente = $cliente;
+    }
+
+    public function index()
+    {
+        return $this->listClientes();
     }
 
     public function allClientes()
@@ -35,8 +41,8 @@ class ClientesController extends Controller
 
     public function saveCliente()
     {
-        // return Response::json($this->cliente->saveCliente(), 201);
-        return $this->cliente->saveCliente();
+        return Response::json($this->cliente->saveCliente(), 201);
+        // return $this->cliente->saveCliente();
     }
 
     public function updateCliente($id)
@@ -59,124 +65,72 @@ class ClientesController extends Controller
         return Response::json(['response' => 'Cliente removido com sucesso!'], 200);
     }
 
-
-    public function store(Request $request)
+    // Methods for Adm
+    public function disableEnableCliente($id)
     {
-        $cliente = new Cliente();
-        $cliente->fill($request->all());
-        $cliente->save();
+        $cliente = Cliente::findOrFail($id);
+        $mensagem = '';
 
-        // $data = $request->getPost();
-        //
-        // $login = $data['email'];
-        // $senha = $data['senha'];
+        if(is_null($cliente->status) || $cliente->status == 'A')
+        {
+            $cliente->status = 'IA';
+            $mensagem = 'A conta do cliente foi desativada com sucesso';
+        }
+        else
+        {
+            $cliente->status = 'A';
+            $mensagem = 'A conta do cliente foi reativada com sucesso';
+        }
 
+        $cliente->update();
 
-        return response()->json($cliente, 201);
+        \Session::flash('mensagem_sucesso', $mensagem);
+
+        return Redirect::to('clientes/lista');
     }
 
-    public function postData()
+    public function listClientes()
     {
-      $vr = array('nome'=>'Nome do Fulano',
-                'senha'=>'passworddouser',
-                'email'=>'emaildouser@gmai.com',
-                'login'=>'userlog');
+        $clientes = DB::table('clientes')
+                      ->orderBy('status')
+                      ->paginate(20);
+        $links = $clientes->links();
 
-      $teste = json_encode($vr);
-      //response()->json($vr);
-      // $response = json_decode($teste);
+        $params = [
+          'clientes' => $clientes,
+          'links' => $links,
+        ];
 
-      return redirect()->action('ClientesController@store', array('cliente' => $teste));
+        return view('clientes.lista', $params);
     }
 
-    // public function store(Request $request)
-    // {
-    //     // echo "entrou";
-    //     // var_dump($request);
-    //     // return ['nome'=>'Nome do Fulano',
-    //     //           'senha'=>'passworddouser',
-    //     //           'email'=>'emaildouser@gmai.com',
-    //     //           'login'=>'userlog'];
-    //
-    //     // $data = Input::all(); //$data = $request->json()->all(); should also work
-    //     //  $order = new Cliente();
-    //     //  $order->nome = $data['nome'];
-    //     //  $order->email = $data['email'];
-    //     //  $order->login = $data['login'];
-    //     //  $order->save();
-    //     //
-    //     //  $var_dump($order);
-    //
-    //     // $array = json_decode($json, true);
-    //
-    //     // var_dump($request->all());
-    //     if($request->isMethod('post'))
-    //     {
-    //       $json = $request->get('cliente');
-    //
-    //       $cliente_json = json_decode($json, true);
-    //
-    //       $cliente= new Cliente();
-    //       $cliente->fill($cliente_json);
-    //       $cliente->save();
-    //
-    //       return response()->json($cliente, 201);
-    //     }
-    //     else {
-    //       echo "Não rolou post";
-    //     }
-    //
-    //
-    // }
+    public function search(Request $request)
+    {
+        $filtro = $request->get('filter');
 
-    // public function postData()
-    // {
-    //   $vr = array('nome'=>'Nome do Fulano',
-    //             'senha'=>'passworddouser',
-    //             'email'=>'emaildouser@gmai.com',
-    //             'login'=>'userlog');
-    //
-    //   $teste = json_encode($vr);//response()->json($vr);
-    //   // $response = json_decode($teste);
-    //
-    //   return redirect()->route('ClientesController@store', array('cliente' => $teste));
-    //
-    //   // return Redirect::action('ClientesController@store', array('nome'=>'Nome do Fulano',
-    //   //           'senha'=>'passworddouser',
-    //   //           'email'=>'emaildouser@gmai.com',
-    //   //           'login'=>'userlog'));
-    //     // $ch = curl_init();
-    //     // curl_setopt($ch, CURLOPT_URL,"http://localhost/cottonappadmin/public/api/clientes/store");
-    //     // curl_setopt($ch, CURLOPT_POST, 1);
-    //     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('nome'=>'email', 'senha'=>'pass', 'email'=>'pass', 'login'=>'passlogin')));
-    //     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    //     // $output = curl_exec ($ch);
-    //     // curl_close ($ch);
-    //     //
-    //     // echo $output;
-    //
-    //     // $this->post('api/clientes/store', [
-    //     //             'nome'=>'Nome do Fulano',
-    //     //             'senha'=>'passworddouser',
-    //     //             'email'=>'emaildouser@gmai.com',
-    //     //             'login'=>'userlog'])
-    //     //     ->seeStatusCode(200)
-    //     //     ->seeJson(['nome'=>'Nome do Fulano',
-    //     //               'senha'=>'passworddouser',
-    //     //               'email'=>'emaildouser@gmai.com',
-    //     //               'login'=>'userlog']);
-    //
-    //
-    //     // return ['nome'=>'Nome do Fulano',
-    //     //           'senha'=>'passworddouser',
-    //     //           'email'=>'emaildouser@gmai.com',
-    //     //           'login'=>'userlog'];
-    //     //
-    //     // $this->store();
-    //
-    //     // return Redirect::route('profile', array('user' => 1));
-    //     // $redirect = new Redirect();
-    //
-    //
-    // }
+        if(is_null($filtro))
+          return $this->listClientes();
+
+        $clientes = DB::table('clientes')
+                    ->where('nome', 'like', '%'.$filtro.'%')
+                    ->orderBy('status')
+                    ->paginate(20);
+        $links = $clientes->links();
+        $params = [
+          'clientes' => $clientes,
+          'links' => $links,
+        ];
+
+        return view('clientes.lista', $params);
+    }
+
+    public function admDeleteCliente($id)
+    {
+        $cliente = Cliente::findOrFail($id);
+        $cliente->delete();
+
+        \Session::flash('mensagem_sucesso', 'Todos os dados do cliente foram excluídos com sucesso');
+
+        return Redirect::to('clientes/lista');
+    }
 }

@@ -12,7 +12,7 @@ class CreateHistoricoAtualizacao extends Migration
      */
     public function up()
     {
-        Schema::create('historico_atualizacao', function (Blueprint $table) {
+        Schema::table('historico_atualizacao', function (Blueprint $table) {
             //
             $table->integer('id');
             $table->integer('adm_id');

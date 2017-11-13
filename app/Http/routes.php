@@ -144,3 +144,9 @@ Route::any('parametrizacao/salvar', 'EmpresaController@salvar');
 Route::any('parametrizacao/{empresa}', 'EmpresaController@index');
 Route::any('parametrizacao/{empresa}/salvar', 'EmpresaController@salvar');
 Route::any('parametrizacao/{empresa}/atualizar', 'EmpresaController@atualizar');
+
+Route::any('clientes/', 'ClientesController@index');
+Route::any('clientes/lista', 'ClientesController@listClientes');
+Route::any('clientes/lista/search/', 'ClientesController@search');
+Route::post('clientes/{cliente}/excluir', 'ClientesController@admDeleteCliente');
+Route::any('clientes/lista/{cliente}', 'ClientesController@disableEnableCliente');
