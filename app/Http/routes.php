@@ -20,6 +20,15 @@ Route::get('/', 'HomeController@index');
 Route::auth();
 
 // API
+
+Route::any('api/clientes/postdata', 'ClientesController@postData');
+Route::any('api/clientes/store', 'ClientesController@store');
+
+// Route::post('api/clientes/store', function(Request $request) {
+//     return Cliente::create($request->all);
+// });
+
+
 Route::group(array('prefix' => 'api'), function()
 {
 
@@ -34,6 +43,8 @@ Route::group(array('prefix' => 'api'), function()
   Route::resource('ciclos', 'CiclosController@getJson');
   Route::resource('tolerancias', 'ToleranciasController@getJson');
   Route::resource('doencas', 'DoencasController@getJson');
+  // Route::resource('clientes/postdata', 'ClientesController@postData');
+  // Route::resource('clientes/store', 'ClientesController@store');
 });
 
 // Route::get('/', function () {

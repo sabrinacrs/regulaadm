@@ -503,6 +503,4 @@ class CultivaresController extends Controller
       return response()->json($cultivaresDoencas);
   }
 
-
-
 }
