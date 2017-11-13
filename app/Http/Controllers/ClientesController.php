@@ -7,9 +7,59 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cliente;
 use Redirect;
+use Response;
 
 class ClientesController extends Controller
 {
+    protected $cliente = null;
+
+    public function __construct(Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
+
+    public function allClientes()
+    {
+        return Response::json($this->cliente->allClientes(), 200);
+    }
+
+    public function getCliente($id)
+    {
+        $cliente = $this->cliente->getCliente($id);
+
+        if(!$cliente)
+          return Response::json(['response' => 'Cliente não encontrado'], 400);
+
+        return Response::json($cliente, 200);
+    }
+
+    public function saveCliente()
+    {
+        // return Response::json($this->cliente->saveCliente(), 201);
+        return $this->cliente->saveCliente();
+    }
+
+    public function updateCliente($id)
+    {
+      $cliente = $this->cliente->updateCliente($id);
+
+      if(!$cliente)
+        return Response::json(['response' => 'Cliente não encontrado'], 400);
+
+      return Response::json($cliente, 200);
+    }
+
+    public function deleteCliente($id)
+    {
+        $cliente = $this->cliente->deleteCliente($id);
+
+        if(!$cliente)
+          return Response::json(['response' => 'Cliente não encontrado'], 400);
+
+        return Response::json(['response' => 'Cliente removido com sucesso!'], 200);
+    }
+
+
     public function store(Request $request)
     {
         $cliente = new Cliente();

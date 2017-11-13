@@ -15,19 +15,30 @@
 //     return view('welcome');
 // }
 
+// Teste API
+Route::group(['prefix' => 'testeapi'], function()
+{
+    Route::group(['prefix' => 'cliente'], function()
+    {
+        Route::get('', ['uses' => 'ClientesController@allClientes']);
+
+        Route::get('{id}', ['uses' => 'ClientesController@getCliente']);
+
+        Route::post('', ['uses' => 'ClientesController@saveCliente']);
+
+        Route::put('{id}', ['uses' => 'ClientesController@updateCliente']);
+
+        Route::delete('{id}', ['uses' => 'ClientesController@deleteCliente']);
+    });
+});
+
 Route::get('/', 'HomeController@index');
 
 Route::auth();
 
 // API
-
 Route::any('api/clientes/postdata', 'ClientesController@postData');
 Route::any('api/clientes/store', 'ClientesController@store');
-
-// Route::post('api/clientes/store', function(Request $request) {
-//     return Cliente::create($request->all);
-// });
-
 
 Route::group(array('prefix' => 'api'), function()
 {
