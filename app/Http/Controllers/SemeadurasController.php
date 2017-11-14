@@ -5,82 +5,77 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Semeadura;
+use Redirect;
+use Response;
+use DB;
 
 class SemeadurasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected $semeadura = null;
+
+    public function __construct(Semeadura $semeadura)
     {
-        //
+        $this->semeadura = $semeadura;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    // public function index()
+    // {
+    //     return $this->listSemeaduras();
+    // }
+
+    public function allSemeaduras()
     {
-        //
+        return Response::json($this->semeadura->allSemeaduras(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getSemeadura($id)
     {
-        //
+        $semeadura = $this->semeadura->getSemeadura($id);
+
+        if(!$semeadura)
+          return Response::json(['response' => 'Semeadura não encontrada'], 400);
+
+        return Response::json($semeadura, 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function saveSemeadura()
     {
-        //
+        return Response::json($this->semeadura->saveSemeadura(), 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function updateSemeadura($id)
     {
-        //
+      $semeadura = $this->semeadura->updateSemeadura($id);
+
+      if(!$semeadura)
+        return Response::json(['response' => 'Semeadura não encontrada'], 400);
+
+      return Response::json($semeadura, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function deleteSemeadura($id)
     {
-        //
+        $semeadura = $this->semeadura->deleteSemeadura($id);
+
+        if(!$semeadura)
+          return Response::json(['response' => 'Semeadura não encontrada'], 400);
+
+        return Response::json(['response' => 'Semeadura removido com sucesso!'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function listSemeaduras()
+    // {
+    //     $semeaduras = DB::table('semeaduras')
+    //                   ->orderBy('status')
+    //                   ->paginate(20);
+    //     $links = $semeaduras->links();
+    //
+    //     $params = [
+    //       'semeaduras' => $semeaduras,
+    //       'links' => $links,
+    //     ];
+    //
+    //     return view('semeaduras.lista', $params);
+    // }
 }

@@ -124,6 +124,11 @@ class ReportController extends Controller
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="CultivaresDoencasTolerancias.pdf"');
       }
+
+      public function reportSemeaduras()
+      {
+        
+      }
 }
 
 // // coloca na variavel o caminho do novo relatório que será gerado

@@ -18,6 +18,7 @@
 // Teste API
 Route::group(['prefix' => 'testeapi'], function()
 {
+    // clientes
     Route::group(['prefix' => 'cliente'], function()
     {
         Route::get('', ['uses' => 'ClientesController@allClientes']);
@@ -29,6 +30,20 @@ Route::group(['prefix' => 'testeapi'], function()
         Route::put('{id}', ['uses' => 'ClientesController@updateCliente']);
 
         Route::delete('{id}', ['uses' => 'ClientesController@deleteCliente']);
+    });
+
+    // semeaduras
+    Route::group(['prefix' => 'semeadura'], function()
+    {
+      Route::get('', ['uses' => 'SemeadurasController@allSemeaduras']);
+
+      Route::get('{id}', ['uses' => 'SemeadurasController@getSemeadura']);
+
+      Route::post('', ['uses' => 'SemeadurasController@saveSemeadura']);
+
+      Route::put('{id}', ['uses' => 'SemeadurasController@updateSemeadura']);
+
+      Route::delete('{id}', ['uses' => 'SemeadurasController@deleteSemeadura']);
     });
 });
 
