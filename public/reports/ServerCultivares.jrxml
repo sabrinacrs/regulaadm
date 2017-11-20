@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cultivares" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="652498a6-2429-42fb-9a68-9777071325f6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ServerCultivares" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c37894c4-f4ac-4248-851d-83e969a5363c">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataServerAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Zebra">
@@ -11,27 +11,27 @@
 	</style>
 	<queryString>
 		<![CDATA[select  u392851574_cadb.cultivares.nome,
- u392851574_cadb.cultivares.altura_planta,
  u392851574_cadb.cultivares.fertilidade,
-u392851574_cadb.cultivares.regulador,
-u392851574_cadb.cultivares.rendimento_fibra_maximo,
-u392851574_cadb.cultivares.peso_capulho_maximo,
-u392851574_cadb.cultivares.comprimento_fibra_maximo,
-u392851574_cadb.cultivares.micronaire_maximo,
-u392851574_cadb.cultivares.resistencia_maximo,
-u392851574_cadb.cultivares.peso_sementes_maximo
-from  u392851574_cadb.cultivares]]>
+ u392851574_cadb.cultivares.altura_planta ,
+ u392851574_cadb.cultivares.regulador ,
+ u392851574_cadb.cultivares.rendimento_fibra_maximo,
+ u392851574_cadb.cultivares.peso_capulho_maximo ,
+ u392851574_cadb.cultivares.comprimento_fibra_maximo ,
+ u392851574_cadb.cultivares.micronaire_maximo ,
+ u392851574_cadb.cultivares.resistencia_maximo ,
+ u392851574_cadb.cultivares.peso_sementes_maximo 
+  from u392851574_cadb.cultivares ]]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nome"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
 	</field>
-	<field name="altura_planta" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="altura_planta"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
-	</field>
 	<field name="fertilidade" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="fertilidade"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="altura_planta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="altura_planta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
 	</field>
 	<field name="regulador" class="java.lang.String">
@@ -66,18 +66,18 @@ from  u392851574_cadb.cultivares]]>
 		<band/>
 	</background>
 	<title>
-		<band height="72">
+		<band height="73">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#38543C" uuid="51d83639-8ff9-4c5e-9995-b50575c291d6"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#38543C" uuid="a375192a-4050-4a3d-8b1c-f5b8421bd098"/>
 				<staticText>
-					<reportElement x="20" y="35" width="234" height="43" forecolor="#FFFFFF" uuid="749dbb96-fa5f-4eb4-8f0d-a37cc91b5b35"/>
+					<reportElement x="20" y="35" width="234" height="43" forecolor="#FFFFFF" uuid="85bf81ce-577a-4ec4-a8d7-6502ff6e8b2d"/>
 					<textElement>
 						<font size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cultivares]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="270" y="43" width="305" height="20" forecolor="#FFFFFF" uuid="0aa54a29-d12f-4bee-a5f2-5a1f2e7a571b"/>
+					<reportElement x="270" y="43" width="305" height="20" forecolor="#FFFFFF" uuid="b6d441f1-b055-4120-b630-4b47baa9f870"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
@@ -87,48 +87,51 @@ from  u392851574_cadb.cultivares]]>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="41">
+		<band height="30">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="72f8e7b0-9409-46f4-8a63-9638a8eb7eb9"/>
+			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="-20" y="0" width="130" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="e097fdeb-37ca-40cc-84f1-ec010202ad5a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nome]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="110" y="0" width="130" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="9a8158c4-6915-4fc0-9b14-52c2580ad57c"/>
+				<reportElement mode="Opaque" x="110" y="0" width="130" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="ce21d652-b365-49b8-b3a8-e7af792ea9b2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Altura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="240" y="0" width="100" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="3cb01cad-4487-47ee-9285-02f72fefd590"/>
+				<reportElement mode="Opaque" x="240" y="0" width="100" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="db6e44d8-7433-4eea-9c18-06a1a8a47e1b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fertilidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="340" y="0" width="115" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="650f9d26-917d-4a22-a5ae-ef8f522a65f3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Rendimento]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="455" y="0" width="120" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="cd402665-1e14-4bc4-b576-f0a54cd1cc7e"/>
+				<reportElement mode="Opaque" x="455" y="0" width="120" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="0124d59f-2ea0-4b79-8d62-0bbf0d695608"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Resistência]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="0" width="130" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="4f08da7c-46ba-411e-aecc-a67357bbdb82"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="0" width="115" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="17e370f6-64d3-4fff-823d-cea2ddaa9f5b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rendimento]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="34">
+		<band height="24">
 			<textField>
-				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="0" y="0" width="150" height="19" uuid="8f70f524-3c14-40ac-b34c-af4bbe35b5d5">
+				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="0" y="0" width="150" height="19" uuid="dcd2fadb-6c6a-4264-ae49-599510c96551">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="176a3bb2-dbcf-4704-9c1b-35b3840cbabf"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -137,7 +140,7 @@ from  u392851574_cadb.cultivares]]>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="150" y="0" width="100" height="19" uuid="2fcc8487-934f-49be-b65b-d856d92bd045">
+				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="150" y="0" width="100" height="19" uuid="b222aaf5-f43e-4e09-bf70-706a879373c0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="80662a99-71ad-4342-b0af-1afd111765c7"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -146,7 +149,7 @@ from  u392851574_cadb.cultivares]]>
 				<textFieldExpression><![CDATA[$F{altura_planta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="250" y="0" width="105" height="19" uuid="3b651f76-31d0-4ca5-952b-d5b9c705b51c">
+				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="250" y="0" width="105" height="19" uuid="a9299e6a-85cc-4042-8e1e-9473b8c75a79">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c55c43ac-7d3f-4944-b8e4-78c2cb16a46a"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -155,7 +158,7 @@ from  u392851574_cadb.cultivares]]>
 				<textFieldExpression><![CDATA[$F{fertilidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="355" y="0" width="125" height="19" uuid="697c747a-821c-4ac6-a0d6-2e085ddbcf77">
+				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="355" y="0" width="125" height="19" uuid="c465a953-6ba7-4e7a-96ab-3a087b04badd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de4fe414-a5e4-45e7-9bec-cd9bd06dcf68"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -164,7 +167,7 @@ from  u392851574_cadb.cultivares]]>
 				<textFieldExpression><![CDATA[$F{rendimento_fibra_maximo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="480" y="0" width="75" height="19" uuid="f1a76d16-840b-48ae-b83b-b03605252c19">
+				<reportElement style="Zebra" stretchType="ElementGroupBottom" mode="Opaque" x="480" y="0" width="75" height="19" uuid="55df72af-ed1a-432a-af8d-f992d4c4c189">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c512497a-a310-4403-931e-b4eb34775fc3"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -180,16 +183,16 @@ from  u392851574_cadb.cultivares]]>
 	<pageFooter>
 		<band height="17">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="a2a5a49b-c5a4-451a-aa6d-9b97ea07df42"/>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="87338836-6ca4-45c5-9ae8-2faa82f846e5"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="bcdecdd4-3aeb-4d70-9c2a-9593447f5341"/>
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="995bd8f5-7bf6-47c5-825b-d8715fcd1687"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13" uuid="20642156-8331-47cd-be3c-eaf279ecf9ea"/>
+				<reportElement x="0" y="4" width="100" height="13" uuid="d30f7e77-2310-487c-bb93-f73bb64e894f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

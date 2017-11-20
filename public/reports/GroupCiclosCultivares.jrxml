@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GroupCiclosCultivares" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="69eb19cc-f28d-46c8-b3f6-1c75c015924d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataServerAdapter.xml"/>
+	<style name="Zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0]]></conditionExpression>
+			<style backcolor="#EAEAEA"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[select  u392851574_cadb.cultivares.nome ,
+			 u392851574_cadb.cultivares.rendimento_fibra_maximo,
+			 u392851574_cadb.cultivares.peso_capulho_maximo ,
+			 u392851574_cadb.cultivares.comprimento_fibra_maximo ,
+			 u392851574_cadb.cultivares.peso_sementes_maximo,
+			 u392851574_cadb.cultivares.resistencia_maximo,
+			  u392851574_cadb.ciclos.descricao 
+from   u392851574_cadb.cultivares 
+inner join  u392851574_cadb.ciclos 
+	on  u392851574_cadb.cultivares.cic_id =  u392851574_cadb.ciclos.id]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="rendimento_fibra_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="rendimento_fibra_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="peso_capulho_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="peso_capulho_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="comprimento_fibra_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="comprimento_fibra_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="peso_sementes_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="peso_sementes_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="resistencia_maximo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="resistencia_maximo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cultivares"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ciclos"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{descricao}]]></groupExpression>
+		<groupHeader>
+			<band height="77">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#E4F2EB" backcolor="#38543C" uuid="139ed99a-702c-4016-884b-806e22bd7715"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16"/>
+					</textElement>
+					<text><![CDATA[Ciclo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#E4F2EB" backcolor="#38543C" uuid="b3c3ddfe-1db0-4093-b79c-0d8e19634127"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="33" width="555" height="1" forecolor="#487A59" uuid="293f1f15-70ab-47da-b61e-92c3b5e99328"/>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="33" width="100" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="15664f67-efab-4704-b84e-355b4a1c5d2d">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d60f261-8c03-4c63-8545-fa24d4dd3232"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cultivar]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="100" y="33" width="100" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="95e21249-65fd-4373-8dea-f3044b911273">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f3fdcc3-35a9-439a-a7fb-c37aa5303ad9"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rendimento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="200" y="33" width="76" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="70f89e7d-9ab1-484e-b519-7b7667278995">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3cc54e30-8e1b-4ade-8008-bd4c050b41d8"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Peso Capulho]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="276" y="33" width="92" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="d8bfbca8-9b38-4210-97a4-806e78961c02">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="12ca6826-5673-4210-b54d-7172f60a6e25"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Comprimento Fibra]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="368" y="33" width="92" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="51c4a96c-7c7f-4a70-8845-215ee934d4b2">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04c8af59-9f5c-44c5-ad39-65f7d2128e09"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Peso Sementes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="460" y="33" width="95" height="37" forecolor="#4C565C" backcolor="#DAF2DC" uuid="ae6ba977-1703-4d95-b974-10b0775fbe93">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c3748b60-13a2-45c6-b244-3a2b3c8d711f"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Resistência]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="32" width="555" height="1" forecolor="#418061" uuid="f85a2a32-cb3f-44a9-9afe-b99507811604"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#38543C" uuid="ad2d13ed-12aa-4a52-933d-111b53410dd6"/>
+				<staticText>
+					<reportElement x="20" y="32" width="340" height="43" forecolor="#FFFFFF" uuid="d65119c7-e266-4747-a346-f4ba8c3f5206"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ciclos e Cultivares]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="350" y="43" width="225" height="20" forecolor="#FFFFFF" uuid="8c401c23-8c02-42b7-a773-7d48dee90aea"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cultivares agrupadas por ciclo]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<detail>
+		<band height="30">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" forecolor="#B3B1B1" uuid="540c8919-dd26-4764-990c-8be79be25e92"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement key="" style="Zebra" mode="Opaque" x="0" y="-7" width="120" height="27" uuid="08770fd0-b7bf-43fd-bfd1-1d5e97414e2e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d60f261-8c03-4c63-8545-fa24d4dd3232"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Zebra" mode="Opaque" x="120" y="-7" width="100" height="27" uuid="0736e819-9a47-40c6-9956-b983fc8103b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f3fdcc3-35a9-439a-a7fb-c37aa5303ad9"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rendimento_fibra_maximo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Zebra" mode="Opaque" x="220" y="-7" width="79" height="27" uuid="95057ef4-0c2c-45c5-abcc-828a0042a89c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3cc54e30-8e1b-4ade-8008-bd4c050b41d8"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso_capulho_maximo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Zebra" mode="Opaque" x="299" y="-7" width="101" height="27" uuid="d828f3b7-e882-4cc1-b87a-6d01f125b6ad">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="12ca6826-5673-4210-b54d-7172f60a6e25"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comprimento_fibra_maximo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Zebra" mode="Opaque" x="400" y="-7" width="90" height="27" uuid="7ca419ca-8bb6-4cbf-8eaa-5597ab3b44ea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04c8af59-9f5c-44c5-ad39-65f7d2128e09"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso_sementes_maximo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Zebra" mode="Opaque" x="490" y="-7" width="65" height="27" uuid="d608b287-1a3f-4317-baab-2cb7ffec384f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c3748b60-13a2-45c6-b244-3a2b3c8d711f"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resistencia_maximo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#FFFFFF" uuid="68da67f6-ae7e-4681-9055-e8874a948c68"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#FFFFFF" uuid="d22c5bf5-99a5-4fc4-94ae-b6fd9094cd09"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" backcolor="#FFFFFF" uuid="9445c832-c9b2-4e95-8fa8-7a55e22842c1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

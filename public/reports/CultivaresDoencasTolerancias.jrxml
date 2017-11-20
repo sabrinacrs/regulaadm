@@ -2,9 +2,28 @@
 <!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CultivaresDoencasTolerancias" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32a1f1b2-b757-44e4-a2de-64af12869c72">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataServerAdapter.xml"/>
+	<style name="Zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0]]></conditionExpression>
+			<style backcolor="#EAEAEA"/>
+		</conditionalStyle>
+	</style>
 	<queryString language="SQL">
-		<![CDATA[SELECT cultivares.nome AS cultivar,
+		<![CDATA[SELECT  u392851574_cadb.cultivares.nome AS cultivar,
+	 u392851574_cadb.doencas.descricao AS doenca,
+	 u392851574_cadb.tolerancias.descricao AS tolerancia
+FROM  u392851574_cadb.cultivares_has_doencas 
+	INNER JOIN   u392851574_cadb.cultivares   ON 
+		 u392851574_cadb.cultivares_has_doencas.cult_id = u392851574_cadb.cultivares.id 
+	INNER JOIN	  u392851574_cadb.doencas ON
+		 u392851574_cadb.cultivares_has_doencas.doe_id =  u392851574_cadb.doencas.id 
+	INNER JOIN	 u392851574_cadb.tolerancias ON
+		 u392851574_cadb.cultivares_has_doencas.tol_id =  u392851574_cadb.tolerancias.id 
+
+
+
+/*SELECT cultivares.nome AS cultivar,
 	doencas.descricao AS doenca,
 	tolerancias.descricao AS tolerancia
 FROM cultivares_has_doencas
@@ -13,7 +32,7 @@ FROM cultivares_has_doencas
 	inner join doencas ON 
 	 cultivares_has_doencas.doe_id = doencas.id 
 	inner join tolerancias ON 
-	 cultivares_has_doencas.tol_id = tolerancias.id]]>
+	 cultivares_has_doencas.tol_id = tolerancias.id*/]]>
 	</queryString>
 	<field name="cultivar" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="cultivar"/>
@@ -30,26 +49,39 @@ FROM cultivares_has_doencas
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{cultivar}]]></groupExpression>
 		<groupHeader>
-			<band height="34">
+			<band height="64">
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#141212" backcolor="#FFFFFF" uuid="5136323c-bf56-45d7-bb41-37de2485bbd5"/>
-					<textElement verticalAlignment="Middle">
-						<font size="18"/>
+					<reportElement mode="Opaque" x="0" y="0" width="120" height="34" forecolor="#E4F2EB" backcolor="#38543C" uuid="5136323c-bf56-45d7-bb41-37de2485bbd5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16"/>
 					</textElement>
 					<text><![CDATA[Cultivar:]]></text>
 				</staticText>
 				<textField>
-					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#020C12" backcolor="#FFFFFF" uuid="427eab51-2f4d-4f4b-97a1-b3b923a1030c"/>
+					<reportElement mode="Opaque" x="120" y="0" width="435" height="34" forecolor="#E4F2EB" backcolor="#38543C" uuid="427eab51-2f4d-4f4b-97a1-b3b923a1030c"/>
 					<textElement verticalAlignment="Middle">
-						<font size="18" isBold="true"/>
+						<font size="16" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{cultivar}]]></textFieldExpression>
 				</textField>
-				<line>
-					<reportElement x="3" y="33" width="553" height="1" forecolor="#666666" uuid="99fef131-02ef-4900-81a1-d617d4573c65">
-						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="34" width="283" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="ffd8f8c4-c4ed-4976-a325-dcfe404ecd41">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d60f261-8c03-4c63-8545-fa24d4dd3232"/>
 					</reportElement>
-				</line>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Doença]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="283" y="34" width="272" height="30" forecolor="#4C565C" backcolor="#DAF2DC" uuid="063c6f34-8f6e-4dcd-85ca-d7157e06ba61">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f3fdcc3-35a9-439a-a7fb-c37aa5303ad9"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tolerância]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -66,11 +98,11 @@ FROM cultivares_has_doencas
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#009963" uuid="3c54a656-7620-4b46-8e50-0e029d72607d"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#38543C" uuid="3c54a656-7620-4b46-8e50-0e029d72607d"/>
 				<staticText>
-					<reportElement x="20" y="18" width="340" height="72" forecolor="#FFFFFF" uuid="ad5e06f9-72d1-4638-8822-914054eba96b"/>
-					<textElement>
-						<font size="26" isBold="true"/>
+					<reportElement x="20" y="16" width="311" height="67" forecolor="#FFFFFF" uuid="ad5e06f9-72d1-4638-8822-914054eba96b"/>
+					<textElement textAlignment="Left">
+						<font size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cultivares, doenças e tolerâncias]]></text>
 				</staticText>
@@ -85,25 +117,25 @@ FROM cultivares_has_doencas
 		</band>
 	</title>
 	<pageHeader>
-		<band height="13"/>
+		<band height="28"/>
 	</pageHeader>
 	<detail>
-		<band height="30">
+		<band height="36">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="6" y="0" width="277" height="30" uuid="e02ea859-5114-45c0-9d23-17a81a166219">
+				<reportElement key="" style="Zebra" mode="Opaque" x="0" y="0" width="283" height="34" uuid="e02ea859-5114-45c0-9d23-17a81a166219">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7a33c80d-6309-4bfd-9506-fce6ce920044"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="14"/>
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{doenca}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="286" y="0" width="254" height="30" uuid="d2f05d4e-cd4b-4513-a570-70d779c5c29a">
+				<reportElement style="Zebra" mode="Opaque" x="283" y="0" width="272" height="34" uuid="d2f05d4e-cd4b-4513-a570-70d779c5c29a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7aa9280b-4d7a-49cf-a488-2faf7d20324e"/>
 				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font size="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tolerancia}]]></textFieldExpression>
 			</textField>

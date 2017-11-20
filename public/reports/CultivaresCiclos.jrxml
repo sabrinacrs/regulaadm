@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CultivaresCiclos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba435401-4283-41e8-9c2c-9ff3ec64736c">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataServerAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0]]></conditionExpression>
+			<style backcolor="#EAEAEA"/>
+		</conditionalStyle>
+	</style>
 	<queryString>
-		<![CDATA[select cultivares.nome, ciclos.descricao from cultivares, ciclos where ciclos.id = cultivares.cic_id]]>
+		<![CDATA[SELECT  u392851574_cadb.cultivares.nome,
+				u392851574_cadb.ciclos.descricao
+FROM  u392851574_cadb.cultivares 
+	INNER JOIN 	 u392851574_cadb.ciclos ON  
+	u392851574_cadb.ciclos.id =  u392851574_cadb.cultivares.cic_id 
+
+
+/*select cultivares.nome, ciclos.descricao from cultivares, ciclos where ciclos.id = cultivares.cic_id*/]]>
 	</queryString>
 	<field name="nome" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nome"/>
@@ -20,11 +33,11 @@
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#009963" uuid="fc1af9e8-17ab-42f5-8cfb-7f8ee010e4bf"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#38543C" uuid="fc1af9e8-17ab-42f5-8cfb-7f8ee010e4bf"/>
 				<staticText>
-					<reportElement x="20" y="20" width="360" height="43" forecolor="#FFFFFF" uuid="41e8aedd-4986-48da-abf8-965669f91384"/>
+					<reportElement x="20" y="32" width="360" height="40" forecolor="#FFFFFF" uuid="41e8aedd-4986-48da-abf8-965669f91384"/>
 					<textElement>
-						<font size="34" isBold="true"/>
+						<font size="24" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cultivares e Ciclos]]></text>
 				</staticText>
@@ -43,42 +56,40 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="22">
-			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="5c12e835-4d90-4430-b58d-22588e5deccc"/>
-			</line>
 			<staticText>
-				<reportElement x="0" y="0" width="250" height="20" uuid="e51cc73d-fe3d-4f4e-8f8f-4c95bbafbadc"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14"/>
+				<reportElement mode="Opaque" x="0" y="0" width="250" height="20" forecolor="#4C565C" backcolor="#DAF2DC" uuid="e51cc73d-fe3d-4f4e-8f8f-4c95bbafbadc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cultivar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="250" y="1" width="294" height="20" uuid="0cbbf4ee-a017-465b-8fa1-7f138f80729f"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14"/>
+				<reportElement mode="Opaque" x="251" y="0" width="305" height="20" forecolor="#4C565C" backcolor="#DAF2DC" uuid="0cbbf4ee-a017-465b-8fa1-7f138f80729f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ciclo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="e33cbf19-50e0-44f9-98af-0d36c6ccf4c8"/>
-			</line>
+		<band height="20">
 			<textField>
-				<reportElement x="0" y="0" width="250" height="19" uuid="abb0961e-0f37-4105-9964-a273e64810f3">
+				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="250" height="19" uuid="abb0961e-0f37-4105-9964-a273e64810f3">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5751af15-b91d-48ff-b88f-44a5086d1984"/>
 				</reportElement>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="-2" width="295" height="22" uuid="735b0365-a78c-427e-ac8f-f1bb9c007231">
+				<reportElement style="Zebra" mode="Opaque" x="250" y="0" width="305" height="19" uuid="735b0365-a78c-427e-ac8f-f1bb9c007231">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f14bf6df-6c05-461b-a3ad-3f76661e55a1"/>
 				</reportElement>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 		</band>

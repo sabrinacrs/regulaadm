@@ -21,28 +21,20 @@ Route::group(['prefix' => 'testeapi'], function()
     // clientes
     Route::group(['prefix' => 'cliente'], function()
     {
-        Route::get('', ['uses' => 'ClientesController@allClientes']);
-
-        Route::get('{id}', ['uses' => 'ClientesController@getCliente']);
-
-        Route::post('', ['uses' => 'ClientesController@saveCliente']);
-
-        Route::put('{id}', ['uses' => 'ClientesController@updateCliente']);
-
-        Route::delete('{id}', ['uses' => 'ClientesController@deleteCliente']);
+      Route::get('', ['uses' => 'ClientesController@allClientes']);
+      Route::get('{id}', ['uses' => 'ClientesController@getCliente']);
+      Route::post('', ['uses' => 'ClientesController@saveCliente']);
+      Route::put('{id}', ['uses' => 'ClientesController@updateCliente']);
+      Route::delete('{id}', ['uses' => 'ClientesController@deleteCliente']);
     });
 
     // semeaduras
     Route::group(['prefix' => 'semeadura'], function()
     {
       Route::get('', ['uses' => 'SemeadurasController@allSemeaduras']);
-
       Route::get('{id}', ['uses' => 'SemeadurasController@getSemeadura']);
-
       Route::post('', ['uses' => 'SemeadurasController@saveSemeadura']);
-
       Route::put('{id}', ['uses' => 'SemeadurasController@updateSemeadura']);
-
       Route::delete('{id}', ['uses' => 'SemeadurasController@deleteSemeadura']);
     });
 });
@@ -69,8 +61,6 @@ Route::group(array('prefix' => 'api'), function()
   Route::resource('ciclos', 'CiclosController@getJson');
   Route::resource('tolerancias', 'ToleranciasController@getJson');
   Route::resource('doencas', 'DoencasController@getJson');
-  // Route::resource('clientes/postdata', 'ClientesController@postData');
-  // Route::resource('clientes/store', 'ClientesController@store');
 });
 
 // Route::get('/', function () {
@@ -79,11 +69,11 @@ Route::group(array('prefix' => 'api'), function()
 
 Route::get('/home', 'HomeController@index');
 Route::get('/help', 'HelpController@index');
-Route::get('parametrizacao/nova', 'HomeController@parametrizacao');
 
 Route::get('/report', 'ReportController@index');
 Route::get('/report/cultivares', 'ReportController@reportCultivares');
 Route::get('/report/cultivaresCiclos', 'ReportController@reportCultivaresCiclos');
+Route::get('/report/ciclosCultivares', 'ReportController@reportCiclosCultivares');
 Route::get('/report/cultivaresDoencasTolerancias', 'ReportController@reportCultivaresDoencasTolerancias');
 
 Route::get('administradores/', 'AdministradoresController@index');
@@ -159,6 +149,7 @@ Route::any('parametrizacao/salvar', 'EmpresaController@salvar');
 Route::any('parametrizacao/{empresa}', 'EmpresaController@index');
 Route::any('parametrizacao/{empresa}/salvar', 'EmpresaController@salvar');
 Route::any('parametrizacao/{empresa}/atualizar', 'EmpresaController@atualizar');
+Route::get('parametrizacao/nova', 'HomeController@parametrizacao');
 
 Route::any('clientes/', 'ClientesController@index');
 Route::any('clientes/lista', 'ClientesController@listClientes');
