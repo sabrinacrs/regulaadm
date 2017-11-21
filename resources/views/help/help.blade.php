@@ -17,7 +17,6 @@
                 <b>2. Senha:</b> Digite a senha do cliente <br />
                 <b>3. Entrar:</b> Use o botão entrar para checar as informações fornecidas e acessar o menu principal do aplicativo <br />
                 </p>
-
               </div>
           </div>
 

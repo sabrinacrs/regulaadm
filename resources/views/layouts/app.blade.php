@@ -146,7 +146,6 @@
     @endif
 
     @yield('content')
-
     <!-- JavaScripts -->
     {{-- <script src="{{ url('js/maskfield.js') }}"></script> --}}
 

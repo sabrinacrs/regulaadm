@@ -1,2 +1,5 @@
 @include('layouts.app')
-@include('cultivares.formulario')
+
+@if(Auth::check())
+    @include('cultivares.formulario')
+@endif
