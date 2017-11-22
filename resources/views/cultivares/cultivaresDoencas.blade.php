@@ -1,2 +1,5 @@
 @include('layouts.app')
-@include('cultivares.listaDoencas')
+
+@if(Auth::check())
+    @include('cultivares.listaDoencas')
+@endif

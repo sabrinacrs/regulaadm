@@ -1,54 +1,56 @@
 <!-- Lista as cultivares -->
 @extends('layouts.app')
 
-@section('content')
+@if(Auth::check())
+  @section('content')
 
-  <div class="container container-content">
+    <div class="container container-content">
 
-  <!-- FORMULÁRIO PARA ALTERAÇÃO E INSERÇÃO -->
+      <!-- LISTA DE CULTIVARES -->
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-default noborder">
 
+            {{--  panel header  --}}
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3>LISTA DE CULTIVARES</h3>
+                  Cultivares registradas na base de dados
 
-  <!-- LISTA DE CULTIVARES -->
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-default noborder">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col-md-12">
-                <h3>LISTA DE CULTIVARES</h3>
-                Cultivares registradas na base de dados
+                  <!-- habilitar botão de nova cultivar -->
+                  @if(!Request::is('*/nova'))
+                  <a href="{{ url('cultivares/nova') }}" class="btn btn-success pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> Nova Cultivar
+                  </a>
+                  @endif
 
-                <!-- habilitar botão de nova cultivar -->
-                @if(!Request::is('*/nova'))
-                <a href="{{ url('cultivares/nova') }}" class="btn btn-success pull-right">
-                  <span class="glyphicon glyphicon-plus"></span> Nova Cultivar
-                </a>
-                @endif
+                  <br /><br /><br />
+                  @if(Session::has('mensagem_sucesso'))
+                    <div class="alert alert-success">
+                      {{ Session::get('mensagem_sucesso') }}
+                    </div>
+                  @endif
 
-                <br /><br /><br />
-                @if(Session::has('mensagem_sucesso'))
-                  <div class="alert alert-success">
-                    {{ Session::get('mensagem_sucesso') }}
-                  </div>
-                @endif
-
+                </div>
               </div>
             </div>
-          </div>
-          <div class="panel-body">
-            <!-- FORMULÁRIO DE BUSCA -->
-            {!! Form::open(['method' => 'post', 'url' => 'cultivares/lista/buscar']) !!}  {{-- buscar/'.$filtro] --}}
-            {!! Form::label('descricao', 'Filtrar Cultivar') !!}
-            <div class="input-group">
+
+            {{--  panel body  --}}
+            <div class="panel-body">
+              <!-- FORMULÁRIO DE BUSCA -->
+              {!! Form::open(['method' => 'post', 'url' => 'cultivares/lista/buscar']) !!}  {{-- buscar/'.$filtro] --}}
+              {!! Form::label('descricao', 'Filtrar Cultivar') !!}
+              <div class="input-group">
                 {!! Form::input('text', 'buscar', null, ['class'=>'form-control', 'autofocus']) !!}
                 <span class="input-group-btn">
                   {!! Form::submit('Pesquisar', ['class' => 'btn btn-success']) !!}
                   {{-- <a class="btn btn-default" href="{{ url('doencas') }}">Cancelar</a> --}}
                 </span>
-            </div>
-            {!! Form::close() !!}
+              </div>
+              {!! Form::close() !!}
 
-            <br />
+              <br />
               <table class="table table-hover table-striped" data-toggle="dataTable">
                 {{-- header table --}}
                 <thead>
@@ -106,5 +108,8 @@
           </div>
         </div>
       </div>
-  </div>
-@endsection
+    </div>
+  @endsection
+@endif
+
+
