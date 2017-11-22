@@ -32,170 +32,69 @@ class ReportController extends Controller
 
     public function reportCultivares()
     {
-        $input = public_path() . '/reports/ServerCultivares.jrxml';
-        $output = public_path() . '/reports/'. time() . '_ServerCultivares';
-
-        $jasper = new JasperPHP;
-
-        $jasper->process(
-            $input,
-            $output,
-            array("pdf", "rtf"),
-            [],
-            $this->getDatabaseConfig()
-        )->execute();
-
-        // if (!file_exists($jasper)) {
-        //     abort(404);
-        // }
-        $file = $output .'.pdf';
-        $path = $file;
-        //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        // unlink($path);
-
-        var_dump($path);
-        $file = file_get_contents($file);
-
-        // retornamos o conteudo para o navegador que íra abrir o PDF
-        return response($file, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="ServerCultivares.pdf"');
+        $fileName = 'ServerCultivares';
+        return $this->generateReport($fileName);
     }
 
     public function reportCultivaresCiclos()
     {
-        $input = public_path() . '/reports/CultivaresCiclos.jrxml';
-        $output = public_path() . '/reports/'. time() . '_CultivaresCiclos';
-
-        $jasper = new JasperPHP;
-
-        $jasper->process(
-            $input,
-            $output,
-            array("pdf", "rtf"),
-            [],
-            $this->getDatabaseConfig()
-        )->execute();
-
-        // if (!file_exists($jasper)) {
-        //     abort(404);
-        // }
-        $file = $output .'.pdf';
-        $path = $file;
-        //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        // unlink($path);
-
-        var_dump($path);
-        $file = file_get_contents($file);
-
-        // retornamos o conteudo para o navegador que íra abrir o PDF
-        return response($file, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="CultivaresCiclos.pdf"');
+        $fileName = 'CultivaresCiclos';
+        return $this->generateReport($fileName);
     }
 
     public function reportCultivaresDoencasTolerancias()
     {
-        $input = public_path() . '/reports/CultivaresDoencasTolerancias.jrxml';
-        $output = public_path() . '/reports/'. time() . '_CultivaresDoencasTolerancias';
-
-        $jasper = new JasperPHP;
-
-        $jasper->process(
-            $input,
-            $output,
-            array("pdf", "rtf"),
-            [],
-            $this->getDatabaseConfig()
-        )->execute();
-
-        // if (!file_exists($jasper)) {
-        //     abort(404);
-        // }
-        $file = $output .'.pdf';
-        $path = $file;
-        //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        // unlink($path);
-
-        var_dump($path);
-        $file = file_get_contents($file);
-
-        // retornamos o conteudo para o navegador que íra abrir o PDF
-        return response($file, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="CultivaresDoencasTolerancias.pdf"');
+        $fileName = 'CultivaresDoencasTolerancias';
+        return $this->generateReport($fileName);
     }
 
     public function reportCiclosCultivares()
     {
-        $input = public_path() . '/reports/GroupCiclosCultivares.jrxml';
-        $output = public_path() . '/reports/'. time() . '_CiclosCultivares';
+        $fileName = 'GroupCiclosCultivares';
+        return $this->generateReport($fileName);
+    }
 
-        $jasper = new JasperPHP;
+    public function reportClientesInativos()
+    {
+        $fileName = 'ClientesInativos';
+        return $this->generateReport($fileName);
+    }
 
-        $jasper->process(
-            $input,
-            $output,
-            array("pdf", "rtf"),
-            [],
-            $this->getDatabaseConfig()
-        )->execute();
-
-        $file = $output .'.pdf';
-        $path = $file;
-
-        var_dump($path);
-        $file = file_get_contents($file);
-
-        // retornamos o conteudo para o navegador que íra abrir o PDF
-        return response($file, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="CiclosCultivares.pdf"');
+    public function reportClientesAtivos()
+    {
+        $fileName = 'ClientesAtivos';
+        return $this->generateReport($fileName);
     }
 
     public function reportSemeaduras()
     {
         
     }
-}
 
-// // coloca na variavel o caminho do novo relatório que será gerado
-// $output = public_path() . "\\reports\\" . time() . '_Cultivares';
-// // instancia um novo objeto JasperPHP
-//
-// var_dump($output);
-//
-// $report = new JasperPHP;
-// $report->compile(public_path() . '\reports\hello_world.jrxml')->execute();
-//
-// // chama o método que irá gerar o relatório
-// // passamos por parametro:
-// // o arquivo do relatório com seu caminho completo
-// // o nome do arquivo que será gerado
-// // o tipo de saída
-// // parametros ( nesse caso não tem nenhum)
-//
-// // $report->process(
-// //     public_path() . '\reports\hello_world.jasper',
-// //     $output,
-// //     ['pdf'],
-// //     [],
-// //     $this->getDatabaseConfig()
-// // )->execute();
-// //
-// // $file = $output . '.pdf';
-// // $path = $file;
-// //
-// // // caso o arquivo não tenha sido gerado retorno um erro 404
-// // if (!file_exists($report)) {
-// //     abort(404);
-// // }
-// //
-// // //caso tenha sido gerado pego o conteudo
-// // $file = file_get_contents($file);
-// // //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-// // unlink($path);
-// // // retornamos o conteudo para o navegador que íra abrir o PDF
-// // return response($file, 200)
-// //     ->header('Content-Type', 'application/pdf')
-// //     ->header('Content-Disposition', 'inline; filename="cultivares.pdf"');
+    private function generateReport($fileName)
+    {
+        $input = public_path() . '/reports/' . $fileName . '.jrxml';
+        $output = public_path() . '/reports/'. time() . '_' . $fileName;
+
+        $jasper = new JasperPHP;
+
+        $jasper->process(
+            $input,
+            $output,
+            array("pdf", "rtf"),
+            [],
+            $this->getDatabaseConfig()
+        )->execute();
+
+        $file = $output .'.pdf';
+        $path = $file;
+
+        $file = file_get_contents($file);
+
+        // retornamos o conteudo para o navegador que íra abrir o PDF
+        return response($file, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="' . $fileName . '.pdf"');
+    }
+
+}

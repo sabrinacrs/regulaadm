@@ -49,11 +49,6 @@ Route::any('api/clientes/store', 'ClientesController@store');
 
 Route::group(array('prefix' => 'api'), function()
 {
-
-  // Route::get('/', function () {
-  //     return response()->json(['message' => 'Cultivares API', 'status' => 'Connected']);;
-  // });
-
   Route::resource('cultivares', 'CultivaresController@getJson');
   Route::resource('cultivaresepocasemeadura', 'CultivaresController@getJsonCultivarEpocaSemeadura');
   Route::resource('cultivaresdoencas', 'CultivaresController@getJsonCultivarDoenca');
@@ -63,10 +58,6 @@ Route::group(array('prefix' => 'api'), function()
   Route::resource('doencas', 'DoencasController@getJson');
 });
 
-// Route::get('/', function () {
-//     return redirect('api');
-// });
-
 Route::get('/home', 'HomeController@index');
 Route::get('/help', 'HelpController@index');
 
@@ -74,6 +65,8 @@ Route::get('/report', 'ReportController@index');
 Route::get('/report/cultivares', 'ReportController@reportCultivares');
 Route::get('/report/cultivaresCiclos', 'ReportController@reportCultivaresCiclos');
 Route::get('/report/ciclosCultivares', 'ReportController@reportCiclosCultivares');
+Route::get('/report/clientesInativos', 'ReportController@reportClientesInativos');
+Route::get('/report/clientesAtivos', 'ReportController@reportClientesAtivos');
 Route::get('/report/cultivaresDoencasTolerancias', 'ReportController@reportCultivaresDoencasTolerancias');
 
 Route::get('administradores/', 'AdministradoresController@index');
