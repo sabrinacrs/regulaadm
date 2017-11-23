@@ -55,7 +55,7 @@
                       <td class="text-left">{{ $cliente->nome }}</td>
                       <td class="text-left">{{ $cliente->email }}</td>
                       <td class="">
-                        <a href="" class="btn btn-primary">Visualizar</a>
+                        <a href="{{ action('ClientesController@detailsCliente', $cliente->id) }}" class="btn btn-primary">Visualizar</a>
 
                         @if(is_null($cliente->status) || $cliente->status == 'A')
                           <a href="{{ action('ClientesController@disableEnableCliente', $cliente->id) }}" class="btn btn-warning">Desativar</a>

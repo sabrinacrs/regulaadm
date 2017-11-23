@@ -42,17 +42,16 @@ class ClientesController extends Controller
     public function saveCliente()
     {
         return Response::json($this->cliente->saveCliente(), 201);
-        // return $this->cliente->saveCliente();
     }
 
     public function updateCliente($id)
     {
-      $cliente = $this->cliente->updateCliente($id);
+        $cliente = $this->cliente->updateCliente($id);
 
-      if(!$cliente)
-        return Response::json(['response' => 'Cliente não encontrado'], 400);
+        if(!$cliente)
+            return Response::json(['response' => 'Cliente não encontrado'], 400);
 
-      return Response::json($cliente, 200);
+        return Response::json($cliente, 200);
     }
 
     public function deleteCliente($id)
@@ -60,7 +59,7 @@ class ClientesController extends Controller
         $cliente = $this->cliente->deleteCliente($id);
 
         if(!$cliente)
-          return Response::json(['response' => 'Cliente não encontrado'], 400);
+            return Response::json(['response' => 'Cliente não encontrado'], 400);
 
         return Response::json(['response' => 'Cliente removido com sucesso!'], 200);
     }
@@ -97,8 +96,8 @@ class ClientesController extends Controller
         $links = $clientes->links();
 
         $params = [
-          'clientes' => $clientes,
-          'links' => $links,
+            'clientes' => $clientes,
+            'links' => $links,
         ];
 
         return view('clientes.lista', $params);
@@ -117,8 +116,8 @@ class ClientesController extends Controller
                     ->paginate(20);
         $links = $clientes->links();
         $params = [
-          'clientes' => $clientes,
-          'links' => $links,
+            'clientes' => $clientes,
+            'links' => $links,
         ];
 
         return view('clientes.lista', $params);
@@ -132,5 +131,12 @@ class ClientesController extends Controller
         \Session::flash('mensagem_sucesso', 'Todos os dados do cliente foram excluídos com sucesso');
 
         return Redirect::to('clientes/lista');
+    }
+
+    public function detailsCliente($id)
+    {
+        $cliente = Cliente::findOrFail($id);
+        $params = ['cliente' => $cliente];
+        return view('clientes.details', $params);
     }
 }

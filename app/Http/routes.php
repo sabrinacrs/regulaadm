@@ -136,6 +136,7 @@ Route::any('cultivares/{cultivar}/editar', 'CultivaresController@editar');
 Route::any('cultivares/lista/{cultivar}/editar', 'CultivaresController@editar');
 Route::post('cultivares/{cultivar}/excluir', 'CultivaresController@excluir');
 Route::any('cultivares/lista/buscar/', 'CultivaresController@buscar');
+Route::any('cultivares/visualizar/{cultivar}', 'CultivaresController@detailsCultivar');
 
 Route::any('parametrizacao/', 'EmpresaController@index');
 Route::any('parametrizacao/salvar', 'EmpresaController@salvar');
@@ -149,3 +150,4 @@ Route::any('clientes/lista', 'ClientesController@listClientes');
 Route::any('clientes/lista/search/', 'ClientesController@search');
 Route::post('clientes/{cliente}/excluir', 'ClientesController@admDeleteCliente');
 Route::any('clientes/lista/{cliente}', 'ClientesController@disableEnableCliente');
+Route::any('clientes/visualizar/{cliente}', 'ClientesController@detailsCliente');

@@ -68,7 +68,7 @@
                       <td class="text-left">{{ $cultivar->id }}</td>
                       <td class="text-left">{{ $cultivar->nome }}</td>
                       <td class="text-right">
-                        <a href="" class="btn btn-warning">Visualizar</a>
+                        <a href="{{ action('CultivaresController@detailsCultivar', $cultivar->id) }}" class="btn btn-warning">Visualizar</a>
                         <a href="{{ action('CultivaresController@editar', $cultivar->id) }}" class="btn btn-primary">Editar</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $cultivar->id }}">Excluir</button>
 
