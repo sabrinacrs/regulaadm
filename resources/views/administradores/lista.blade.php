@@ -30,7 +30,6 @@
                 {!! Form::input('text', 'buscar', null, ['class'=>'form-control', 'autofocus']) !!}
                 <span class="input-group-btn">
                   {!! Form::submit('Pesquisar', ['class' => 'btn btn-success']) !!}
-                  {{-- <a class="btn btn-default" href="{{ url('doencas') }}">Cancelar</a> --}}
                 </span>
             </div>
               {!! Form::close() !!}
