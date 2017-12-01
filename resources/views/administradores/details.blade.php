@@ -8,7 +8,7 @@
                 <div class="panel panel-default noborder nopadding">
                     {{--  panel header  --}}
                     <div class="panel-heading no-background">
-                        <h2>ÉPOCA DE SEMEADURA: {{ $epoca_semeadura->descricao }}</h2>
+                        <h2>ADMINISTRADOR: {{ $administrador->name }}</h2>
                     </div>
 
                     {{--  panel body  --}}
@@ -16,26 +16,28 @@
                         <table class="table table-bordered table-striped" data-toggle="dataTable" style="">
                             <tbody>
 
-                                {{--  linha ID  --}}
+                                {{--  linha Nome  --}}
                                 <tr>
-                                    <td><b>ID</b></td>
-                                    <td colspan="5">{{ $epoca_semeadura->id }}</td>
+                                    <td><b>Nome</b></td>
+                                    <td colspan="5">{{ $administrador->name }}</td>
                                 </tr>
 
-                                {{--  linha Descrião  --}}
+                                {{--  linha Email  --}}
                                 <tr>
-                                    <td><b>Descrição</b></td>
-                                    <td colspan="5">{{ $epoca_semeadura->descricao }}</td>
+                                    <td><b>E-mail</b></td>
+                                    <td colspan="5">{{ $administrador->email }}</td>
                                 </tr>
 
-                                {{--  linha Status  --}}
+                                {{--  linha Login  --}}
                                 <tr>
                                     <td><b>Status</b></td>
                                     <td>
-                                        @if($epoca_semeadura->status == 'I')
-                                            Desativada
+                                        @if($administrador->status == 'A')
+                                            Ativado &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="">Desativar</a>
                                         @else
-                                            Ativada
+                                            Desativado &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="">Ativar</a>
                                         @endif
                                     </td>
                                 </tr>

@@ -86,6 +86,7 @@ Route::delete('administradores/{administrador}', 'AdministradoresController@dele
 Route::any('administradores/lista/buscar/', 'AdministradoresController@buscar');
 Route::any('administradores/lista', 'AdministradoresController@lista');
 Route::any('administradores/lista/{administrador}', 'AdministradoresController@disableEnableAdministrador');
+Route::any('administradores/visualizar/{administrador}', 'AdministradoresController@detailsAdministrador');
 
 Route::any('doencas/', 'DoencasController@index');
 Route::any('doencas/salvar', 'DoencasController@salvar');
@@ -97,6 +98,7 @@ Route::any('doencas/lista/{doenca}/editar', 'DoencasController@editar');
 Route::post('doencas/{doenca}/excluir', 'DoencasController@excluir');
 Route::any('doencas/lista/nova', 'DoencasController@nova');
 Route::any('doencas/lista/buscar/', 'DoencasController@buscar');
+Route::any('doencas/visualizar/{doenca}', 'DoencasController@detailsDoenca');
 
 Route::any('ciclos/', 'CiclosController@index');
 Route::any('ciclos/salvar', 'CiclosController@salvar');
@@ -108,6 +110,7 @@ Route::any('ciclos/lista/{ciclo}/editar', 'CiclosController@editar');
 Route::post('ciclos/{ciclo}/excluir', 'CiclosController@excluir');
 Route::any('ciclos/lista/novo', 'CiclosController@novo');
 Route::any('ciclos/lista/buscar/', 'CiclosController@buscar');
+Route::any('ciclos/visualizar/{ciclo}', 'CiclosController@detailsCiclo');
 
 Route::any('tolerancias/', 'ToleranciasController@index');
 Route::any('tolerancias/salvar', 'ToleranciasController@salvar');
@@ -119,6 +122,7 @@ Route::any('tolerancias/lista/{tolerancia}/editar', 'ToleranciasController@edita
 Route::post('tolerancias/{tolerancia}/excluir', 'ToleranciasController@excluir');
 Route::any('tolerancias/lista/nova', 'ToleranciasController@nova');
 Route::any('tolerancias/lista/buscar/', 'ToleranciasController@buscar');
+Route::any('tolerancias/visualizar/{tolerancia}', 'ToleranciasController@detailsTolerancia');
 
 Route::any('epocas_semeadura/', 'EpocasSemeaduraController@index');
 Route::any('epocas_semeadura/salvar', 'EpocasSemeaduraController@salvar');
@@ -130,6 +134,7 @@ Route::any('epocas_semeadura/lista/{epoca_semeadura}/editar', 'EpocasSemeaduraCo
 Route::post('epocas_semeadura/{epoca_semeadura}/excluir', 'EpocasSemeaduraController@excluir');
 Route::any('epocas_semeadura/lista/nova', 'EpocasSemeaduraController@nova');
 Route::any('epocas_semeadura/lista/buscar/', 'EpocasSemeaduraController@buscar');
+Route::any('epocas_semeadura/visualizar/{epoca_semeadura}', 'EpocasSemeaduraController@detailsEpocaSemeadura');
 
 Route::any('cultivares/', 'CultivaresController@index');
 Route::any('cultivares/nova', 'CultivaresController@nova');

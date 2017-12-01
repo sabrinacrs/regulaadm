@@ -8,7 +8,7 @@
                 <div class="panel panel-default noborder nopadding">
                     {{--  panel header  --}}
                     <div class="panel-heading no-background">
-                        <h2>DOENÇA: {{ $doença->descricao }}</h2>
+                        <h2>DOENÇA: {{ $doenca->descricao }}</h2>
                     </div>
 
                     {{--  panel body  --}}

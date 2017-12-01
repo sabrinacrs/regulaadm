@@ -61,7 +61,7 @@
                         <tr style="width: 100%">
                           {{--  coluna Visualizar  --}}
                           <td style="width: 30%">
-                            <a style="width: 100%" href="" class="btn btn-primary">Visualizar</a>
+                            <a style="width: 100%" href="{{ action('AdministradoresController@detailsAdministrador', $administrador->id) }}" class="btn btn-primary">Visualizar</a>
                           </td>
 
                           {{--  coluna Desabilitar habilitar  --}}

@@ -18,7 +18,7 @@
 
                                 {{--  linha ID  --}}
                                 <tr>
-                                    <td><b></b></td>
+                                    <td><b>ID</b></td>
                                     <td colspan="5">{{ $tolerancia->id }}</td>
                                 </tr>
 

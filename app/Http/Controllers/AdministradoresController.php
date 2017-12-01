@@ -74,7 +74,13 @@ class AdministradoresController extends Controller
         return view('administradores.lista', ['administradores' => $administradores]);
     }
 
-    // Methods for Adm
+    public function detailsAdministrador($id)
+    {
+        $administrador = Administrador::findOrFail($id);
+        $params = ['administrador' => $administrador];
+        return view('administradores.details', $params);
+    }
+
     public function disableEnableAdministrador($id)
     {
         $administrador = Administrador::findOrFail($id);
