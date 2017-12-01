@@ -18,19 +18,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        // $empresaTable = Empresa::get();
-        //var_dump($empresaTable);
-        // if(sizeof($empresaTable) <= 0) {
-        //   //$this->index();
-        //   $empresa = new Empresa();
-        //   $empresa->id = -1;
-        //
-        //   return Redirect::to('parametrizacao/nova');
-        // }
-        // else {
-        // $this->middleware('auth');
-        // }
     }
 
     /**

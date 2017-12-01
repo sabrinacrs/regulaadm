@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Auth;
 use Validator;
+use Lang;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -41,6 +44,30 @@ class AuthController extends Controller
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
+    public function login(Request $request)
+    {
+        // pass through validation rules
+        $this->validate($request, ['email' => 'required', 'password' => 'required']);
+
+        $credentials = [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'status' => 'A'
+        ];
+
+        // log in the user
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/');
+        }
+
+        //show error if invalid data entered
+        return redirect()->back()
+            ->withInput($request->only($this->username, 'remember'))
+            ->withErrors([
+                $this->username => Lang::get('auth.failed'),
+            ]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -68,7 +95,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'status' => $data['status']
+            'status' => 'A' //'$data['status']'
         ]);
     }
 }

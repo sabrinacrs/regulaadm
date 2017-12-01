@@ -79,12 +79,13 @@ Route::get('/report/cultivaresDoencasTolerancias', 'ReportController@reportCulti
 Route::get('administradores/', 'AdministradoresController@index');
 Route::get('administradores/registrar', 'AdministradoresController@novo');
 Route::get('administradores/novo', 'AdministradoresController@novo');
-Route::get('administradores/{administrador}/editar', 'AdministradoresController@editar');
+// Route::get('administradores/{administrador}/editar', 'AdministradoresController@editar');
 Route::post('administradores/{administrador}/excluir', 'AdministradoresController@excluir');
 Route::post('administradores/salvar', 'AdministradoresController@salvar');
 Route::patch('administradores/{administrador}', 'AdministradoresController@atualizar');
 Route::delete('administradores/{administrador}', 'AdministradoresController@deletar');
 Route::any('administradores/lista/buscar/', 'AdministradoresController@buscar');
+Route::any('administradores/lista', 'AdministradoresController@lista');
 
 Route::any('doencas/', 'DoencasController@index');
 Route::any('doencas/salvar', 'DoencasController@salvar');

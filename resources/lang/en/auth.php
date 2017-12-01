@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Email não encontrado em nossos registros.',
+    'failed' => 'E-mail ou senha inválidos.',
+    'failed_default' => 'Email não encontrado em nossos registros.',
     'throttle' => 'Erro na tentativa de login. Tente novamente em alguns segundos.',
-
 ];

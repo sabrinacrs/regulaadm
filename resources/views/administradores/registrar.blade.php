@@ -80,6 +80,10 @@
                           </div>
                         @endif
                     </form>
+
+                    {{--  Teste  --}}
+                    <a href="{{ url('/administradores/lista') }}">Listar</a>
+
                 </div>
             </div>
         </div>

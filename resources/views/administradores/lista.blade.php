@@ -1,44 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
+  <div class="container container-content">
 
-<div class="container container-content">
+    <!-- FORMULÁRIO PARA ALTERAÇÃO E INSERÇÃO -->
 
-<!-- FORMULÁRIO PARA ALTERAÇÃO E INSERÇÃO -->
+    <!-- LISTA DE DOENÇAS -->
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default noborder">
 
-<!-- LISTA DE DOENÇAS -->
-<div class="row">
-  <div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default noborder">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="col-md-12">
-              <h3>LISTA DE ADMINISTRADORES</h3>
-              Administradores registrados na base de dados
+          {{--  panel header  --}}
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>LISTA DE ADMINISTRADORES</h3>
+                Administradores registrados na base de dados
+              </div>
             </div>
           </div>
-        </div>
-        <div class="panel-body">
-          <!-- FORMULÁRIO DE BUSCA -->
-          @if(!Request::is('*/novo') && !Request::is('*/editar'))
-            {!! Form::open(['method' => 'post', 'url' => 'administradores/lista/buscar']) !!}  {{-- buscar/'.$filtro] --}}
-            {!! Form::label('descricao', 'Filtrar Administrador') !!}
-            <div class="input-group">
+
+          {{--  panel body  --}}
+          <div class="panel-body">
+            <!-- FORMULÁRIO DE BUSCA -->
+            @if(!Request::is('*/novo') && !Request::is('*/editar'))
+              {!! Form::open(['method' => 'post', 'url' => 'administradores/lista/buscar']) !!}  {{-- buscar/'.$filtro] --}}
+              {!! Form::label('descricao', 'Filtrar Administrador') !!}
+              <div class="input-group">
                 {!! Form::input('text', 'buscar', null, ['class'=>'form-control', 'autofocus']) !!}
                 <span class="input-group-btn">
                   {!! Form::submit('Pesquisar', ['class' => 'btn btn-success']) !!}
                   {{-- <a class="btn btn-default" href="{{ url('doencas') }}">Cancelar</a> --}}
                 </span>
             </div>
-            {!! Form::close() !!}
+              {!! Form::close() !!}
+              <br />
 
-            <br />
-            @if(Session::has('mensagem_sucesso') && !Request::is('*/novo') && !Request::is('*/editar'))
-              <div class="alert alert-success">
-                {{ Session::get('mensagem_sucesso') }}
-              </div>
+              {{--  mensagem sucesso  --}}
+              @if(Session::has('mensagem_sucesso') && !Request::is('*/novo') && !Request::is('*/editar'))
+                <div class="alert alert-success">
+                  {{ Session::get('mensagem_sucesso') }}
+                </div>
+              @endif
             @endif
-          @endif
+
+            {{--  tabela de resultados  --}}
             <table class="table table-hover table-striped" data-toggle="dataTable">
               <thead>
                 <tr>
@@ -52,7 +58,14 @@
                     <td class="text-left">{{ $administrador->name }}</td>
                     <td class="text-right">
                       <a href="" class="btn btn-warning">Visualizar</a>
-                      <a href="{{ action('AdministadoresController@editar', $administrador->id) }}" class="btn btn-primary">Editar</a>
+                      {{--  <a href="{{ action('AdministadoresController@editar', $administrador->id) }}" class="btn btn-primary">Editar</a>  --}}
+                      
+                      @if(is_null($administrador->status) || $administrador->status == 'A')
+                          <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-warning">Desativar</a>
+                        @else
+                          <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-success">Ativar</a>
+                        @endif
+
                       <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $administrador->id }}">Excluir</button>
 
                       <!-- MODAL -->
@@ -79,10 +92,17 @@
                   </tr>
                 @endforeach
               </tbody>
+
+              {{-- footer table --}}
+              <tfoot>
+                <tr>
+                  <th colspan='10' class="text-center">{{ $links }}</th>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
 @endsection
