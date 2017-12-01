@@ -8,10 +8,12 @@ use App\Http\Requests;
 use App\Cultivar;
 use App\CultivarHasDoencas;
 use App\CultivarHasEpocaSemeadura;
+use App\HistoricoAtualizacao;
 use App\EpocasSemeadura;
 use App\Doenca;
 use App\Tolerancia;
 use App\Ciclo;
+use Auth;
 use Redirect;
 use DB;
 use Validator;
@@ -129,6 +131,13 @@ class CultivaresController extends Controller
 
             // mensagem de sucesso
             \Session::flash('mensagem_sucesso', 'Cultivar cadastrada com sucesso.');
+
+            // insere alteração no historico
+            $release = new HistoricoAtualizacao();
+            $release->saveRelease();
+
+            // teste
+            // return $this->sendMessageInsertion();
 
             // Se estiver inserindo nova, vai para formulário de doenças, se não, vai para lista
             if($request->is('cultivares/salvar'))
@@ -518,5 +527,52 @@ class CultivaresController extends Controller
 
         return response()->json($cultivaresDoencas);
     }
+
+
+    // Notificação de inserção
+    function sendMessage(){
+		$content = array(
+			"en" => 'Nova cultivar, linda'
+			);
+		
+		$fields = array(
+			'app_id' => "93f3b79c-f2ec-43d9-b266-645c119bb29f",
+			'included_segments' => array('All'),
+            'data' => array("foo" => "bar"),
+			'contents' => $content
+		);
+		
+		$fields = json_encode($fields);
+        print("\nJSON sent:\n");
+        print($fields);
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+												   'Authorization: Basic NGEwMGZmMjItY2NkNy0xMWUzLTk5ZDUtMDAwYzI5NDBlNjJj'));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+		$response = curl_exec($ch);
+		curl_close($ch);
+		
+		return $response;
+	}
+    
+    public function sendMessageInsertion()
+    {
+        // echo "Hello";
+        $response = $this->sendMessage();
+        $return["allresponses"] = $response;
+        $return = json_encode($return);
+        
+        print("\n\nJSON received:\n");
+        print($return);
+        print("\n");
+    }
+	
 
 }

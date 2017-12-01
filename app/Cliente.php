@@ -34,7 +34,7 @@ class Cliente extends Model
   public function saveCliente()
   {
       $input = Input::all();
-     $input['senha'] = Hash::make($input['senha']);
+      $input['senha'] = Hash::make($input['senha']);
       // dd($input); // para a execução e mostra input
       $cliente = new Cliente();
       $cliente->fill($input);

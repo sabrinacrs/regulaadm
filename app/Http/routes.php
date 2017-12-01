@@ -37,6 +37,13 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::put('{id}', ['uses' => 'SemeadurasController@updateSemeadura']);
       Route::delete('{id}', ['uses' => 'SemeadurasController@deleteSemeadura']);
     });
+
+    // releases
+    Route::group(['prefix' => 'releases'], function()
+    {
+      Route::get('', ['uses' => 'HistoricoAtualizacaoController@getJsonReleasesDisponiveis']);
+      Route::resource('lastrelease', 'HistoricoAtualizacaoController@getJsonLastRelease');
+    });
 });
 
 Route::get('/', 'HomeController@index');
@@ -137,6 +144,13 @@ Route::any('cultivares/lista/{cultivar}/editar', 'CultivaresController@editar');
 Route::post('cultivares/{cultivar}/excluir', 'CultivaresController@excluir');
 Route::any('cultivares/lista/buscar/', 'CultivaresController@buscar');
 Route::any('cultivares/visualizar/{cultivar}', 'CultivaresController@detailsCultivar');
+
+// Teste OneSignal
+Route::any('testesignal/onesignal/', 'CultivaresController@sendMessageInsertion');
+
+Route::any('release_database/', 'HistoricoAtualizacaoController@index');
+Route::any('release_database/newrelease/', 'HistoricoAtualizacaoController@newRelease');
+
 
 Route::any('parametrizacao/', 'EmpresaController@index');
 Route::any('parametrizacao/salvar', 'EmpresaController@salvar');
