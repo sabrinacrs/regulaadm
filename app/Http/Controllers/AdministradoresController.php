@@ -26,7 +26,7 @@ class AdministradoresController extends Controller
 
     public function lista()
     {
-        $administradores = DB::table('users')->where('status', '<>', 'I')->paginate(5);
+        $administradores = DB::table('users')->paginate(5);
         $links = $administradores->links();
 
         $parameters = [
@@ -58,8 +58,6 @@ class AdministradoresController extends Controller
     public function excluir($id)
     {
         $administrador = Administrador::findOrFail($id);
-        // $administrador->status = 'I';
-        // $administrador->update();
         $administrador->delete();
   
         \Session::flash('mensagem_sucesso', 'Administrador excluído com sucesso');
@@ -89,11 +87,11 @@ class AdministradoresController extends Controller
         }
         else
         {
-            $cliente->status = 'A';
+            $administrador->status = 'A';
             $mensagem = 'A conta do administrador foi reativada com sucesso';
         }
 
-        $cliente->update();
+        $administrador->update();
 
         \Session::flash('mensagem_sucesso', $mensagem);
 

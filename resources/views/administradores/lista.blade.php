@@ -57,16 +57,28 @@
                   <tr>
                     <td class="text-left">{{ $administrador->name }}</td>
                     <td class="text-right">
-                      <a href="" class="btn btn-warning">Visualizar</a>
-                      {{--  <a href="{{ action('AdministadoresController@editar', $administrador->id) }}" class="btn btn-primary">Editar</a>  --}}
-                      
-                      @if(is_null($administrador->status) || $administrador->status == 'A')
-                          <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-warning">Desativar</a>
-                        @else
-                          <a href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-success">Ativar</a>
-                        @endif
+                      <table align="right">
+                        <tr style="width: 100%">
+                          {{--  coluna Visualizar  --}}
+                          <td style="width: 30%">
+                            <a style="width: 100%" href="" class="btn btn-primary">Visualizar</a>
+                          </td>
 
-                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $administrador->id }}">Excluir</button>
+                          {{--  coluna Desabilitar habilitar  --}}
+                          <td style="width: 30%">
+                            @if(is_null($administrador->status) || $administrador->status == 'A')
+                              <a style="width: 100%" href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-warning">Desativar</a>
+                            @else
+                              <a style="width: 100%" href="{{ action('AdministradoresController@disableEnableAdministrador', $administrador->id) }}" class="btn btn-success">Ativar</a>
+                            @endif
+                          </td>
+
+                          {{--  coluna excluir  --}}
+                          <td style="width: 30%">
+                            <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $administrador->id }}">Excluir</button>
+                          </td>
+                        </tr>
+                      </table>
 
                       <!-- MODAL -->
                       <div id="confimar-exclusao-{{ $administrador->id }}" class="modal fade" role="dialog">

@@ -104,6 +104,23 @@
                     </div>
                 </div>
             </div>
+
+            {{--  Administradores  --}}
+            <div class="panel panel-default noborder">
+                <div class="panel-heading" style="background-color: #5BAB5E">
+                    <label class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">Administradores</a>
+                    </label>
+                </div>
+                <div id="collapseSeven" class="panel-collapse collapse">
+                    <div class="panel-body body-background">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="submenu"><a href="{{ url('/administradores/registrar') }}">Novo</a></li>
+                        <li class="submenu"><a href="{{ url('/administradores/lista') }}">Listar</a></li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

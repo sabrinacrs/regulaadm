@@ -55,15 +55,33 @@
                       <td class="text-left">{{ $cliente->nome }}</td>
                       <td class="text-left">{{ $cliente->email }}</td>
                       <td class="">
-                        <a href="{{ action('ClientesController@detailsCliente', $cliente->id) }}" class="btn btn-primary">Visualizar</a>
+                        <table align="right">
+                          <tr style="width: 100%">
+                            {{--  coluna vizualizar  --}}
+                            <td style="width: 30%">
+                              <a style="width: 100%" href="{{ action('ClientesController@detailsCliente', $cliente->id) }}" class="btn btn-primary">Visualizar</a>
+                            </td>
 
-                        @if(is_null($cliente->status) || $cliente->status == 'A')
-                          <a href="{{ action('ClientesController@disableEnableCliente', $cliente->id) }}" class="btn btn-warning">Desativar</a>
-                        @else
-                          <a href="{{ action('ClientesController@disableEnableCliente', $cliente->id) }}" class="btn btn-success">Ativar</a>
-                        @endif
+                            {{--  coluna desabilitar habilitar  --}}
+                            <td style="width: 30%">
+                              @if(is_null($cliente->status) || $cliente->status == 'A')
+                                <a style="width: 100%" href="{{ action('ClientesController@disableEnableCliente', $cliente->id) }}" class="btn btn-warning">Desativar</a>
+                              @else
+                                <a style="width: 100%" href="{{ action('ClientesController@disableEnableCliente', $cliente->id) }}" class="btn btn-success">Ativar</a>
+                              @endif
+                            </td>
 
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $cliente->id }}">Excluir</button>
+                            {{--  coluna excluir  --}}
+                            <td  style="width: 30%">
+                              <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $cliente->id }}">Excluir</button>
+                            </td>
+                          </tr>
+                        </table>
+                        
+
+                        
+
+                        
 
                         <!-- MODAL -->
                         <div id="confimar-exclusao-{{ $cliente->id }}" class="modal fade" role="dialog">

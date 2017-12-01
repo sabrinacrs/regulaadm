@@ -29,7 +29,6 @@ class HomeController extends Controller
     {
         $empresaTable = Empresa::get();
 
-        //var_dump($empresaTable);
         if(sizeof($empresaTable) <= 0) {
           $empresa = new Empresa();
           $empresa->id = -1;
