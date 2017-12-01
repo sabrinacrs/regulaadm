@@ -103,7 +103,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ url('/images/logo.png') }}" style=""/>
+                    <img src="{{ url('/img/logo.png') }}" style=""/>
                 </a>
             </div>
 

@@ -41,9 +41,9 @@ class EmpresaController extends Controller
         {
             $imageOriginalName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('logo')->getClientOriginalName());
             $imageName = $request->input('nome').'_'.$imageOriginalName.'_logo'.'.'.$request->file('logo')->getClientOriginalExtension();
-            $request->file('logo')->move(base_path()."\\public\images\catalog\\", $imageName);
+            $request->file('logo')->move(base_path()."\\public\img\catalog\\", $imageName);
 
-            $pathLogo = "images\catalog\\".$imageName;
+            $pathLogo = "img\catalog\\".$imageName;
 
             if($this->canSave($request, $empresa))
             {
@@ -90,9 +90,9 @@ class EmpresaController extends Controller
         {
             $imageOriginalName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('logo')->getClientOriginalName());
             $imageName = $request->input('nome').'_'.$imageOriginalName.'_logo'.'.'.$request->file('logo')->getClientOriginalExtension();
-            $request->file('logo')->move(base_path()."\\public\images\catalog\\", $imageName);
+            $request->file('logo')->move(base_path()."\\public\img\catalog\\", $imageName);
 
-            $pathLogo = "images\catalog\\".$imageName;
+            $pathLogo = "img\catalog\\".$imageName;
         }
         else {
             $pathLogo = $empresa->logo;
