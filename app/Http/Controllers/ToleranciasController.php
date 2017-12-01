@@ -11,105 +11,107 @@ use DB;
 
 class ToleranciasController extends Controller
 {
-      public function index()
-      {
-          $tolerancias = $this->arrayTolerancias();
+    public function index()
+    {
+        $tolerancias = $this->arrayTolerancias();
+        return view('tolerancias.principal');
+    }
 
-          return view('tolerancias.principal');
-      }
+    public function lista()
+    {
+        // $tolerancias = $this->arrayTolerancias();
+        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $links = $tolerancias->links();
+        return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
+    }
 
-      public function lista()
-      {
-          // $tolerancias = $this->arrayTolerancias();
-          $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
-          $links = $tolerancias->links();
+    public function salvar(Request $request)
+    {
+        $tolerancia = new Tolerancia();
+        $tolerancia = $tolerancia->create($request->all());
 
-          return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
-      }
+        \Session::flash('mensagem_sucesso', 'Tolerância cadastrada com sucesso.');
 
-      public function salvar(Request $request)
-      {
-          $tolerancia = new Tolerancia();
-          $tolerancia = $tolerancia->create($request->all());
-
-          \Session::flash('mensagem_sucesso', 'Tolerância cadastrada com sucesso.');
-
-          if($request->is('tolerancias/salvar'))
+        if($request->is('tolerancias/salvar'))
             return Redirect::to('tolerancias');
-          else
+        else
             return Redirect::to('tolerancias/lista/nova');
-      }
+    }
 
-      public function nova(Request $request)
-      {
-          $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
-          $links = $tolerancias->links();
+    public function nova(Request $request)
+    {
+        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $links = $tolerancias->links();
+        return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'links'=>$links]);
+    }
 
-          return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'links'=>$links]);
-      }
+    public function editar($id)
+    {
+        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $tolerancia = Tolerancia::findOrFail($id);
+        $links = $tolerancias->links();
+        return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia, 'links'=>$links]);
+    }
 
-      public function editar($id)
-      {
-          $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
-          $tolerancia = Tolerancia::findOrFail($id);
-          $links = $tolerancias->links();
+    public function atualizar($id, Request $request)
+    {
+        $tolerancias = $this->arrayTolerancias();
+        $tolerancia = Tolerancia::findOrFail($id);
+        $tolerancia->update($request->all());
 
-          return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia, 'links'=>$links]);
-      }
+        \Session::flash('mensagem_sucesso', 'Tolerância atualizada com sucesso.');
 
-      public function atualizar($id, Request $request)
-      {
-          $tolerancias = $this->arrayTolerancias();
-          $tolerancia = Tolerancia::findOrFail($id);
-          $tolerancia->update($request->all());
+        return Redirect::to('tolerancias/lista/'.$tolerancia->id.'/editar');
+    }
 
-          \Session::flash('mensagem_sucesso', 'Tolerância atualizada com sucesso.');
+    public function excluir($id)
+    {
+        $tolerancia = Tolerancia::findOrFail($id);
+        $tolerancia->status = 'I';
+        $tolerancia->update();
 
-          return Redirect::to('tolerancias/lista/'.$tolerancia->id.'/editar');
-      }
+        \Session::flash('mensagem_sucesso', 'Tolerância excluída com sucesso.');
 
-      public function excluir($id)
-      {
-          $tolerancia = Tolerancia::findOrFail($id);
-          $tolerancia->status = 'I';
-          $tolerancia->update();
+        return Redirect::to('tolerancias/lista');
+    }
 
-          \Session::flash('mensagem_sucesso', 'Tolerância excluída com sucesso.');
+    public function buscar(Request $request)
+    {
+        $filtro = $request->get('buscar');
+        $tolerancias = DB::table('tolerancias')
+                    ->where([
+                        ['descricao', 'like', '%'.$filtro.'%'],
+                        ['status', '<>', 'I']
+                    ])->paginate(5);
+        $links = $tolerancias->links();
+        return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
+    }
 
-          return Redirect::to('tolerancias/lista');
-      }
+    public function arrayTolerancias()
+    {
+        $tolerancias_table = Tolerancia::get();
+        $tolerancias = array();
 
-      public function buscar(Request $request)
-      {
-          $filtro = $request->get('buscar');
-          $tolerancias = DB::table('tolerancias')
-                        ->where([
-                          ['descricao', 'like', '%'.$filtro.'%'],
-                          ['status', '<>', 'I']
-                        ])->paginate(5);
-          $links = $tolerancias->links();
+        foreach($tolerancias_table as $tolerancia)
+        {
+            if($tolerancia->status != 'I')
+                array_push($tolerancias, $tolerancia);
+        }
 
-          return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
-      }
+        return $tolerancias;
+    }
 
-      public function arrayTolerancias()
-      {
-          $tolerancias_table = Tolerancia::get();
-          $tolerancias = array();
+    public function detailsTolerancia($id)
+    {
+        $tolerancia = Tolerancia::findOrFail($id);
+        $params = ['tolerancia' => $tolerancia];
+        return view('tolerancias.details', $params);
+    }
+  
 
-          foreach($tolerancias_table as $tolerancia)
-          {
-              if($tolerancia->status != 'I')
-                  array_push($tolerancias, $tolerancia);
-          }
-
-          return $tolerancias;
-      }
-
-      public function getJson()
-      {
-          $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
-
-          return response()->json($tolerancias);
-      }
+    public function getJson()
+    {
+        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
+        return response()->json($tolerancias);
+    }
 }

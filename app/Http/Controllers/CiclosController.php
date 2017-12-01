@@ -12,105 +12,113 @@ use DB;
 
 class CiclosController extends Controller
 {
-  public function index()
-  {
-      $ciclos = $this->arrayCiclos();
 
-      return view('ciclos.principal');
-  }
+    public function index()
+    {
+        $ciclos = $this->arrayCiclos();
 
-  public function lista()
-  {
-      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
-      $links = $ciclos->links();
+        return view('ciclos.principal');
+    }
 
-      return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
-  }
+    public function lista()
+    {
+        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $links = $ciclos->links();
 
-  public function salvar(Request $request)
-  {
-      $ciclo = new Ciclo();
-      $ciclo = $ciclo->create($request->all());
+        return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
+    }
 
-      \Session::flash('mensagem_sucesso', 'Ciclo cadastrado com sucesso.');
+    public function salvar(Request $request)
+    {
+        $ciclo = new Ciclo();
+        $ciclo = $ciclo->create($request->all());
 
-      if($request->is('ciclos/salvar'))
-        return Redirect::to('ciclos');
-      else
-        return Redirect::to('ciclos/lista/novo');
-  }
+        \Session::flash('mensagem_sucesso', 'Ciclo cadastrado com sucesso.');
 
-  public function novo(Request $request)
-  {
-      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
-      $links = $ciclos->links();
+        if($request->is('ciclos/salvar'))
+            return Redirect::to('ciclos');
+        else
+            return Redirect::to('ciclos/lista/novo');
+    }
 
-      return view('ciclos.lista', ['ciclos'=>$ciclos, 'links'=>$links]);
-  }
+    public function novo(Request $request)
+    {
+        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $links = $ciclos->links();
 
-  public function editar($id)
-  {
-      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
-      $links = $ciclos->links();
-      $ciclo = Ciclo::findOrFail($id);
+        return view('ciclos.lista', ['ciclos'=>$ciclos, 'links'=>$links]);
+    }
 
-      //redirect()->back()->withInput();
-      return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo, 'links'=>$links]);
-  }
+    public function editar($id)
+    {
+        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $links = $ciclos->links();
+        $ciclo = Ciclo::findOrFail($id);
 
-  public function atualizar($id, Request $request)
-  {
-      $ciclos = $this->arrayCiclos();
-      $ciclo = Ciclo::findOrFail($id);
-      $ciclo->update($request->all());
+        return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo, 'links'=>$links]);
+    }
 
-      \Session::flash('mensagem_sucesso', 'Ciclo atualizado com sucesso.');
+    public function atualizar($id, Request $request)
+    {
+        $ciclos = $this->arrayCiclos();
+        $ciclo = Ciclo::findOrFail($id);
+        $ciclo->update($request->all());
 
-      return Redirect::to('ciclos/lista/'.$ciclo->id.'/editar');
-  }
+        \Session::flash('mensagem_sucesso', 'Ciclo atualizado com sucesso.');
 
-  public function excluir($id)
-  {
-      $ciclo = Ciclo::findOrFail($id);
-      $ciclo->status = 'I';
-      $ciclo->update();
+        return Redirect::to('ciclos/lista/'.$ciclo->id.'/editar');
+    }
 
-      \Session::flash('mensagem_sucesso', 'Ciclo excluído com sucesso.');
+    public function excluir($id)
+    {
+        $ciclo = Ciclo::findOrFail($id);
+        $ciclo->status = 'I';
+        $ciclo->update();
 
-      return Redirect::to('ciclos/lista');
-  }
+        \Session::flash('mensagem_sucesso', 'Ciclo excluído com sucesso.');
 
-  public function buscar(Request $request)
-  {
-      $filtro = $request->get('buscar');
-      $ciclos = DB::table('ciclos')
-                    ->where([
-                      ['descricao', 'like', '%'.$filtro.'%'],
-                      ['status', '<>', 'I']
-                    ])->paginate(5);
-      $links = $ciclos->links();
+        return Redirect::to('ciclos/lista');
+    }
 
-      return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
-  }
+    public function buscar(Request $request)
+    {
+        $filtro = $request->get('buscar');
+        $ciclos = DB::table('ciclos')
+                        ->where([
+                        ['descricao', 'like', '%'.$filtro.'%'],
+                        ['status', '<>', 'I']
+                        ])->paginate(5);
+        $links = $ciclos->links();
 
-  public function arrayCiclos()
-  {
-      $ciclos_table = Ciclo::get();
-      $ciclos = array();
+        return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
+    }
 
-      foreach($ciclos_table as $ciclo)
-      {
-        if($ciclo->status != 'I')
+    public function detailsCiclo($id)
+    {
+        $ciclo = Ciclo::findOrFail($id);
+        $params = ['ciclo' => $ciclo];
+        return view('ciclos.details', $params);
+    }
+
+    public function arrayCiclos()
+    {
+
+        $ciclos_table = Ciclo::get();
+        $ciclos = array();
+        
+        foreach($ciclos_table as $ciclo)
+        {
+            if($ciclo->status != 'I')
             array_push($ciclos, $ciclo);
-      }
+        }
 
-      return $ciclos;
-  }
+        return $ciclos;
+    }
 
-  public function getJson()
-  {
-      $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->get();
+    public function getJson()
+    {
+        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->get();
 
-      return response()->json($ciclos);
-  }
+        return response()->json($ciclos);
+    }
 }

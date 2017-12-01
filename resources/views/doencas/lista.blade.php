@@ -119,7 +119,7 @@
                     <tr>
                       <td class="text-left">{{ $doenca->descricao }}</td>
                       <td class="text-right">
-                        <a href="" class="btn btn-warning">Visualizar</a>
+                        <a href="{{ action('DoencasController@detailsDoenca', $doenca->id) }}" class="btn btn-warning">Visualizar</a>
                         <a href="{{ action('DoencasController@editar', $doenca->id) }}" class="btn btn-primary">Editar</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusa-{{ $doenca->id }}">Excluir</button>
 

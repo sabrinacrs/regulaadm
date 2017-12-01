@@ -130,7 +130,7 @@
                     <tr>
                       <td class="text-left">{{ $tolerancia->descricao }}</td>
                       <td class="text-right">
-                        <a href="" class="btn btn-warning">Visualizar</a>
+                        <a href="{{ action('ToleranciasController@detailsTolerancia', $tolerancia->id) }}" class="btn btn-warning">Visualizar</a>
                         <a href="{{ action('ToleranciasController@editar', $tolerancia->id) }}" class="btn btn-primary">Editar</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $tolerancia->id }}">Excluir</button>
 

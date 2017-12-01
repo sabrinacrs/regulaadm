@@ -11,104 +11,105 @@ use DB;
 
 class EpocasSemeaduraController extends Controller
 {
-  public function index()
-  {
-      $epocas_semeadura = $this->arrayEpocaSemeaduras();
+    public function index()
+    {
+        $epocas_semeadura = $this->arrayEpocaSemeaduras();
+        return view('epocas_semeadura.principal');
+    }
 
-      return view('epocas_semeadura.principal');
-  }
+    public function lista()
+    {
+        $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);//$this->arrayEpocaSemeaduras();
+        $links = $epocas_semeadura->links();
+        return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
+    }
 
-  public function lista()
-  {
-      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);//$this->arrayEpocaSemeaduras();
-      $links = $epocas_semeadura->links();
+    public function salvar(Request $request)
+    {
+        $epoca_semeadura = new EpocasSemeadura();
+        $epoca_semeadura = $epoca_semeadura->create($request->all());
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
-  }
+        \Session::flash('mensagem_sucesso', 'Época de Semeadura cadastrada com sucesso.');
 
-  public function salvar(Request $request)
-  {
-      $epoca_semeadura = new EpocasSemeadura();
-      $epoca_semeadura = $epoca_semeadura->create($request->all());
+        if($request->is('epocas_semeadura/salvar'))
+            return Redirect::to('epocas_semeadura');
+        else
+            return Redirect::to('epocas_semeadura/lista/nova');
+    }
 
-      \Session::flash('mensagem_sucesso', 'Época de Semeadura cadastrada com sucesso.');
+    public function nova(Request $request)
+    {
+        $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
+        $links = $epocas_semeadura->links();
+        return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
+    }
 
-      if($request->is('epocas_semeadura/salvar'))
-        return Redirect::to('epocas_semeadura');
-      else
-        return Redirect::to('epocas_semeadura/lista/nova');
-  }
+    public function editar($id)
+    {
+        $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
+        $links = $epocas_semeadura->links();
+        $epoca_semeadura = EpocasSemeadura::findOrFail($id);
+        return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'epoca_semeadura'=>$epoca_semeadura, 'links'=>$links]);
+    }
 
-  public function nova(Request $request)
-  {
-      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
-      $links = $epocas_semeadura->links();
+    public function atualizar($id, Request $request)
+    {
+        $epocas_semeadura = $this->arrayEpocaSemeaduras();
+        $epoca_semeadura = EpocasSemeadura::findOrFail($id);
+        $epoca_semeadura->update($request->all());
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
-  }
+        \Session::flash('mensagem_sucesso', 'Época de Semeadura atualizada com sucesso.');
 
-  public function editar($id)
-  {
-      $epocas_semeadura = DB::table('epocassemeaduras')->where('status', '<>', 'I')->paginate(5);
-      $links = $epocas_semeadura->links();
-      $epoca_semeadura = EpocasSemeadura::findOrFail($id);
+        return Redirect::to('epocas_semeadura/lista/'.$epoca_semeadura->id.'/editar');
+    }
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'epoca_semeadura'=>$epoca_semeadura, 'links'=>$links]);
-  }
+    public function excluir($id)
+    {
+        $epoca_semeadura = EpocasSemeadura::findOrFail($id);
+        $epoca_semeadura->status = 'I';
+        $epoca_semeadura->update();
 
-  public function atualizar($id, Request $request)
-  {
-      $epocas_semeadura = $this->arrayEpocaSemeaduras();
-      $epoca_semeadura = EpocasSemeadura::findOrFail($id);
-      $epoca_semeadura->update($request->all());
+        \Session::flash('mensagem_sucesso', 'Época de Semeadura excluída com sucesso.');
 
-      \Session::flash('mensagem_sucesso', 'Época de Semeadura atualizada com sucesso.');
+        return Redirect::to('epocas_semeadura/lista');
+    }
 
-      return Redirect::to('epocas_semeadura/lista/'.$epoca_semeadura->id.'/editar');
-  }
+    public function buscar(Request $request)
+    {
+        $filtro = $request->get('buscar');
+        $epocas_semeadura = DB::table('epocassemeaduras')
+                        ->where([
+                        ['descricao', 'like', '%'.$filtro.'%'],
+                        ['status', '<>', 'I']
+                        ])->paginate(5);
+        $links = $epocas_semeadura->links();
+        return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links' => $links]);
+    }
 
-  public function excluir($id)
-  {
-      $epoca_semeadura = EpocasSemeadura::findOrFail($id);
-      $epoca_semeadura->status = 'I';
-      $epoca_semeadura->update();
+    public function arrayEpocaSemeaduras()
+    {
+        $epocas_semeadura_table = EpocasSemeadura::get();
+        $epocas_semeadura = array();
 
-      \Session::flash('mensagem_sucesso', 'Época de Semeadura excluída com sucesso.');
+        foreach($epocas_semeadura_table as $epoca_semeadura)
+        {
+            if($epoca_semeadura->status != 'I')
+                array_push($epocas_semeadura, $epoca_semeadura);
+        }
 
-      return Redirect::to('epocas_semeadura/lista');
-  }
+        return $epocas_semeadura;
+    }
 
-  public function buscar(Request $request)
-  {
-      $filtro = $request->get('buscar');
-      $epocas_semeadura = DB::table('epocassemeaduras')
-                    ->where([
-                      ['descricao', 'like', '%'.$filtro.'%'],
-                      ['status', '<>', 'I']
-                    ])->paginate(5);
-      $links = $epocas_semeadura->links();
+    public function detailsEpocaSemeadura($id)
+    {
+        $epoca_semeadura = EpocasSemeadura::findOrFail($id);
+        $params = ['epoca_semeadura' => $epoca_semeadura];
+        return view('epocas_semeadura.details', $params);
+    }
 
-      return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links' => $links]);
-  }
-
-  public function arrayEpocaSemeaduras()
-  {
-      $epocas_semeadura_table = EpocasSemeadura::get();
-      $epocas_semeadura = array();
-
-      foreach($epocas_semeadura_table as $epoca_semeadura)
-      {
-        if($epoca_semeadura->status != 'I')
-            array_push($epocas_semeadura, $epoca_semeadura);
-      }
-
-      return $epocas_semeadura;
-  }
-
-  public function getJson()
-  {
-      $epocassemeaduras = DB::table('epocassemeaduras')->where('status', '<>', 'I')->get();
-
-      return response()->json($epocassemeaduras);
-  }
+    public function getJson()
+    {
+        $epocassemeaduras = DB::table('epocassemeaduras')->where('status', '<>', 'I')->get();
+        return response()->json($epocassemeaduras);
+    }
 }

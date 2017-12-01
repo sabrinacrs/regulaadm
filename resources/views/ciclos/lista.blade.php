@@ -109,7 +109,7 @@
                     <tr>
                       <td class="text-left">{{ $ciclo->descricao }}</td>
                       <td class="text-right">
-                        <a href="" class="btn btn-warning">Visualizar</a>
+                        <a href="{{ action('CiclosController@detailsCiclo', $ciclo->id) }}" class="btn btn-warning">Visualizar</a>
                         <a href="{{ action('CiclosController@editar', $ciclo->id) }}" class="btn btn-primary">Editar</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $ciclo->id }}">Excluir</button>
 

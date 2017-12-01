@@ -121,7 +121,7 @@
                     <tr>
                       <td class="text-left">{{ $epoca_semeadura->descricao }}</td>
                       <td class="text-right">
-                        <a href="" class="btn btn-warning">Visualizar</a>
+                        <a href="{{ action('EpocasSemeaduraController@detailsEpocaSemeadura', $epoca_semeadura->id) }}" class="btn btn-warning">Visualizar</a>
                         <a href="{{ action('EpocasSemeaduraController@editar', $epoca_semeadura->id) }}" class="btn btn-primary">Editar</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $epoca_semeadura->id }}">Excluir</button>
 
