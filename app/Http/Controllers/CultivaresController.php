@@ -161,7 +161,8 @@ class CultivaresController extends Controller
     public function lista()
     {
         // $cultivares = Cultivar::where('status', '')->get();
-        $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(10);//get(); //$this->arrayCultivares(); // ->get()->paginate(10);//
+        // ->where('status', '<>', 'I')
+        $cultivares = DB::table('cultivares')->paginate(20);//get(); //$this->arrayCultivares(); // ->get()->paginate(10);//
         $links = $cultivares->links();
 
         return view('cultivares.lista', ['cultivares'=>$cultivares, 'links'=>$links]);
@@ -411,8 +412,6 @@ class CultivaresController extends Controller
     public function excluir($id)
     {
         $cultivar = Cultivar::findOrFail($id);
-        // $cultivar->status = 'I';
-        // $cultivar->update();
         $cultivar->delete();
 
         $release = new HistoricoAtualizacao();
@@ -428,15 +427,12 @@ class CultivaresController extends Controller
         $filtro = $request->get('buscar');
 
         if(empty($filtro)) {
-            //$cultivares = Cultivar::get();
-            $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(10);//get(); // >where('status', '<>', 'I')->
+            $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->paginate(20);//get(); // >where('status', '<>', 'I')->
         }
         else {
             $cultivares = DB::table('cultivares')
-                        ->where([
-                            ['nome', 'like', '%'.$filtro.'%'],
-                            ['status', '<>', 'I']
-                        ])->paginate(10); //->get();
+                        ->where(['nome', 'like', '%'.$filtro.'%'])
+                        ->paginate(20);
         }
 
         $links = $cultivares->links();

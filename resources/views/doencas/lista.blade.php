@@ -119,12 +119,36 @@
                     <tr>
                       <td class="text-left">{{ $doenca->descricao }}</td>
                       <td class="text-right">
-                        <a href="{{ action('DoencasController@detailsDoenca', $doenca->id) }}" class="btn btn-warning">Visualizar</a>
-                        <a href="{{ action('DoencasController@editar', $doenca->id) }}" class="btn btn-primary">Editar</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusa-{{ $doenca->id }}">Excluir</button>
+                        <table align="right">
+                          <tr style="width: 100%">
+                            {{--  coluna vizualizar  --}}
+                            <td style="width: 20%">
+                              <a style="width: 100%" href="{{ action('DoencasController@detailsDoenca', $doenca->id) }}" class="btn btn-primary">Visualizar</a>
+                            </td>
+
+                            {{--  Coluna Editar Doenca  --}}
+                            <td style="width: 20%">
+                              <a style="width: 100%" href="{{ action('DoencasController@editar', $doenca->id) }}" class="btn btn-default">Editar</a>
+                            </td>
+
+                            {{--  coluna desabilitar habilitar  --}}
+                            <td style="width: 20%">
+                              @if(is_null($doenca->status) || $doenca->status == 'A' || $doenca->status == '' )
+                                <a style="width: 100%" href="{{ action('DoencasController@disableEnableDoenca', $doenca->id) }}" class="btn btn-warning">Desativar</a>
+                              @else
+                                <a style="width: 100%" href="{{ action('DoencasController@disableEnableDoenca', $doenca->id) }}" class="btn btn-success">Ativar</a>
+                              @endif
+                            </td>
+
+                            {{--  coluna excluir  --}}
+                            <td  style="width: 20%">
+                              <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $doenca->id }}">Excluir</button>
+                            </td>
+                          </tr>
+                        </table>
 
                         <!-- MODAL -->
-                        <div id="confimar-exclusa-{{ $doenca->id }}" class="modal fade" role="dialog">
+                        <div id="confimar-exclusao-{{ $doenca->id }}" class="modal fade" role="dialog">
                           <div class="modal-dialog">
                             <div class="modal-content">
                               <div class="modal-header">

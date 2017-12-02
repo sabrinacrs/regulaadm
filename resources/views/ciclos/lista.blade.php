@@ -109,9 +109,33 @@
                     <tr>
                       <td class="text-left">{{ $ciclo->descricao }}</td>
                       <td class="text-right">
-                        <a href="{{ action('CiclosController@detailsCiclo', $ciclo->id) }}" class="btn btn-warning">Visualizar</a>
-                        <a href="{{ action('CiclosController@editar', $ciclo->id) }}" class="btn btn-primary">Editar</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $ciclo->id }}">Excluir</button>
+                        <table align="right">
+                          <tr style="width: 100%">
+                            {{--  coluna visualizar  --}}
+                            <td style="width: 30%">
+                              <a style="width: 100%" href="{{ action('CiclosController@detailsCiclo', $ciclo->id) }}" class="btn btn-primary">Visualizar</a>
+                            </td>
+
+                            {{--  Coluna Editar Doenca  --}}
+                            <td style="width: 30%">
+                              <a style="width: 100%" href="{{ action('CiclosController@editar', $ciclo->id) }}" class="btn btn-default">Editar</a>
+                            </td>
+
+                            {{--  coluna desabilitar habilitar  --}}
+                            <td style="width: 30%">
+                              @if(is_null($ciclo->status) || $ciclo->status == 'A' || $ciclo->status == '' )
+                                <a style="width: 100%" href="{{ action('CiclosController@disableEnableCiclo', $ciclo->id) }}" class="btn btn-warning">Desativar</a>
+                              @else
+                                <a style="width: 100%" href="{{ action('CiclosController@disableEnableCiclo', $ciclo->id) }}" class="btn btn-success">Ativar</a>
+                              @endif
+                            </td>
+
+                            {{--  coluna excluir  --}}
+                            <td style="width: 30%">
+                              <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $ciclo->id }}">Excluir</button>
+                            </td>
+                          </tr>
+                        </table>
 
                         <!-- MODAL -->
                         <div id="confimar-exclusao-{{ $ciclo->id }}" class="modal fade" role="dialog">

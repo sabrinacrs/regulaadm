@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\HistoricoAtualizacao;
 use App\Doenca;
 use Redirect;
 use DB;
@@ -13,17 +14,15 @@ class DoencasController extends Controller
 {
     public function index()
     {
-        $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5); //get();//$this->arrayDoencas();
+        $doencas = DB::table('doencas')->paginate(5); //get();//$this->arrayDoencas();
         $links = $doencas->links();
-
         return view('doencas.busca', ['doencas'=>$doencas, 'links'=>$links]);
     }
 
     public function lista()
     {
-        $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(5);
         $links = $doencas->links();
-
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
     }
 
@@ -34,6 +33,10 @@ class DoencasController extends Controller
 
         \Session::flash('mensagem_sucesso', 'Doença cadastrada com sucesso.');
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         if($request->is('doencas/salvar'))
             return Redirect::to('doencas');
         else
@@ -42,7 +45,7 @@ class DoencasController extends Controller
 
     public function nova(Request $request)
     {
-        $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(5);
         $links = $doencas->links();
 
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
@@ -50,7 +53,7 @@ class DoencasController extends Controller
 
     public function editar($id)
     {
-        $doencas = DB::table('doencas')->where('status', '<>', 'I')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(5);
         $doenca = Doenca::findOrFail($id);
         $links = $doencas->links();
 
@@ -63,6 +66,10 @@ class DoencasController extends Controller
         $doenca = Doenca::findOrFail($id);
         $doenca->update($request->all());
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         \Session::flash('mensagem_sucesso', 'Doença atualizada com sucesso');
 
         return Redirect::to('doencas/lista/'.$doenca->id.'/editar');
@@ -71,8 +78,11 @@ class DoencasController extends Controller
     public function excluir($id)
     {
         $doenca = Doenca::findOrFail($id);
-        $doenca->status = 'I';
-        $doenca->update();
+        $doenca->delete();
+
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
 
         \Session::flash('mensagem_sucesso', 'Doença excluída com sucesso');
 
@@ -83,10 +93,8 @@ class DoencasController extends Controller
     {
         $filtro = $request->get('buscar');
         $doencas = DB::table('doencas')
-                        ->where([
-                        ['descricao', 'like', '%'.$filtro.'%'],
-                        ['status', '<>', 'I']
-                        ])->paginate(5);
+                        ->where(['descricao', 'like', '%'.$filtro.'%'])
+                        ->paginate(5);
         $links = $doencas->links();
 
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
@@ -106,6 +114,33 @@ class DoencasController extends Controller
         return $doencas;
     }
 
+    public function disableEnableDoenca($id)
+    {
+        $doenca = Doenca::findOrFail($id);
+        $mensagem = '';
+
+        if(is_null($doenca->status) || $doenca->status == 'A')
+        {
+            $doenca->status = 'I';
+            $mensagem = 'Doença desativada com sucesso';
+        }
+        else
+        {
+            $doenca->status = 'A';
+            $mensagem = 'Doença reativada com sucesso';
+        }
+
+        $doenca->update();
+
+        // save release
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
+        \Session::flash('mensagem_sucesso', $mensagem);
+
+        return Redirect::to('doencas/lista');
+    }
+
     public function detailsDoenca($id)
     {
         $doenca = Doenca::findOrFail($id);
@@ -115,7 +150,7 @@ class DoencasController extends Controller
 
     public function getJson()
     {
-        $doencas = DB::table('doencas')->where('status', '<>', 'I')->get();
+        $doencas = DB::table('doencas')->get();
 
         return response()->json($doencas);
     }

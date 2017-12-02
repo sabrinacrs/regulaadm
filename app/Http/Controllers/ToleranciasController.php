@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\HistoricoAtualizacao;
 use App\Tolerancia;
 use Redirect;
 use DB;
@@ -20,7 +21,7 @@ class ToleranciasController extends Controller
     public function lista()
     {
         // $tolerancias = $this->arrayTolerancias();
-        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(5);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
     }
@@ -32,6 +33,10 @@ class ToleranciasController extends Controller
 
         \Session::flash('mensagem_sucesso', 'Tolerância cadastrada com sucesso.');
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         if($request->is('tolerancias/salvar'))
             return Redirect::to('tolerancias');
         else
@@ -40,14 +45,14 @@ class ToleranciasController extends Controller
 
     public function nova(Request $request)
     {
-        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(5);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'links'=>$links]);
     }
 
     public function editar($id)
     {
-        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(5);
         $tolerancia = Tolerancia::findOrFail($id);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia, 'links'=>$links]);
@@ -61,16 +66,23 @@ class ToleranciasController extends Controller
 
         \Session::flash('mensagem_sucesso', 'Tolerância atualizada com sucesso.');
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         return Redirect::to('tolerancias/lista/'.$tolerancia->id.'/editar');
     }
 
     public function excluir($id)
     {
         $tolerancia = Tolerancia::findOrFail($id);
-        $tolerancia->status = 'I';
-        $tolerancia->update();
+        $tolerancia->delete();
 
         \Session::flash('mensagem_sucesso', 'Tolerância excluída com sucesso.');
+
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
 
         return Redirect::to('tolerancias/lista');
     }
@@ -79,10 +91,8 @@ class ToleranciasController extends Controller
     {
         $filtro = $request->get('buscar');
         $tolerancias = DB::table('tolerancias')
-                    ->where([
-                        ['descricao', 'like', '%'.$filtro.'%'],
-                        ['status', '<>', 'I']
-                    ])->paginate(5);
+                    ->where(['descricao', 'like', '%'.$filtro.'%'])
+                    ->paginate(5);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
     }
@@ -94,11 +104,37 @@ class ToleranciasController extends Controller
 
         foreach($tolerancias_table as $tolerancia)
         {
-            if($tolerancia->status != 'I')
-                array_push($tolerancias, $tolerancia);
+            array_push($tolerancias, $tolerancia);
         }
 
         return $tolerancias;
+    }
+
+    public function disableEnableTolerancia($id)
+    {
+        $tolerancia = Tolerancia::findOrFail($id);
+        $mensagem = '';
+
+        if(is_null($tolerancia->status) || $tolerancia->status == 'A')
+        {
+            $tolerancia->status = 'I';
+            $mensagem = 'Tolerância desativada com sucesso';
+        }
+        else
+        {
+            $tolerancia->status = 'A';
+            $mensagem = 'Tolerância reativada com sucesso';
+        }
+
+        $tolerancia->update();
+
+        // save release
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
+        \Session::flash('mensagem_sucesso', $mensagem);
+
+        return Redirect::to('tolerancias/lista');
     }
 
     public function detailsTolerancia($id)
@@ -111,7 +147,7 @@ class ToleranciasController extends Controller
 
     public function getJson()
     {
-        $tolerancias = DB::table('tolerancias')->where('status', '<>', 'I')->get();
+        $tolerancias = DB::table('tolerancias')->get();
         return response()->json($tolerancias);
     }
 }

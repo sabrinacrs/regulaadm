@@ -99,6 +99,7 @@ Route::post('doencas/{doenca}/excluir', 'DoencasController@excluir');
 Route::any('doencas/lista/nova', 'DoencasController@nova');
 Route::any('doencas/lista/buscar/', 'DoencasController@buscar');
 Route::any('doencas/visualizar/{doenca}', 'DoencasController@detailsDoenca');
+Route::any('doencas/lista/{doenca}', 'DoencasController@disableEnableDoenca');
 
 Route::any('ciclos/', 'CiclosController@index');
 Route::any('ciclos/salvar', 'CiclosController@salvar');
@@ -111,6 +112,7 @@ Route::post('ciclos/{ciclo}/excluir', 'CiclosController@excluir');
 Route::any('ciclos/lista/novo', 'CiclosController@novo');
 Route::any('ciclos/lista/buscar/', 'CiclosController@buscar');
 Route::any('ciclos/visualizar/{ciclo}', 'CiclosController@detailsCiclo');
+Route::any('ciclos/lista/{ciclo}', 'CiclosController@disableEnableCiclo');
 
 Route::any('tolerancias/', 'ToleranciasController@index');
 Route::any('tolerancias/salvar', 'ToleranciasController@salvar');
@@ -123,6 +125,7 @@ Route::post('tolerancias/{tolerancia}/excluir', 'ToleranciasController@excluir')
 Route::any('tolerancias/lista/nova', 'ToleranciasController@nova');
 Route::any('tolerancias/lista/buscar/', 'ToleranciasController@buscar');
 Route::any('tolerancias/visualizar/{tolerancia}', 'ToleranciasController@detailsTolerancia');
+Route::any('tolerancias/lista/{tolerancia}', 'ToleranciasController@disableEnableTolerancia');
 
 Route::any('epocas_semeadura/', 'EpocasSemeaduraController@index');
 Route::any('epocas_semeadura/salvar', 'EpocasSemeaduraController@salvar');
@@ -135,6 +138,7 @@ Route::post('epocas_semeadura/{epoca_semeadura}/excluir', 'EpocasSemeaduraContro
 Route::any('epocas_semeadura/lista/nova', 'EpocasSemeaduraController@nova');
 Route::any('epocas_semeadura/lista/buscar/', 'EpocasSemeaduraController@buscar');
 Route::any('epocas_semeadura/visualizar/{epoca_semeadura}', 'EpocasSemeaduraController@detailsEpocaSemeadura');
+Route::any('epocas_semeadura/lista/{epoca_semeadura}', 'EpocasSemeaduraController@disableEnableEpocaSemeadura');
 
 Route::any('cultivares/', 'CultivaresController@index');
 Route::any('cultivares/nova', 'CultivaresController@nova');

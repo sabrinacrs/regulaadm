@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\HistoricoAtualizacao;
 use App\Ciclo;
 use Redirect;
 use DB;
@@ -16,15 +17,13 @@ class CiclosController extends Controller
     public function index()
     {
         $ciclos = $this->arrayCiclos();
-
         return view('ciclos.principal');
     }
 
     public function lista()
     {
-        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(5);
         $links = $ciclos->links();
-
         return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
     }
 
@@ -35,6 +34,10 @@ class CiclosController extends Controller
 
         \Session::flash('mensagem_sucesso', 'Ciclo cadastrado com sucesso.');
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         if($request->is('ciclos/salvar'))
             return Redirect::to('ciclos');
         else
@@ -43,18 +46,16 @@ class CiclosController extends Controller
 
     public function novo(Request $request)
     {
-        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(5);
         $links = $ciclos->links();
-
         return view('ciclos.lista', ['ciclos'=>$ciclos, 'links'=>$links]);
     }
 
     public function editar($id)
     {
-        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(5);
         $links = $ciclos->links();
         $ciclo = Ciclo::findOrFail($id);
-
         return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo, 'links'=>$links]);
     }
 
@@ -64,6 +65,10 @@ class CiclosController extends Controller
         $ciclo = Ciclo::findOrFail($id);
         $ciclo->update($request->all());
 
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         \Session::flash('mensagem_sucesso', 'Ciclo atualizado com sucesso.');
 
         return Redirect::to('ciclos/lista/'.$ciclo->id.'/editar');
@@ -72,8 +77,11 @@ class CiclosController extends Controller
     public function excluir($id)
     {
         $ciclo = Ciclo::findOrFail($id);
-        $ciclo->status = 'I';
-        $ciclo->update();
+        $ciclo->delete();
+
+        // insere alteração no historico
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
 
         \Session::flash('mensagem_sucesso', 'Ciclo excluído com sucesso.');
 
@@ -84,10 +92,8 @@ class CiclosController extends Controller
     {
         $filtro = $request->get('buscar');
         $ciclos = DB::table('ciclos')
-                        ->where([
-                        ['descricao', 'like', '%'.$filtro.'%'],
-                        ['status', '<>', 'I']
-                        ])->paginate(5);
+                        ->where(['descricao', 'like', '%'.$filtro.'%'])
+                        ->paginate(5);
         $links = $ciclos->links();
 
         return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
@@ -100,6 +106,33 @@ class CiclosController extends Controller
         return view('ciclos.details', $params);
     }
 
+    public function disableEnableCiclo($id)
+    {
+        $ciclo = Ciclo::findOrFail($id);
+        $mensagem = '';
+
+        if(is_null($ciclo->status) || $ciclo->status == 'A')
+        {
+            $ciclo->status = 'I';
+            $mensagem = 'Ciclo desativado com sucesso';
+        }
+        else
+        {
+            $ciclo->status = 'A';
+            $mensagem = 'Ciclo reativado com sucesso';
+        }
+
+        $ciclo->update();
+
+        // save release
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
+        \Session::flash('mensagem_sucesso', $mensagem);
+
+        return Redirect::to('ciclos/lista');
+    }
+
     public function arrayCiclos()
     {
 
@@ -108,7 +141,6 @@ class CiclosController extends Controller
         
         foreach($ciclos_table as $ciclo)
         {
-            if($ciclo->status != 'I')
             array_push($ciclos, $ciclo);
         }
 
@@ -117,7 +149,7 @@ class CiclosController extends Controller
 
     public function getJson()
     {
-        $ciclos = DB::table('ciclos')->where('status', '<>', 'I')->get();
+        $ciclos = DB::table('ciclos')->get();
 
         return response()->json($ciclos);
     }

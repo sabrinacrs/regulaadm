@@ -121,9 +121,33 @@
                     <tr>
                       <td class="text-left">{{ $epoca_semeadura->descricao }}</td>
                       <td class="text-right">
-                        <a href="{{ action('EpocasSemeaduraController@detailsEpocaSemeadura', $epoca_semeadura->id) }}" class="btn btn-warning">Visualizar</a>
-                        <a href="{{ action('EpocasSemeaduraController@editar', $epoca_semeadura->id) }}" class="btn btn-primary">Editar</a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $epoca_semeadura->id }}">Excluir</button>
+                        <table align="right">
+                          <tr style="width: 100%">
+                            {{--  coluna visualizar  --}}
+                            <td style="width: 20%">
+                              <a style="width: 100%" href="{{ action('EpocasSemeaduraController@detailsEpocaSemeadura', $epoca_semeadura->id) }}" class="btn btn-primary">Visualizar</a>
+                            </td>
+
+                            {{--  Coluna Editar Doenca  --}}
+                            <td style="width: 20%">
+                              <a style="width: 100%" href="{{ action('EpocasSemeaduraController@editar', $epoca_semeadura->id) }}" class="btn btn-default">Editar</a>
+                            </td>
+
+                            {{--  coluna desabilitar habilitar  --}}
+                            <td style="width: 20%">
+                              @if(is_null($epoca_semeadura->status) || $epoca_semeadura->status == 'A' || $epoca_semeadura->status == '' )
+                                <a style="width: 100%" href="{{ action('EpocasSemeaduraController@disableEnableEpocaSemeadura', $epoca_semeadura->id) }}" class="btn btn-warning">Desativar</a>
+                              @else
+                                <a style="width: 100%" href="{{ action('EpocasSemeaduraController@disableEnableEpocaSemeadura', $epoca_semeadura->id) }}" class="btn btn-success">Ativar</a>
+                              @endif
+                            </td>
+
+                            {{--  coluna excluir  --}}
+                            <td  style="width: 20%">
+                              <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $epoca_semeadura->id }}">Excluir</button>
+                            </td>
+                          </tr>
+                        </table>
 
                         <!-- MODAL -->
                         <div id="confimar-exclusao-{{ $epoca_semeadura->id }}" class="modal fade" role="dialog">

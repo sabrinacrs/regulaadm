@@ -71,18 +71,18 @@
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna Visualizar  --}}
-                            <td style="width: 30%">
+                            <td style="width: 15%">
                               <a style="width: 100%" href="{{ action('CultivaresController@detailsCultivar', $cultivar->id) }}" class="btn btn-primary">Visualizar</a>
                             </td>
 
                             {{--  coluna editar  --}}
-                            <td style="width: 30%">
-                              <a style="width: 100%" href="{{ action('CultivaresController@editar', $cultivar->id) }}" class="btn btn-primary">Editar</a>
+                            <td style="width: 15%">
+                              <a style="width: 100%" href="{{ action('CultivaresController@editar', $cultivar->id) }}" class="btn btn-default">Editar</a>
                             </td>
 
                             {{--  coluna enable disable  --}}
-                            <td style="width: 30%">
-                              @if(is_null($cultivar->status) || $cultivar->status == 'A')
+                            <td style="width: 15%">
+                              @if(is_null($cultivar->status) || $cultivar->status == 'A' || $cultivar->status == '')
                                 <a style="width: 100%" href="{{ action('CultivaresController@disableEnableCultivar', $cultivar->id) }}" class="btn btn-warning">Desativar</a>
                               @else
                                 <a style="width: 100%" href="{{ action('CultivaresController@disableEnableCultivar', $cultivar->id) }}" class="btn btn-success">Ativar</a>
@@ -90,7 +90,7 @@
                             </td>
 
                             {{--  coluna excluir  --}}
-                            <td style="width: 30%">
+                            <td style="width: 15%">
                               <button style="width: 100%" type="button" class="btn btn-danger" data-toggle="modal" data-target="#confimar-exclusao-{{ $cultivar->id }}">Excluir</button>
                             </td>
                           </tr>

@@ -77,11 +77,6 @@
                             </td>
                           </tr>
                         </table>
-                        
-
-                        
-
-                        
 
                         <!-- MODAL -->
                         <div id="confimar-exclusao-{{ $cliente->id }}" class="modal fade" role="dialog">
