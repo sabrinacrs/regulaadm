@@ -26,6 +26,7 @@ class Cultivar extends Model
               'resistencia_maximo',
               'peso_sementes_minimo',
               'peso_sementes_maximo',
-              'cic_id'
+              'cic_id',
+              'status'
   ];
 }

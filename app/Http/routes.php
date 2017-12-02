@@ -150,6 +150,7 @@ Route::any('cultivares/lista/{cultivar}/editar', 'CultivaresController@editar');
 Route::post('cultivares/{cultivar}/excluir', 'CultivaresController@excluir');
 Route::any('cultivares/lista/buscar/', 'CultivaresController@buscar');
 Route::any('cultivares/visualizar/{cultivar}', 'CultivaresController@detailsCultivar');
+Route::any('cultivares/lista/{cultivar}', 'CultivaresController@disableEnableCultivar');
 
 // Teste OneSignal
 Route::any('testesignal/onesignal/', 'CultivaresController@sendMessageInsertion');

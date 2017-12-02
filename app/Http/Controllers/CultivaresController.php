@@ -294,6 +294,9 @@ class CultivaresController extends Controller
                                         ->update(['plantas_ha' => $this->getValor($request->input(str_replace(' ', '', $value)))]);
             }
 
+            $release = new HistoricoAtualizacao();
+            $release->saveRelease();
+
             \Session::flash('mensagem_sucesso', 'Cultivar atualizada com sucesso.');
 
             return Redirect::to('cultivares');
@@ -350,6 +353,10 @@ class CultivaresController extends Controller
             $cultivarHasDoencas->update($query);
         }
 
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
+
         \Session::flash('mensagem_sucesso', 'Doenças vinculadas com sucesso.');
 
         return Redirect::to('cultivares/lista');
@@ -393,6 +400,9 @@ class CultivaresController extends Controller
             }
         }
 
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
         \Session::flash('mensagem_sucesso', 'Doenças vinculadas com sucesso.');
 
         return Redirect::to('cultivares/lista');
@@ -401,8 +411,12 @@ class CultivaresController extends Controller
     public function excluir($id)
     {
         $cultivar = Cultivar::findOrFail($id);
-        $cultivar->status = 'I';
-        $cultivar->update();
+        // $cultivar->status = 'I';
+        // $cultivar->update();
+        $cultivar->delete();
+
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
 
         \Session::flash('mensagem_sucesso', 'Cultivar excluída com sucesso.');
 
@@ -458,27 +472,6 @@ class CultivaresController extends Controller
         return true;
     }
 
-  // private function validateFields()
-  // {
-  //     $mensagem = "";
-  //
-  //     // validações de Min e Max
-  //     if(!$this->validateMinMax($rendimentoFibraMinimo, $rendimentoFibraMaximo))
-  //       $mensagemFalha += "Rendimento mínimo não pode ser maior que o máximo \n";
-  //     if(!$this->validateMinMax($pesoCapulhoMinimo, $pesoCapulhoMaximo))
-  //       $mensagemFalha += "O peso mínimo do capulho não pode ser maior que o máximo \n";
-  //     if(!$this->validateMinMax($comprimentoFibraMinimo, $comprimentoFibraMaximo))
-  //       $mensagemFalha += "O comprimento da fibra mínimo não pode ser maior que o máximo \n";
-  //     if(!$this->validateMinMax($micronaireMinimo, $micronaireMaximo))
-  //       $mensagemFalha += "Micronaire mínimo não pode ser maior que o máximo \n";
-  //     if(!$this->validateMinMax($resistenciaMinimo, $resistenciaMaximo))
-  //       $mensagemFalha += "Resistência mínima não pode ser maior que a resistência máxima \n";
-  //     if(!$this->validateMinMax($pesoSementesMinimo, $pesoSementesMaximo))
-  //       $mensagemFalha += "Peso sementes mínimo não pode ser maior que o peso máximo \n";
-  //
-  //     return $mensagem;
-  // }
-
     private function arrayCultivares()
     {
         $cultivares_table = Cultivar::get();
@@ -507,9 +500,36 @@ class CultivaresController extends Controller
         return $doencas;
     }
 
+    public function disableEnableCultivar($id)
+    {
+        $cultivar = Cultivar::findOrFail($id);
+        $mensagem = '';
+
+        if(is_null($cultivar->status) || $cultivar->status == 'A')
+        {
+            $cultivar->status = 'I';
+            $mensagem = 'Cultivar desativada com sucesso';
+        }
+        else
+        {
+            $cultivar->status = 'A';
+            $mensagem = 'Cultivar reativada com sucesso';
+        }
+
+        $cultivar->update();
+
+        // save release
+        $release = new HistoricoAtualizacao();
+        $release->saveRelease();
+
+        \Session::flash('mensagem_sucesso', $mensagem);
+
+        return Redirect::to('cultivares/lista');
+    }
+
     public function getJson()
     {
-        $cultivares = DB::table('cultivares')->where('status', '<>', 'I')->get();
+        $cultivares = DB::table('cultivares')->get();
 
         return response()->json($cultivares);
     }
