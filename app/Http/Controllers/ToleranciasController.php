@@ -143,7 +143,6 @@ class ToleranciasController extends Controller
         $params = ['tolerancia' => $tolerancia];
         return view('tolerancias.details', $params);
     }
-  
 
     public function getJson()
     {
