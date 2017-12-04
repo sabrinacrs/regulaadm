@@ -31,7 +31,7 @@
                 @if(Request::is('*/nova'))
                   {!! Form::open(['url' => 'epocas_semeadura/lista/salvar']) !!}
                 @else
-                  {!! Form::model($epoca_semeadura, ['method'=>'PATCH', 'url'=>'epocas_semeadura/lista/'.$epoca_semeadura->id]) !!}
+                  {!! Form::model($epoca_semeadura, ['method'=>'PATCH', 'url'=>'epocas_semeadura/lista/'.$epoca_semeadura->id. '/update']) !!}
                 @endif
                   {!! Form::label('descricao', 'Descrição') !!}
                   {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}

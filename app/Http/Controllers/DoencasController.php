@@ -57,7 +57,13 @@ class DoencasController extends Controller
         $doenca = Doenca::findOrFail($id);
         $links = $doencas->links();
 
-        return view('doencas.lista', ['doencas'=>$doencas, 'doenca'=>$doenca, 'links'=>$links]);
+        $params = [
+            'doencas'=>$doencas, 
+            'doenca'=>$doenca, 
+            'links'=>$links
+        ];
+
+        return view('doencas.lista', $params);
     }
 
     public function atualizar($id, Request $request)
@@ -93,7 +99,7 @@ class DoencasController extends Controller
     {
         $filtro = $request->get('buscar');
         $doencas = DB::table('doencas')
-                        ->where(['descricao', 'like', '%'.$filtro.'%'])
+                        ->where('descricao', 'like', '%'.$filtro.'%')
                         ->paginate(5);
         $links = $doencas->links();
 

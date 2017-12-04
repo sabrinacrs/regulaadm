@@ -32,7 +32,7 @@
               @if(Request::is('*/nova'))
                 {!! Form::open(['url' => 'tolerancias/lista/salvar']) !!}
               @else
-                {!! Form::model($tolerancia, ['method'=>'PATCH', 'url'=>'tolerancias/lista/'.$tolerancia->id]) !!}
+                {!! Form::model($tolerancia, ['method'=>'PATCH', 'url'=>'tolerancias/lista/'.$tolerancia->id.'/update']) !!}
               @endif
 
               <div class="form-inline">

@@ -431,7 +431,7 @@ class CultivaresController extends Controller
         }
         else {
             $cultivares = DB::table('cultivares')
-                        ->where(['nome', 'like', '%'.$filtro.'%'])
+                        ->where('nome', 'like', '%'.$filtro.'%')
                         ->paginate(20);
         }
 

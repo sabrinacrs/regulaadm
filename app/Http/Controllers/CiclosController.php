@@ -92,7 +92,7 @@ class CiclosController extends Controller
     {
         $filtro = $request->get('buscar');
         $ciclos = DB::table('ciclos')
-                        ->where(['descricao', 'like', '%'.$filtro.'%'])
+                        ->where('descricao', 'like', '%'.$filtro.'%')
                         ->paginate(5);
         $links = $ciclos->links();
 

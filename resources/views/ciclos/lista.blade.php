@@ -28,7 +28,7 @@
               @if(Request::is('*/novo'))
                 {!! Form::open(['url' => 'ciclos/lista/salvar']) !!}
               @else
-                {!! Form::model($ciclo, ['method'=>'PATCH', 'url'=>'ciclos/lista/'.$ciclo->id]) !!}
+                {!! Form::model($ciclo, ['method'=>'PATCH', 'url'=>'ciclos/lista/'.$ciclo->id.'/update']) !!}
               @endif
                 {!! Form::label('descricao', 'Descrição') !!}
                 {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}

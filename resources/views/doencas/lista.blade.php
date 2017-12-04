@@ -32,7 +32,7 @@
                 @if(Request::is('*/nova'))
                   {!! Form::open(['url' => 'doencas/lista/salvar']) !!}
                 @else
-                  {!! Form::model($doenca, ['method'=>'PATCH', 'url'=>'doencas/lista/'.$doenca->id]) !!}
+                  {!! Form::model($doenca, ['method'=>'PATCH', 'url'=>'doencas/lista/' . $doenca->id . '/update']) !!}
                 @endif
                   {!! Form::label('descricao', 'Descrição') !!}
                   {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}
@@ -121,7 +121,7 @@
                       <td class="text-right">
                         <table align="right">
                           <tr style="width: 100%">
-                            {{--  coluna vizualizar  --}}
+                            {{--  coluna visualizar  --}}
                             <td style="width: 20%">
                               <a style="width: 100%" href="{{ action('DoencasController@detailsDoenca', $doenca->id) }}" class="btn btn-primary">Visualizar</a>
                             </td>

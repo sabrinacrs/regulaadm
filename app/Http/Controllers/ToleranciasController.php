@@ -91,7 +91,7 @@ class ToleranciasController extends Controller
     {
         $filtro = $request->get('buscar');
         $tolerancias = DB::table('tolerancias')
-                    ->where(['descricao', 'like', '%'.$filtro.'%'])
+                    ->where('descricao', 'like', '%'.$filtro.'%')
                     ->paginate(5);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);

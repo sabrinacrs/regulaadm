@@ -90,7 +90,7 @@ class EpocasSemeaduraController extends Controller
     {
         $filtro = $request->get('buscar');
         $epocas_semeadura = DB::table('epocassemeaduras')
-                        ->where(['descricao', 'like', '%'.$filtro.'%'])
+                        ->where('descricao', 'like', '%'.$filtro.'%')
                         ->paginate(5);
         $links = $epocas_semeadura->links();
         return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links' => $links]);
