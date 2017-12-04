@@ -22,7 +22,7 @@ class CiclosController extends Controller
 
     public function lista()
     {
-        $ciclos = DB::table('ciclos')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(10);
         $links = $ciclos->links();
         return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);
     }
@@ -46,14 +46,14 @@ class CiclosController extends Controller
 
     public function novo(Request $request)
     {
-        $ciclos = DB::table('ciclos')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(10);
         $links = $ciclos->links();
         return view('ciclos.lista', ['ciclos'=>$ciclos, 'links'=>$links]);
     }
 
     public function editar($id)
     {
-        $ciclos = DB::table('ciclos')->paginate(5);
+        $ciclos = DB::table('ciclos')->paginate(10);
         $links = $ciclos->links();
         $ciclo = Ciclo::findOrFail($id);
         return view('ciclos.lista', ['ciclos'=>$ciclos, 'ciclo' => $ciclo, 'links'=>$links]);
@@ -93,7 +93,7 @@ class CiclosController extends Controller
         $filtro = $request->get('buscar');
         $ciclos = DB::table('ciclos')
                         ->where('descricao', 'like', '%'.$filtro.'%')
-                        ->paginate(5);
+                        ->paginate(10);
         $links = $ciclos->links();
 
         return view('ciclos.lista', ['ciclos' => $ciclos, 'links' => $links]);

@@ -20,7 +20,7 @@ class EpocasSemeaduraController extends Controller
 
     public function lista()
     {
-        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(5);
+        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(10);
         $links = $epocas_semeadura->links();
         return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
     }
@@ -44,14 +44,14 @@ class EpocasSemeaduraController extends Controller
 
     public function nova(Request $request)
     {
-        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(5);
+        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(10);
         $links = $epocas_semeadura->links();
         return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links'=>$links]);
     }
 
     public function editar($id)
     {
-        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(5);
+        $epocas_semeadura = DB::table('epocassemeaduras')->paginate(10);
         $links = $epocas_semeadura->links();
         $epoca_semeadura = EpocasSemeadura::findOrFail($id);
         return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'epoca_semeadura'=>$epoca_semeadura, 'links'=>$links]);
@@ -91,7 +91,7 @@ class EpocasSemeaduraController extends Controller
         $filtro = $request->get('buscar');
         $epocas_semeadura = DB::table('epocassemeaduras')
                         ->where('descricao', 'like', '%'.$filtro.'%')
-                        ->paginate(5);
+                        ->paginate(10);
         $links = $epocas_semeadura->links();
         return view('epocas_semeadura.lista', ['epocas_semeadura'=>$epocas_semeadura, 'links' => $links]);
     }

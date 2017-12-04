@@ -34,15 +34,15 @@
                 {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}
               <br />
               @if(Request::is('*/novo'))
-                {!! Form::submit('Salvar', ['class'=>'btn btn-success']) !!}
+                {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style' => 'width: 33%']) !!}
               @else
-                {!! Form::submit('Alterar', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style' => 'width: 33%']) !!}
               @endif
 
               @if(Session::has('mensagem_sucesso') || Request::is('*/editar'))
-                <a href="{{ url('ciclos/lista/novo') }}" class="btn btn-default">Cancelar</a>
+                <a href="{{ url('ciclos/lista/novo') }}" class="btn btn-default" style="width: 33%">Cancelar</a>
               @else
-                {!! Form::reset('Cancelar', ['class' => 'btn btn-default']) !!}
+                {!! Form::reset('Cancelar', ['class' => 'btn btn-default', 'style' => 'width: 33%']) !!}
               @endif
                 {!! Form::close() !!}
             </div>
@@ -108,7 +108,7 @@
                   @foreach ($ciclos as $ciclo)
                     <tr>
                       <td class="text-left">{{ $ciclo->descricao }}</td>
-                      <td class="text-right">
+                      <td class="text-right" style="width: 60%">
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna visualizar  --}}

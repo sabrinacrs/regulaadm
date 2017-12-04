@@ -21,7 +21,7 @@ class ToleranciasController extends Controller
     public function lista()
     {
         // $tolerancias = $this->arrayTolerancias();
-        $tolerancias = DB::table('tolerancias')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(10);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
     }
@@ -45,14 +45,14 @@ class ToleranciasController extends Controller
 
     public function nova(Request $request)
     {
-        $tolerancias = DB::table('tolerancias')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(10);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'links'=>$links]);
     }
 
     public function editar($id)
     {
-        $tolerancias = DB::table('tolerancias')->paginate(5);
+        $tolerancias = DB::table('tolerancias')->paginate(10);
         $tolerancia = Tolerancia::findOrFail($id);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias'=>$tolerancias, 'tolerancia' => $tolerancia, 'links'=>$links]);
@@ -92,7 +92,7 @@ class ToleranciasController extends Controller
         $filtro = $request->get('buscar');
         $tolerancias = DB::table('tolerancias')
                     ->where('descricao', 'like', '%'.$filtro.'%')
-                    ->paginate(5);
+                    ->paginate(10);
         $links = $tolerancias->links();
         return view('tolerancias.lista', ['tolerancias' => $tolerancias, 'links'=>$links]);
     }

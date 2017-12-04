@@ -67,7 +67,7 @@
                     <tr>
                       <td class="text-left">{{ $cultivar->id }}</td>
                       <td class="text-left">{{ $cultivar->nome }}</td>
-                      <td class="text-right">
+                      <td class="text-right" style="width: 60%">
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna Visualizar  --}}

@@ -14,14 +14,14 @@ class DoencasController extends Controller
 {
     public function index()
     {
-        $doencas = DB::table('doencas')->paginate(5); //get();//$this->arrayDoencas();
+        $doencas = DB::table('doencas')->paginate(10);
         $links = $doencas->links();
         return view('doencas.busca', ['doencas'=>$doencas, 'links'=>$links]);
     }
 
     public function lista()
     {
-        $doencas = DB::table('doencas')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(10);
         $links = $doencas->links();
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
     }
@@ -45,7 +45,7 @@ class DoencasController extends Controller
 
     public function nova(Request $request)
     {
-        $doencas = DB::table('doencas')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(10);
         $links = $doencas->links();
 
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);
@@ -53,7 +53,7 @@ class DoencasController extends Controller
 
     public function editar($id)
     {
-        $doencas = DB::table('doencas')->paginate(5);
+        $doencas = DB::table('doencas')->paginate(10);
         $doenca = Doenca::findOrFail($id);
         $links = $doencas->links();
 
@@ -100,7 +100,7 @@ class DoencasController extends Controller
         $filtro = $request->get('buscar');
         $doencas = DB::table('doencas')
                         ->where('descricao', 'like', '%'.$filtro.'%')
-                        ->paginate(5);
+                        ->paginate(10);
         $links = $doencas->links();
 
         return view('doencas.lista', ['doencas'=>$doencas, 'links'=>$links]);

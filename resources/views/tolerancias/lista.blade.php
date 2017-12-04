@@ -49,15 +49,15 @@
 
               <br />
               @if(Request::is('*/nova'))
-                {!! Form::submit('Salvar', ['class'=>'btn btn-success']) !!}
+                {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline; width:38%']) !!}
               @else
-                {!! Form::submit('Alterar', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline; width:38%']) !!}
               @endif
 
               @if(Session::has('mensagem_sucesso') || Request::is('*/editar'))
-                <a href="{{ url('tolerancias/lista/nova') }}" class="btn btn-default">Cancelar</a>
+                <a href="{{ url('tolerancias/lista/nova') }}" class="btn btn-default" style="width: 38%">Cancelar</a>
               @else
-                {!! Form::reset('Cancelar', ['class' => 'btn btn-default']) !!}
+                {!! Form::reset('Cancelar', ['class' => 'btn btn-default', 'style'=>'display:inline; width:38%']) !!}
               @endif
                 {!! Form::close() !!}
             </div>
@@ -129,7 +129,7 @@
                   @foreach ($tolerancias as $tolerancia)
                     <tr>
                       <td class="text-left">{{ $tolerancia->descricao }}</td>
-                      <td class="text-right">
+                      <td class="text-right" style="width: 60%">
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna vizualizar  --}}

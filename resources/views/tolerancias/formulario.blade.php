@@ -40,11 +40,11 @@
         <br />
         <div class="col-sm-6">
           @if(Request::is('*/editar'))
-            {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline;']) !!}
+            {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style'=>'display:inline; width: 33%' ]) !!}
           @else
-            {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline;']) !!}
+            {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style'=>'display:inline; width: 33%']) !!}
           @endif
-          {{ Form::reset('Cancelar', ['class' => 'btn btn-default']) }}
+          {{ Form::reset('Cancelar', ['class' => 'btn btn-default', 'style'=>'display:inline; width:33%']) }}
         </div>
 
         {!! Form::close() !!}

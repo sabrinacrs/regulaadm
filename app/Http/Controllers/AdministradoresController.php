@@ -26,7 +26,7 @@ class AdministradoresController extends Controller
 
     public function lista()
     {
-        $administradores = DB::table('users')->paginate(5);
+        $administradores = DB::table('users')->paginate(10);
         $links = $administradores->links();
 
         $parameters = [

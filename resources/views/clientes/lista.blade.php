@@ -54,7 +54,7 @@
                     <tr>
                       <td class="text-left">{{ $cliente->nome }}</td>
                       <td class="text-left">{{ $cliente->email }}</td>
-                      <td class="">
+                      <td class="text-right" style="width: 60%">
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna vizualizar  --}}

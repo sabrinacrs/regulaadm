@@ -36,16 +36,17 @@
                   {!! Form::label('descricao', 'Descrição') !!}
                   {!! Form::input('text', 'descricao', null, ['class'=>'form-control', 'required', 'autofocus']) !!}
                 <br />
-                @if(Request::is('*/nova'))
-                  {!! Form::submit('Salvar', ['class'=>'btn btn-success']) !!}
-                @else
-                  {!! Form::submit('Alterar', ['class'=>'btn btn-primary']) !!}
-                @endif
 
+                @if(Request::is('*/nova'))
+                  {!! Form::submit('Salvar', ['class'=>'btn btn-success', 'style' => 'width: 33%']) !!}
+                @else
+                  {!! Form::submit('Alterar', ['class'=>'btn btn-primary', 'style' => 'width: 33%']) !!}
+                @endif
+                
                 @if(Session::has('mensagem_sucesso') || Request::is('*/editar'))
                   <a href="{{ url('epocas_semeadura/lista/nova') }}" class="btn btn-default">Cancelar</a>
                 @else
-                  {!! Form::reset('Cancelar', ['class' => 'btn btn-default']) !!}
+                  {!! Form::reset('Cancelar', ['class' => 'btn btn-default', 'style' => 'width: 33%']) !!}
                 @endif
                   {!! Form::close() !!}
               </div>
@@ -120,7 +121,7 @@
                   @foreach ($epocas_semeadura as $epoca_semeadura)
                     <tr>
                       <td class="text-left">{{ $epoca_semeadura->descricao }}</td>
-                      <td class="text-right">
+                      <td class="text-right" style="width: 60%">
                         <table align="right">
                           <tr style="width: 100%">
                             {{--  coluna visualizar  --}}
