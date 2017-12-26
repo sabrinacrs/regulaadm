@@ -20,6 +20,8 @@ class HistoricoAtualizacao extends Model
 
         $release = new HistoricoAtualizacao();
         $release->data_atualizacao = $mytime->toDateTimeString();
+
+        // dd($mytime->toDateTimeString());
         $release->status = 'D'; // ou I para habilitar depois
 
         // get user id logged

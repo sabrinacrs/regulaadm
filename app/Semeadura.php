@@ -39,7 +39,7 @@ class Semeadura extends Model
         $semeadura = self::find($id);
 
         if(is_null($semeadura))
-          return false;
+            return false;
 
         return $semeadura;
     }

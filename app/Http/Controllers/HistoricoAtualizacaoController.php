@@ -40,8 +40,10 @@ class HistoricoAtualizacaoController extends Controller
         $mytime = \Carbon\Carbon::now();
 
         // todas as atualizações do dia, que estão com status I, ficam com status D      
+        
+        // dd($mytime->toDateString());
         // echo $mytime->toDateString();  
-        HistoricoAtualizacao::where('data_atualizacao', $mytime->toDateString())
+        HistoricoAtualizacao::where('data_atualizacao', $mytime->toDateTimeString())
                             ->where('status', 'I')
                             ->update(['status' => 'D']);
 

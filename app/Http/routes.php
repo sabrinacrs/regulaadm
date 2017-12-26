@@ -38,6 +38,26 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::delete('{id}', ['uses' => 'SemeadurasController@deleteSemeadura']);
     });
 
+    // fazendas
+    Route::group(['prefix' => 'fazenda'], function()
+    {
+      Route::get('', ['uses' => 'FazendasController@allFazendas']);
+      Route::get('{id}', ['uses' => 'FazendasController@getFazenda']);
+      Route::post('', ['uses' => 'FazendasController@saveFazenda']);
+      Route::put('{id}', ['uses' => 'FazendasController@updateFazenda']);
+      Route::delete('{id}', ['uses' => 'FazendasController@deleteFazenda']);
+    });
+
+    // talhoes
+    Route::group(['prefix' => 'talhao'], function()
+    {
+      Route::get('', ['uses' => 'TalhoesController@allTalhoes']);
+      Route::get('{id}', ['uses' => 'TalhoesController@getTalhao']);
+      Route::post('', ['uses' => 'TalhoesController@saveTalhao']);
+      Route::put('{id}', ['uses' => 'TalhoesController@updateTalhao']);
+      Route::delete('{id}', ['uses' => 'TalhoesController@deleteTalhao']);
+    });
+
     // releases
     Route::group(['prefix' => 'releases'], function()
     {

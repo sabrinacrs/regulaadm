@@ -14,9 +14,16 @@ use DB;
 class AdministradoresController extends Controller
 {
     public function index()
-    {
-        $administradores = $this->arrayAdministradores();
-        return view('administradores.lista', ['administradores' => $administradores]);
+    {        
+        $administradores = $this->arrayAdministradores()->paginate(10);
+        $links = $administradores->links();
+
+        $parameters = [
+            'administradores' => $administradores,
+            'links' => $links
+        ];
+        
+        return view('administradores.lista', $parameters);
     }
 
     public function novo()
@@ -69,9 +76,11 @@ class AdministradoresController extends Controller
     {
         $filtro = $request->get('buscar');
         $administradores = DB::table('users')
-                            ->where('name', 'like', '%'.$filtro.'%')->get();
+                            ->where('name', 'like', '%'.$filtro.'%')
+                            ->paginate(10);
+        $links = $administradores->links();
 
-        return view('administradores.lista', ['administradores' => $administradores]);
+        return view('administradores.lista', ['administradores' => $administradores, 'links' => $links]);
     }
 
     public function detailsAdministrador($id)
