@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Fazenda;
+use Redirect;
+use Response;
+use DB;
 
 class FazendasController extends Controller
 {
@@ -33,6 +37,16 @@ class FazendasController extends Controller
             return Response::json(['response' => 'Fazenda não encontrada'], 400);
 
         return Response::json($fazenda, 200);
+    }
+
+    public function getFazendasByCliente($clienteId)
+    {
+        $fazendas = $this->fazenda->getFazendasByCliente($clienteId);
+
+        if(!$fazendas)
+            return Response::json(['response' => 'Não foi possível retornar as fazendas'], 400);
+
+        return Response::json($fazendas, 200);
     }
 
     public function saveFazenda()

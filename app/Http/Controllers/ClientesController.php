@@ -39,6 +39,26 @@ class ClientesController extends Controller
         return Response::json($cliente, 200);
     }
 
+    public function getClienteByEmail($email)
+    {
+        $cliente = $this->cliente->getClienteByEmail($email);
+
+        if(!$cliente)
+          return Response::json(['response' => 'E-mail não encontrado'], 400);
+
+        return Response::json($cliente, 200);
+    }
+
+    public function getClienteByLogin($login)
+    {
+        $cliente = $this->cliente->getClienteByLogin($login);
+
+        if(!$cliente)
+          return Response::json(['response' => 'Login não encontrado'], 400);
+
+        return Response::json($cliente, 200);
+    }
+
     public function saveCliente()
     {
         return Response::json($this->cliente->saveCliente(), 201);

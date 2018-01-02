@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Talhao;
+use Redirect;
+use Response;
+use DB;
 
 class TalhoesController extends Controller
 {
@@ -33,6 +37,16 @@ class TalhoesController extends Controller
             return Response::json(['response' => 'Talhão não encontrado'], 400);
 
         return Response::json($talhao, 200);
+    }
+
+    public function getTalhoesByCliente($clienteId)
+    {
+        $talhoes = $this->talhao->getTalhoesByCliente($clienteId);
+
+        if(!$talhoes)
+            return Response::json(['response' => 'Talhão não encontrado'], 400);
+
+        return Response::json($talhoes, 200);
     }
 
     public function saveTalhao()

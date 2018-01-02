@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class Cliente extends Model
 {
@@ -51,6 +52,30 @@ class Cliente extends Model
         return false;
 
       return $cliente;
+  }
+
+  public function getClienteByEmail($email)
+  {
+    $cliente = DB::table('clientes')
+              ->where('email', $email)
+              ->get();
+
+    if(is_null($cliente))
+      return false;
+
+    return $cliente;
+  }
+
+  public function getClienteByLogin($login)
+  {
+    $cliente = DB::table('clientes')
+              ->where('login', $login)
+              ->get();
+
+    if(is_null($cliente))
+      return false;
+
+    return $cliente;
   }
 
   public function updateCliente($id)

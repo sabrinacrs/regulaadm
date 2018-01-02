@@ -28,6 +28,18 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::delete('{id}', ['uses' => 'ClientesController@deleteCliente']);
     });
 
+    // cliente email
+    Route::group(['prefix' => 'clienteemail'], function()
+    {
+      Route::get('{id}', ['uses' => 'ClientesController@getClienteByEmail']);
+    });
+
+    // cliente login
+    Route::group(['prefix' => 'clientelogin'], function()
+    {
+      Route::get('{id}', ['uses' => 'ClientesController@getClienteByLogin']);
+    });
+
     // semeaduras
     Route::group(['prefix' => 'semeadura'], function()
     {
@@ -48,6 +60,12 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::delete('{id}', ['uses' => 'FazendasController@deleteFazenda']);
     });
 
+    // fazendas cliente
+    Route::group(['prefix' => 'fazendascliente'], function()
+    {
+      Route::get('{id}', ['uses' => 'FazendasController@getFazendasByCliente']);
+    });
+
     // talhoes
     Route::group(['prefix' => 'talhao'], function()
     {
@@ -56,6 +74,18 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::post('', ['uses' => 'TalhoesController@saveTalhao']);
       Route::put('{id}', ['uses' => 'TalhoesController@updateTalhao']);
       Route::delete('{id}', ['uses' => 'TalhoesController@deleteTalhao']);
+    });
+
+    // talhoes fazenda
+    Route::group(['prefix' => 'talhoesfazenda'], function()
+    {
+      Route::get('{id}', ['uses' => 'TalhoesController@getTalhoesByFazenda']);
+    });
+
+    // talhoes cliente
+    Route::group(['prefix' => 'talhoescliente'], function()
+    {
+      Route::get('{id}', ['uses' => 'TalhoesController@getTalhoesByCliente']);
     });
 
     // releases

@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 
 class Fazenda extends Model
 {
-    //
+    public $timestamps = false;
     protected $table = 'fazendas';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -47,6 +48,16 @@ class Fazenda extends Model
         return $fazenda;
     }
 
+    public function getFazendasByCliente($clienteId)
+    {
+        $fazendas = Fazenda::where('cli_id', $clienteId)->get();
+
+        if(empty($fazendas))
+            return false;
+
+        return $fazendas;
+    }
+
     public function updateFazenda($id)
     {
         $fazenda = self::find($id);
@@ -65,7 +76,7 @@ class Fazenda extends Model
         $fazenda = self::find($id);
 
         if(is_null($fazenda))
-          return false;
+            return false;
 
         return $fazenda->delete();
     }

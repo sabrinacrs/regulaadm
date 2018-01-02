@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
+use DB;
 
 class Talhao extends Model
 {
-    //
+    public $timestamps = false;
     protected $table = 'talhoes';
     protected $primaryKey = 'id';
     protected $fillable = [ 'id',
@@ -38,6 +40,25 @@ class Talhao extends Model
             return false;
 
         return $talhao;
+    }
+
+    public function getTalhoesByFazenda($fazendaId)
+    {
+        
+    }
+
+    public function getTalhoesByCliente($clienteId)
+    {
+        $talhoes = DB::table('talhoes')
+                        ->join('fazendas', 'talhoes.faz_id', '=', 'fazendas.id')
+                        ->where('fazendas.cli_id', $clienteId)
+                        ->select('talhoes.*')
+                        ->get();
+
+        if(empty($talhoes))
+            return false;
+
+        return $talhoes;
     }
 
     public function updateTalhao($id)
