@@ -58,7 +58,7 @@ class Cliente extends Model
   {
     $cliente = DB::table('clientes')
               ->where('email', $email)
-              ->get();
+              ->first();
 
     if(is_null($cliente))
       return false;
@@ -70,7 +70,7 @@ class Cliente extends Model
   {
     $cliente = DB::table('clientes')
               ->where('login', $login)
-              ->get();
+              ->first();
 
     if(is_null($cliente))
       return false;

@@ -39,6 +39,16 @@ class SemeadurasController extends Controller
         return Response::json($semeadura, 200);
     }
 
+    public function getSemeadurasByCliente($clienteId)
+    {
+        $semeaduras = $this->semeadura->getSemeadurasByCliente($clienteId);
+
+        if(!$semeaduras)
+            return Response::json(['response' => 'Nenhuma semeadura encontrada'], 400);
+
+        return Response::json($semeaduras, 200);
+    }
+
     public function saveSemeadura()
     {
         return Response::json($this->semeadura->saveSemeadura(), 201);

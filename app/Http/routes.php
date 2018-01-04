@@ -50,6 +50,12 @@ Route::group(['prefix' => 'testeapi'], function()
       Route::delete('{id}', ['uses' => 'SemeadurasController@deleteSemeadura']);
     });
 
+    // semeadura cliente
+    Route::group(['prefix' => 'semeadurascliente'], function()
+    {
+      Route::get('{id}', ['uses' => 'SemeadurasController@getSemeadurasByCliente']);
+    });
+
     // fazendas
     Route::group(['prefix' => 'fazenda'], function()
     {

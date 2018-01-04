@@ -44,11 +44,26 @@ class Semeadura extends Model
         return $semeadura;
     }
 
+    public function getSemeadurasByCliente($clienteId)
+    {
+        $semeaduras = DB::table('semeaduras')
+                        ->join('talhoes', 'semeaduras.talhao_id', '=', 'talhoes.id')
+                        ->join('fazendas', 'talhoes.faz_id', '=', 'fazendas.id')
+                        ->where('fazendas.cli_id', $clienteId)
+                        ->select('semeaduras.*')
+                        ->get();
+
+        if(empty($semeaduras))
+            return false;
+
+        return $semeaduras;
+    }
+
     public function updateSemeadura($id)
     {
         $semeadura = self::find($id);
         if(is_null($semeadura))
-          return false;
+            return false;
 
         $input = Input::all();
         $semeadura->fill($input);
@@ -62,7 +77,7 @@ class Semeadura extends Model
         $semeadura = self::find($id);
 
         if(is_null($semeadura))
-          return false;
+            return false;
 
         return $semeadura->delete();
     }
