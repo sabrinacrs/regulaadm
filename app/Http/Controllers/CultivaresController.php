@@ -525,7 +525,7 @@ class CultivaresController extends Controller
 
     public function getJson()
     {
-        $cultivares = DB::table('cultivares')->get();
+        $cultivares = DB::table('cultivares')->orderBy('nome')->get();
 
         return response()->json($cultivares);
     }
